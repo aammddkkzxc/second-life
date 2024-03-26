@@ -3,19 +3,22 @@ package com.example.secondlife.domain.member.entity;
 import com.example.secondlife.common.base.BaseEntity;
 import com.example.secondlife.domain.member.enumType.Region;
 import com.example.secondlife.domain.member.enumType.Role;
+import com.example.secondlife.domain.member.valueType.Introduction;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.time.LocalDateTime;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class Member extends BaseEntity {
 
     @Id
@@ -35,11 +38,10 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String email;
 
-    private Region region;
+    @Embedded
+    private Introduction introduction;
 
-    private LocalDateTime birthDate;
-
-    private boolean isInfoPublic;
+    private boolean isIntroPublic;
 
     @Enumerated(EnumType.STRING)
     private Role role;

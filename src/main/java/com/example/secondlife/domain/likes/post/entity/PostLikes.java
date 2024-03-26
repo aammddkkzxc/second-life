@@ -1,6 +1,7 @@
-package com.example.secondlife.domain.comment.entity;
+package com.example.secondlife.domain.likes.post.entity;
 
-import com.example.secondlife.common.base.BaseEntity;
+import static jakarta.persistence.FetchType.LAZY;
+
 import com.example.secondlife.domain.member.entity.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,7 +10,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -18,22 +18,19 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Comment extends BaseEntity {
+public class PostLikes{
 
     @Id
+    @Column(name = "postLikes_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id", updatable = false)
     private Long id;
-
-    @Lob
-    @Column(nullable = false)
-    protected String contents;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
+
 }
