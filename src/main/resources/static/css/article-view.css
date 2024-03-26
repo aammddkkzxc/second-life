@@ -1,0 +1,38 @@
+.article-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.article-info-details {
+    display: flex;
+}
+
+.article-info-details p {
+    margin-left: 50px;
+}
+
+.article-react {
+    display: flex;
+}
+
+.article-react p {
+    margin-right: 50px;
+}
+
+.comment {
+    list-style-type: none;
+    padding: 0;
+}
+
+.comment-total-info, .comment-each-info{
+    display: flex;
+    float: right;
+}
+
+.comment-total-info p{
+    margin-right: 50px;
+}
+
+.comment-each-info p {
+    margin-right: 30px;
+}
