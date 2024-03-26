@@ -1,0 +1,178 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.indigo.min.css" />
+</head>
+
+<body class="container">
+    <div th:replace="~{fragment/nav :: top}"></div>
+    <main>
+        <div class="container">
+            
+            <div class="grid" style="display: flex; justify-content: center;  text-align: center;">
+
+                <button style="background-color: #221d1d; border-color: black;">자유게시판</button>
+
+            </div>
+            <br>
+            <div th:replace="~{fragment/search :: search}"></div>
+            <br>
+            <br>
+            <div class="grid">
+
+                <article>
+                    <header style="background-color: #423736;">
+                        <div class="bold clickable" onclick="window.location.href='링크 주소123123'">
+                            엔티티를 쓸까 DTO를 쓸까
+                        </div>
+                    </header>
+
+                    <div class="body clickable" onclick="window.location.href='링크 주소'">
+                        1. 우선 엔티티를 DTO로 변환하는 방법을 선택한다. <br>
+                        ...
+                    </div>
+                    <footer class="cardF">
+                        <img class="icon" src="icon/calendar.png"><span class="text">2023-06-24</span>
+                        <span class="icon"></span>
+                        <img class="icon" src="icon/tag.png"><span class="text">JAVA Spring JPA</span>
+                    </footer>
+                </article>
+
+                <article>
+                    <header style="background-color: #423736;">
+                        <div class="bold clickable" onclick="window.location.href='링크 주소123123'">
+                            엔티티를 쓸까 DTO를 쓸까
+                        </div>
+                    </header>
+
+                    <div class="body clickable" onclick="window.location.href='링크 주소'">
+                        1. 우선 엔티티를 DTO로 변환하는 방법을 선택한다. <br>
+                        ...
+                    </div>
+                    <footer class="cardF">
+                        <img class="icon" src="icon/calendar.png"><span class="text">2023-06-24</span>
+                        <span class="icon"></span>
+                        <img class="icon" src="icon/tag.png"><span class="text">JAVA Spring JPA</span>
+                    </footer>
+                </article>
+            </div>
+
+            <div class="grid">
+
+                <article>
+                    <header style="background-color: #423736;">
+                        <div class="bold clickable" onclick="window.location.href='링크 주소123123'">
+                            엔티티를 쓸까 DTO를 쓸까
+                        </div>
+                    </header>
+
+                    <div class="body clickable" onclick="window.location.href='링크 주소'">
+                        1. 우선 엔티티를 DTO로 변환하는 방법을 선택한다. <br>
+                        ...
+                    </div>
+                    <footer class="cardF">
+                        <img class="icon" src="icon/calendar.png"><span class="text">2023-06-24</span>
+                        <span class="icon"></span>
+                        <img class="icon" src="icon/tag.png"><span class="text">JAVA Spring JPA</span>
+                    </footer>
+                </article>
+
+                <article>
+                    <header style="background-color: #423736;">
+                        <div class="bold clickable" onclick="window.location.href='링크 주소123123'">
+                            엔티티를 쓸까 DTO를 쓸까
+                        </div>
+                    </header>
+
+                    <div class="body clickable" onclick="window.location.href='링크 주소'">
+                        1. 우선 엔티티를 DTO로 변환하는 방법을 선택한다. <br>
+                        ...
+                    </div>
+                    <footer class="cardF">
+                        <img class="icon" src="icon/calendar.png"><span class="text">2023-06-24</span>
+                        <span class="icon"></span>
+                        <img class="icon" src="icon/tag.png"><span class="text">JAVA Spring JPA</span>
+                    </footer>
+                </article>
+            </div>
+            <div class="grid">
+
+                <article>
+                    <header style="background-color: #423736;">
+                        <div class="bold clickable" onclick="window.location.href='링크 주소123123'">
+                            엔티티를 쓸까 DTO를 쓸까
+                        </div>
+                    </header>
+
+                    <div class="body clickable" onclick="window.location.href='링크 주소'">
+                        1. 우선 엔티티를 DTO로 변환하는 방법을 선택한다. <br>
+                        ...
+                    </div>
+                    <footer class="cardF">
+                        <img class="icon" src="icon/calendar.png"><span class="text">2023-06-24</span>
+                        <span class="icon"></span>
+                        <img class="icon" src="icon/tag.png"><span class="text">JAVA Spring JPA</span>
+                    </footer>
+                </article>
+
+                <article>
+                    <header style="background-color: #423736;">
+                        <div class="bold clickable" onclick="window.location.href='링크 주소123123'">
+                            엔티티를 쓸까 DTO를 쓸까
+                        </div>
+                    </header>
+
+                    <div class="body clickable" onclick="window.location.href='링크 주소'">
+                        1. 우선 엔티티를 DTO로 변환하는 방법을 선택한다. <br>
+                        ...
+                    </div>
+                    <footer class="cardF">
+                        <img class="icon" src="icon/calendar.png"><span class="text">2023-06-24</span>
+                        <span class="icon"></span>
+                        <img class="icon" src="icon/tag.png"><span class="text">JAVA Spring JPA</span>
+                    </footer>
+                </article>
+            </div>
+
+            <div class="pagination">
+                <a href="#">&laquo; prev</a>
+                <a href="#">1</a>
+                <a href="#" class="active">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+                <a href="#">next &raquo;</a>
+            </div>
+
+            <style>
+                .pagination {
+                    display: flex;
+                    justify-content: center;
+                    margin: 20px 0;
+                }
+
+                .pagination a {
+                    color: rgb(255, 255, 255);
+                    padding: 8px 16px;
+                    text-decoration: none;
+                    transition: background-color .3s;
+                }
+
+                .pagination a.active {
+                    background-color: #4CAF50;
+                    color: white;
+                }
+
+                .pagination a:hover:not(.active) {
+                    background-color: #ddd;
+                }
+            </style>
+
+
+    </main>
+</body>
+
+</html>

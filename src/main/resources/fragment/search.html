@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="grid" style="grid-template-columns: 1.2fr 7fr;
+            gap: 10px;" th:fragment="search">
+    <select id="searchType">
+        <option value="title">제목</option>
+        <option value="content">내용</option>
+        <option value="content">제목 + 내용</option>
+        <option value="nickname">닉네임</option>
+    </select>
+    <input type="search" placeholder="검색">
+</div>
+
+</body>
+</html>

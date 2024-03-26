@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
+    <title>관리자페이지</title>
+    <style>
+        .header_box{display: flex;flex-direction: row;}
+        .Level_box{width:200px; margin-bottom: 0}
+        th, td {text-align: center;}
+        #col_name{width:200px}
+        #col_level{width:250px}
+        #col_down{width:150px}
+    </style>
+</head>
+<body>
+<header class="container">
+    <nav>
+        <ul>
+            <li><strong>인생 재시동 로고</strong></li>
+            <li><button>자유 게시판</button></li>
+            <li><button>지역 모임 게시판</button></li>
+        </ul>
+        <ul>
+            <li><button style="width: 110px; background-color: #EE402E; border-color:#EE402E">글쓰기</button></li>
+            <li><button style="width: 110px;" class="secondary">로그아웃</button></li>
+        </ul>
+    </nav>
+</header>
+<main class="container">
+    <h2>ADMIN</h2>
+    <hr>
+    <div class="header_box">
+        <select name="Level" aria-label="Level" required style="width:200px; margin-right:50px">
+            <option selected disabled value="">
+                선택
+            </option>
+            <option>제목</option>
+            <option>회원이름</option>
+        </select>
+        <input type="search" placeholder="검색">
+    </div>
+    <article class="container">
+        <table style="table-layout: fixed">
+            <thead>
+            <tr>
+                <th scope="col" id="col_name">이름</th>
+                <th scope="col" id="col_title">제목</th>
+                <th scope="col" id="col_level">등급</th>
+                <th scope="col" id="col_down">차단</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">Venus</th>
+                <td>12,104</td>
+                <td> <select name="Level" class="Level_box" aria-label="Level" required>
+                    <option selected disabled value="">
+                        등급
+                    </option>
+                    <option>유아</option>
+                    <option>어린이</option>
+                    <option>어른</option>
+                </select>
+                <td><button>차단</button></td>
+            </tr>
+            <tr>
+                <th scope="row">Earth</th>
+                <td>12,742</td>
+                <td> <select name="Level" class="Level_box" aria-label="Level" required>
+                    <option selected disabled value="">
+                        등급
+                    </option>
+                    <option>유아</option>
+                    <option>어린이</option>
+                    <option>어른</option>
+                </select></td>
+                <td><button>차단</button></td>
+            </tr>
+            <tr>
+                <th scope="row">Mars</th>
+                <td>6,779</td>
+                <td><select name="Level" class="Level_box"aria-label="Level" required>
+                    <option selected disabled value="">
+                        등급
+                    </option>
+                    <option>유아</option>
+                    <option>어린이</option>
+                    <option>어른</option>
+                </select></td>
+                <td><button>차단</button></td>
+            </tr>
+            <tr>
+                <th scope="row">Mercury</th>
+                <td>4,880</td>
+                <td><select name="Level" class="Level_box"aria-label="Level" required>
+                    <option selected disabled value="">
+                        등급
+                    </option>
+                    <option>유아</option>
+                    <option>어린이</option>
+                    <option>어른</option>
+                </select></td>
+                <td><button>차단</button></td>
+            </tr>
+            <tr>
+                <th scope="row">Venus</th>
+                <td>12,104</td>
+                <td><select name="Level" class="Level_box"aria-label="Level" required>
+                    <option selected disabled value="">
+                        등급
+                    </option>
+                    <option>유아</option>
+                    <option>어린이</option>
+                    <option>어른</option>
+                </select></td>
+                <td><button>차단</button></td>
+            </tr>
+            <tr>
+                <th scope="row">Earth</th>
+                <td>12,742</td>
+                <td><select name="Level" class="Level_box"aria-label="Level" required>
+                    <option selected disabled value="">
+                        등급
+                    </option>
+                    <option>유아</option>
+                    <option>어린이</option>
+                    <option>어른</option>
+                </select></td>
+                <td><button>차단</button></td>
+            </tr>
+            <tr>
+                <th scope="row">Mars</th>
+                <td>6,779</td>
+                <td><select name="Level" class="Level_box"aria-label="Level" required>
+                    <option selected disabled value="">
+                        등급
+                    </option>
+                    <option>유아</option>
+                    <option>어린이</option>
+                    <option>어른</option>
+                </select></td>
+                <td><button>차단</button></td>
+            </tr>
+            <tr>
+                <th scope="row">Mercury</th>
+                <td>4,880</td>
+                <td><select name="Level" class="Level_box" aria-label="Level" required>
+                    <option selected disabled value="">
+                        등급
+                    </option>
+                    <option>유아</option>
+                    <option>어린이</option>
+                    <option>어른</option>
+                </select></td>
+                <td><button>차단</button></td>
+            </tr>
+            <tr>
+                <th scope="row">Venus</th>
+                <td>12,104</td>
+                <td><select name="Level" class="Level_box"aria-label="Level" required>
+                    <option selected disabled value="">
+                        등급
+                    </option>
+                    <option>유아</option>
+                    <option>어린이</option>
+                    <option>어른</option>
+                </select></td>
+                <td><button>차단</button></td>
+            </tr>
+            <tr>
+                <th scope="row">Earth</th>
+                <td>12,742</td>
+                <td><select name="Level" class="Level_box"aria-label="Level" required>
+                    <option selected disabled value="">
+                        등급
+                    </option>
+                    <option>유아</option>
+                    <option>어린이</option>
+                    <option>어른</option>
+                </select></td>
+                <td><button>차단</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </article>
+</main>
+
+</body>
+</html>

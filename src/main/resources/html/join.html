@@ -1,0 +1,33 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.indigo.min.css" />
+</head>
+
+<body>
+    <div th:replace="~{fragment/nav :: top}"></div>
+    <main class="container" style="width: 500px;">
+
+        <h1>회원 가입</h1>
+
+        <form action="/submit_registration" method="post"></form>
+        <label for="id">ID:</label>
+        <input type="text" id="id" name="id">
+        <label for="pwd">Password:</label>
+        <input type="password" id="pwd" name="pwd">
+        <label for="confirm_pwd">Confirm Password:</label>
+        <input type="password" id="confirm_pwd" name="confirm_pwd">
+        <label for="nickname">Nickname:</label>
+        <input type="text" id="nickname" name="nickname">
+        <label for="birthdate">Birthdate:</label>
+        <input type="date" id="birthdate" name="birthdate">
+        <input type="submit" value="Submit">
+        </form>
+
+    </main>
+</body>
+
+</html>

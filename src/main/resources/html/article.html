@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <link rel="stylesheet" href="/article-view-css.css">
+</head>
+<body>
+<div style="
+position: fixed;
+background-color: white;
+top: 0;
+left: 0;
+right: 0;">
+    <div th:replace="~{fragment/nav :: top}"></div>
+</div>
+<div style="height: 100px"></div>
+<main class="container">
+    <article>
+        <p>
+            태그
+        </p>
+        <h2>
+            작성자
+        </h2>
+        <div class="article-info">
+            <div>작성자 아이디</div>
+            <div class="article-info-details">
+                <p>
+                    조회수
+                </p>
+                <p>
+                    추천순
+                </p>
+                <p>
+                    작성시간
+                </p>
+            </div>
+        </div>
+        <textarea name="read-only" readonly style="height: 500px";>
+        Read-only
+    </textarea>
+        <div class="article-react">
+            <p>
+                좋아요
+            </p>
+            <p>
+                신고
+            </p>
+        </div>
+    </article>
+    <div class="comment-total-info">
+        <p>
+            댓글 수
+        </p>
+        <p>
+            조회 수 순 정렬
+        </p>
+        <p>
+            작성 시간 순 정렬
+        </p>
+    </div>
+    <input type="text" name="text" placeholder="댓글을 입력해 주세요" aria-label="Text" />
+    <ul>
+        <li class="comment">
+            <article>
+                <p>
+                    댓글 작성자 아이디
+                </p>
+                <p>
+                    댓글 내용
+                </p>
+                <div class="comment-each-info">
+                    <p>
+                        작성 시간
+                    </p>
+                    <p>
+                        좋아요 버튼
+                    </p>
+                    <p>
+                        대댓글 달기
+                    </p>
+                </div>
+            </article>
+        </li>
+        <li class="comment">
+            <article>
+                <p>
+                    댓글 작성자 아이디
+                </p>
+                <p>
+                    댓글 내용
+                </p>
+                <div class="comment-each-info">
+                    <p>
+                        작성 시간
+                    </p>
+                    <p>
+                        좋아요 버튼
+                    </p>
+                    <p>
+                        대댓글 달기
+                    </p>
+                </div>
+            </article>
+        </li>
+    </ul>
+</main>
+</body>
+</html>
