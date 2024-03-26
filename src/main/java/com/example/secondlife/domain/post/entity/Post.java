@@ -2,6 +2,7 @@ package com.example.secondlife.domain.post.entity;
 
 import com.example.secondlife.common.base.BaseEntity;
 import com.example.secondlife.domain.member.entity.Member;
+import com.example.secondlife.domain.post.enumType.Forum;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -38,4 +39,3 @@ public abstract class Post extends BaseEntity {
     private Member member;
 
 }
-// 수정파일

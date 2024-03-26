@@ -2,6 +2,7 @@ package com.example.secondlife.domain.comment.entity;
 
 import com.example.secondlife.common.base.BaseEntity;
 import com.example.secondlife.domain.member.entity.Member;
+import com.example.secondlife.domain.post.entity.Post;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
