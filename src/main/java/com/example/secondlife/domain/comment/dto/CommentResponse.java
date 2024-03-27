@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class CommentResponse {
+    
     private Long commentId;
     private Long postId;
     private String content;
@@ -14,6 +15,5 @@ public class CommentResponse {
     private LocalDateTime lastModifiedDate;
     private String createdBy;
     private String lastModifiedBy;
-
 
 }

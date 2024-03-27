@@ -1,9 +1,9 @@
 package com.example.secondlife.common.controller;
 
-import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@Configurable
+@Controller
 public class CommonController {
     @GetMapping("/join")
     public String join() {
@@ -13,5 +13,10 @@ public class CommonController {
     @GetMapping("/login")
     public String login() {
         return "html/login";
+    }
+
+    @GetMapping("/info")
+    public String info() {
+        return "html/info";
     }
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -14,6 +15,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @MappedSuperclass
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@SuperBuilder
 public abstract class BaseEntity extends BaseTimeEntity {
 
     @CreatedBy
@@ -22,4 +24,5 @@ public abstract class BaseEntity extends BaseTimeEntity {
 
     @LastModifiedBy
     private String lastModifiedBy;
+
 }

@@ -44,12 +44,13 @@ class UserServiceTest {
     void getUserInfo() {
         JoinResponse joinResponse = saveMember();
 
-        UserInfo userInfo = userService.getUserInfo(joinResponse.getUserId());
+        userService.getUserInfo(joinResponse.getUserId());
+        User byId = userService.findById(joinResponse.getUserId());
 
-        assertEquals(joinResponse.getNickname(), userInfo.getNickname());
-        assertEquals(joinResponse.getRegion(), userInfo.getRegion());
-        assertEquals(joinResponse.getBirthDate(), userInfo.getBirthDate());
-        assertEquals(joinResponse.getSelfIntroduction(), userInfo.getSelfIntroduction());
+        assertEquals(joinResponse.getNickname(), byId.getNickname());
+        assertEquals(joinResponse.getRegion(), byId.getIntroduction().getRegion());
+        assertEquals(joinResponse.getBirthDate(), byId.getIntroduction().getBirthDate());
+        assertEquals(joinResponse.getSelfIntroduction(), byId.getIntroduction().getSelfIntroduction());
     }
 
     @Test
@@ -63,12 +64,13 @@ class UserServiceTest {
                 .selfIntroduction("Hello, I'm a new user.")
                 .build();
 
-        UserInfo updatedUserInfo = userService.updateUserInfo(joinResponse.getUserId(), userInfo);
+        userService.updateUserInfo(joinResponse.getUserId(), userInfo);
+        User byId = userService.findById(joinResponse.getUserId());
 
-        assertEquals(userInfo.getNickname(), updatedUserInfo.getNickname());
-        assertEquals(userInfo.getRegion(), updatedUserInfo.getRegion());
-        assertEquals(userInfo.getBirthDate(), updatedUserInfo.getBirthDate());
-        assertEquals(userInfo.getSelfIntroduction(), updatedUserInfo.getSelfIntroduction());
+        assertEquals(userInfo.getNickname(), byId.getNickname());
+        assertEquals(userInfo.getRegion(), byId.getIntroduction().getRegion());
+        assertEquals(userInfo.getBirthDate(), byId.getIntroduction().getBirthDate());
+        assertEquals(userInfo.getSelfIntroduction(), byId.getIntroduction().getSelfIntroduction());
     }
 
     @Test

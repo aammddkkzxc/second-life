@@ -29,8 +29,8 @@ public class UserService {
         return user.toUserInfo();
     }
 
-    public UserInfo updateUserInfo(Long id, UserInfo request) {
-        User user = findById(id);
+    public UserInfo updateUserInfo(Long userId, UserInfo request) {
+        User user = findById(userId);
 
         user.updateUserInfo(request);
 
@@ -39,11 +39,13 @@ public class UserService {
 
     public void deleteUser(Long userId) {
         User findUser = findById(userId);
+
         findUser.delete();
     }
 
-    public User findById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다. userId = " + id));
+    @Transactional(readOnly = true)
+    public User findById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다. userId = " + userId));
     }
 }

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+    <style>
+        ul li {
+            list-style: none;
+        }
+
+        article div {
+            display: inline-flex;
+            justify-content: space-evenly
+        }
+
+        .flex-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between
+        }
+
+        #info1 {
+            margin-top: 100px;
+            margin-bottom: 80px;
+            padding-right: 40px;
+            padding-left: 40px;
+        }
+
+        #info1 li {
+            margin-bottom: 19px;
+        }
+
+        #info2 {
+            margin-top: 100px;
+            margin-bottom: 80px;
+            padding-right: 40px;
+            padding-left: 40px;
+            height: auto
+        }
+
+        #info2 li {
+            margin-bottom: 19px;
+        }
+
+        #info2:nth-child(2) {
+            padding-left: 30px;
+        }
+
+        #info3 {
+            margin-top: 100px;
+            margin-bottom: 80px;
+            padding-right: 40px;
+            padding-left: 40px;
+        }
+
+        #info3 li {
+            margin-bottom: 19px;
+        }
+
+        img {
+            margin-top: 25px;
+        }
+
+        main {
+            margin-right: 50px;
+            margin-left: 50px
+        }
+
+        section {
+            margin-top: 50px
+        }
+
+        /*#info3:nth-of-type(1){padding-left: 20px}*/
+        #info2_2 {
+            display: flex;
+            justify-content: center
+        }
+
+        #info3_2 {
+            display: flex;
+            justify-content: center
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragment/nav :: top}"></div>
+
+<main class="container">
+    <h2>MYPAGE</h2>
+    <hr>
+    <article>
+        <div class="container">
+            <a href="#" class="contrast"><img src="/img/profile.png" alt="프로필 이미지"
+                                              style="width:1100px; height:300px; border-radius:50% "></a>
+            <div class="container">
+                <ul id="info1">
+                    <li><h2>닉네임 : Orumi</h2></li>
+                    <li>지역 : Busan</li>
+                    <li>등급 : 인증회원</li>
+                </ul>
+            </div>
+            <div class="vline" style="line{border-left: thick solid #EE402E;height:100px;left: 1000px;}"></div>
+            <div class="container">
+                <ul id="info2">
+                    <li id="info2_1">게시글</li>
+                    <li id="info2_2"><h2>30</h2></li>
+                </ul>
+            </div>
+            <div class="container">
+                <ul id="info3">
+                    <li id="info3_1">추천</li>
+                    <li id="info3_2"><h2>0</h2></li>
+                </ul>
+            </div>
+        </div>
+    </article>
+    <section class="flex-container">
+        <div class="container">
+            <h3>AboutMe</h3>
+            <label for=""></label><textarea placeholder="간단한 자기소개를 입력해보세요!" name="" id="" cols="30" rows="10"
+                                            style="height:160px;"></textarea>
+        </div>
+
+        <div class="container" style="margin-left:50px;">
+            <h3>Recent Post</h3>
+            <table>
+                <thead>
+                <tr>
+                    <th scope="col"><strong>Date</strong></th>
+                    <th scope="col"><strong>Title</strong></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">24.03.25</th>
+                    <td>안녕하세요!</td>
+                </tr>
+                <tr>
+                    <th scope="row">24.03.24</th>
+                    <td>오늘날씨가 좋아요</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+<footer style="display:flex; justify-content: center">
+    <button>회원탈퇴</button>
+</footer>
+</body>
+</html>
