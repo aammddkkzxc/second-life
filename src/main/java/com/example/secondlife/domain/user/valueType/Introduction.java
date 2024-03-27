@@ -4,7 +4,7 @@ import com.example.secondlife.domain.user.enumType.Region;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +17,7 @@ public class Introduction {
 
     @Enumerated(EnumType.STRING)
     private Region region;
-    private LocalDateTime birthDate;
+    private LocalDate birthDate;
     private String selfIntroduction;
 
 }
