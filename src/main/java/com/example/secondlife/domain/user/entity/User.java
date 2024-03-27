@@ -2,6 +2,7 @@ package com.example.secondlife.domain.user.entity;
 
 import com.example.secondlife.common.base.BaseTimeEntity;
 import com.example.secondlife.domain.user.dto.JoinResponse;
+import com.example.secondlife.domain.user.dto.UserInfo;
 import com.example.secondlife.domain.user.enumType.Role;
 import com.example.secondlife.domain.user.valueType.Introduction;
 import jakarta.persistence.Column;
@@ -67,4 +68,26 @@ public class User extends BaseTimeEntity {
                 .build();
     }
 
+    public UserInfo toUserInfo() {
+        return UserInfo.builder()
+                .nickname(nickname)
+                .region(introduction.getRegion())
+                .birthDate(introduction.getBirthDate())
+                .selfIntroduction(introduction.getSelfIntroduction())
+                .build();
+    }
+
+    public void updateUserInfo(UserInfo request) {
+        nickname = request.getNickname() != null ? request.getNickname() : nickname;
+        introduction = new Introduction(
+                request.getRegion() != null ? request.getRegion() : introduction.getRegion(),
+                request.getBirthDate() != null ? request.getBirthDate() : introduction.getBirthDate(),
+                request.getSelfIntroduction() != null ? request.getSelfIntroduction()
+                        : introduction.getSelfIntroduction()
+        );
+    }
+
+    public void delete() {
+        isDeleted = true;
+    }
 }
