@@ -39,6 +39,7 @@ public class UserService {
 
     public void deleteUser(Long userId) {
         User findUser = findById(userId);
+
         findUser.delete();
     }
 

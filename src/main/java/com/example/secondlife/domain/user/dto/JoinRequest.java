@@ -36,6 +36,5 @@ public class JoinRequest {
                 .introduction(introduction)
                 .role(Role.L1)
                 .build();
-
     }
 }
