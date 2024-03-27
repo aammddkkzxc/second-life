@@ -1,12 +1,17 @@
 package com.example.secondlife.domain.user.dto;
 
+import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.enumType.Region;
+import com.example.secondlife.domain.user.enumType.Role;
+import com.example.secondlife.domain.user.valueType.Introduction;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
+@Builder
 public class JoinRequest {
 
     private String loginId;
@@ -17,4 +22,18 @@ public class JoinRequest {
     private LocalDate birthDate;
     private String selfIntroduction;
 
+    public User toEntity() {
+
+        Introduction introduction = new Introduction(region, birthDate, selfIntroduction);
+
+        return User.builder()
+                .loginId(loginId)
+                .password(password)
+                .nickname(nickname)
+                .email(email)
+                .introduction(introduction)
+                .role(Role.L1)
+                .build();
+
+    }
 }

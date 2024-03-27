@@ -1,6 +1,7 @@
 package com.example.secondlife.domain.user.entity;
 
-import com.example.secondlife.common.base.BaseEntity;
+import com.example.secondlife.common.base.BaseTimeEntity;
+import com.example.secondlife.domain.user.dto.JoinResponse;
 import com.example.secondlife.domain.user.enumType.Role;
 import com.example.secondlife.domain.user.valueType.Introduction;
 import jakarta.persistence.Column;
@@ -13,14 +14,18 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Getter
-public class User extends BaseEntity {
+@Builder
+public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,4 +52,19 @@ public class User extends BaseEntity {
     private Role role;
 
     private boolean isDeleted;
+
+    public JoinResponse toJoinResponse() {
+        return JoinResponse.builder()
+                .userId(id)
+                .loginId(loginId)
+                .nickname(nickname)
+                .email(email)
+                .region(introduction.getRegion())
+                .birthDate(introduction.getBirthDate())
+                .selfIntroduction(introduction.getSelfIntroduction())
+                .role(role)
+                .createdDate(getCreatedDate())
+                .build();
+    }
+
 }
