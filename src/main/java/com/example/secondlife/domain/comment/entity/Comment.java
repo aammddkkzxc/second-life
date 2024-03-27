@@ -1,8 +1,8 @@
 package com.example.secondlife.domain.comment.entity;
 
 import com.example.secondlife.common.base.BaseEntity;
-import com.example.secondlife.domain.member.entity.Member;
 import com.example.secondlife.domain.post.entity.Post;
+import com.example.secondlife.domain.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -36,5 +36,5 @@ public class Comment extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private User user;
 }
