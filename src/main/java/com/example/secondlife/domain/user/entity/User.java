@@ -1,6 +1,7 @@
 package com.example.secondlife.domain.user.entity;
 
 import com.example.secondlife.common.base.BaseEntity;
+import com.example.secondlife.domain.user.enumType.Region;
 import com.example.secondlife.domain.user.enumType.Role;
 import com.example.secondlife.domain.user.valueType.Introduction;
 import jakarta.persistence.Column;
@@ -45,6 +46,9 @@ public class User extends BaseEntity implements UserDetails {
     private Introduction introduction;
 
     private boolean isIntroPublic;
+
+    @Enumerated(EnumType.STRING)
+    private Region region;
 
     @Enumerated(EnumType.STRING)
     private Role role;
