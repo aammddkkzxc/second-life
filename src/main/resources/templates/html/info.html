@@ -5,46 +5,94 @@
     <meta charset="UTF-8">
     <title>마이페이지</title>
     <style>
-        ul li {list-style: none;}
-        article div{display:inline-flex; justify-content:space-evenly}
-        .flex-container {display: flex;flex-direction: row; justify-content: space-between}
-        #info1{margin-top: 100px; margin-bottom: 80px; padding-right:40px; padding-left:40px;}
-        #info1 li{margin-bottom:19px;}
-        #info2{margin-top: 100px; margin-bottom: 80px; padding-right:40px; padding-left:40px; height:auto}
-        #info2 li{margin-bottom:19px;}
-        #info2:nth-child(2){padding-left: 30px;}
-        #info3{margin-top: 100px; margin-bottom: 80px; padding-right:40px; padding-left:40px;}
-        #info3 li{margin-bottom:19px;}
-        img{margin-top:25px;}
-        main{margin-right:50px; margin-left:50px}
-        section{margin-top:50px}
+        ul li {
+            list-style: none;
+        }
+
+        article div {
+            display: inline-flex;
+            justify-content: space-evenly
+        }
+
+        .flex-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between
+        }
+
+        #info1 {
+            margin-top: 100px;
+            margin-bottom: 80px;
+            padding-right: 40px;
+            padding-left: 40px;
+        }
+
+        #info1 li {
+            margin-bottom: 19px;
+        }
+
+        #info2 {
+            margin-top: 100px;
+            margin-bottom: 80px;
+            padding-right: 40px;
+            padding-left: 40px;
+            height: auto
+        }
+
+        #info2 li {
+            margin-bottom: 19px;
+        }
+
+        #info2:nth-child(2) {
+            padding-left: 30px;
+        }
+
+        #info3 {
+            margin-top: 100px;
+            margin-bottom: 80px;
+            padding-right: 40px;
+            padding-left: 40px;
+        }
+
+        #info3 li {
+            margin-bottom: 19px;
+        }
+
+        img {
+            margin-top: 25px;
+        }
+
+        main {
+            margin-right: 50px;
+            margin-left: 50px
+        }
+
+        section {
+            margin-top: 50px
+        }
+
         /*#info3:nth-of-type(1){padding-left: 20px}*/
-        #info2_2{display:flex; justify-content: center}
-        #info3_2{display:flex; justify-content: center}
+        #info2_2 {
+            display: flex;
+            justify-content: center
+        }
+
+        #info3_2 {
+            display: flex;
+            justify-content: center
+        }
     </style>
 </head>
 <body>
-<header class="container">
-    <nav>
-        <ul>
-            <li><strong>인생 재시동 로고</strong></li>
-            <li><button>자유 게시판</button></li>
-            <li><button>지역 모임 게시판</button></li>
-        </ul>
-        <ul>
-            <input type="search" placeholder="검색">
-            <li><button style="width: 110px; background-color: #EE402E; border-color:#EE402E">글쓰기</button></li>
-            <li><button style="width: 110px;" class="secondary">로그아웃</button></li>
-        </ul>
-    </nav>
-</header>
+<div th:replace="~{fragment/nav :: top}"></div>
 
-<main>
+<main class="container">
     <h2>MYPAGE</h2>
     <hr>
     <article>
         <div class="container">
-            <a href="#" class="contrast"><img src="/img/profile.png" alt="프로필 이미지" style="width:1100px; height:300px; border-radius:50% "></a>
+            <a href="#" class="contrast"><img src="/img/profile.png" alt="프로필 이미지"
+                                              style="width:1100px; height:300px; border-radius:50% "></a>
             <div class="container">
                 <ul id="info1">
                     <li><h2>Orumi 입니다.</h2></li>
@@ -70,7 +118,8 @@
     <section class="flex-container">
         <div class="container">
             <h3>AboutMe</h3>
-            <label for=""></label><textarea placeholder="간단한 자기소개를 입력해보세요!" name="" id="" cols="30" rows="10" style="height:160px;"></textarea>
+            <label for=""></label><textarea placeholder="간단한 자기소개를 입력해보세요!" name="" id="" cols="30" rows="10"
+                                            style="height:160px;"></textarea>
         </div>
 
         <div class="container" style="margin-left:50px;">
