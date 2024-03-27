@@ -1,4 +1,4 @@
-package com.example.secondlife.domain.member.enumType;
+package com.example.secondlife.domain.user.enumType;
 
 public enum Region {
 

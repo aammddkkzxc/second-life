@@ -1,6 +1,6 @@
-package com.example.secondlife.domain.member.valueType;
+package com.example.secondlife.domain.user.valueType;
 
-import com.example.secondlife.domain.member.enumType.Region;
+import com.example.secondlife.domain.user.enumType.Region;
 import jakarta.persistence.Embeddable;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;

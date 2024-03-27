@@ -3,7 +3,7 @@ package com.example.secondlife.domain.likes.comment.entity;
 import static jakarta.persistence.FetchType.LAZY;
 
 import com.example.secondlife.domain.comment.entity.Comment;
-import com.example.secondlife.domain.member.entity.Member;
+import com.example.secondlife.domain.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -28,7 +28,7 @@ public class CommentLikes {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private User user;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "post_id")
