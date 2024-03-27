@@ -6,3 +6,18 @@ spring:
   thymeleaf:
     cache: false
     prefix: file:src/main/resources/templates/
+
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: create-drop
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+    #        show-sql: true
+    properties:
+      hibernate.format_sql: true
+      dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+
+logging.level:
+  org.hibernate.SQL: debug
+  org.springframework.transaction.interceptor: TRACE
