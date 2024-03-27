@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원 가입</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.indigo.min.css"/>
+</head>
+
+<body>
+<div th:replace="~{fragment/nav :: top}"></div>
+<main class="container" style="width: 500px;">
+
+    <h1>회원 가입</h1>
+
+    <form action="/user" th:object="${joinRequest}" method="post">
+
+        <label for="loginId">ID:</label>
+        <input type="text" id="loginId" name="loginId" th:value="*{loginId}">
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" th:value="*{password}">
+
+        <label for="nickname">Nickname:</label>
+        <input type="text" id="nickname" name="nickname" th:value="*{nickname}">
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" th:value="*{email}">
+
+        <label for="region">Region:</label>
+        <select id="region" name="region">
+            <option th:each="region : ${T(com.example.secondlife.domain.user.enumType.Region).values()}"
+                    th:value="${region}"
+                    th:text="${region}"
+                    th:selected="${joinRequest.region == region}">Region
+            </option>
+        </select>
+
+        <label for="birthDate">Birthdate:</label>
+        <input type="date" id="birthDate" name="birthDate" th:value="*{birthDate}">
+
+        <label for="selfIntroduction">Self-Introduction:</label>
+        <textarea id="selfIntroduction" name="selfIntroduction" th:text="*{selfIntroduction}"></textarea>
+
+        <input type="submit" value="Submit">
+    </form>
+
+</main>
+</body>
+
+</html>
