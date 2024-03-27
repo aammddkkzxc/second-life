@@ -1,82 +1,91 @@
-//package com.example.secondlife.domain.post.service;
-//
-//import com.example.secondlife.common.wrapper.ApiResponse;
-//import com.example.secondlife.domain.comment.dto.CommentResponse;
-//import com.example.secondlife.domain.post.dto.PostResponse;
-//import com.example.secondlife.domain.post.dto.PostingRequest;
-//import com.example.secondlife.domain.post.entity.Post;
-//import com.example.secondlife.domain.post.repository.PostRepository;
-//import com.example.secondlife.domain.user.entity.User;
-//import java.util.List;
-//import lombok.RequiredArgsConstructor;
-//import lombok.extern.slf4j.Slf4j;
-//import org.springframework.stereotype.Service;
-//
-//@Service
-//@Slf4j
-//@RequiredArgsConstructor
-//public class PostService {
-//
-//    private final PostRepository postRepository;
-//    private final UserRepository userRepository;
-//
-//    public PostResponse create(PostingRequest request) {
-//        log.info("createPost");
-//
-//        Post savedPost = postRepository.save(postingRequestToPost(request));
-//
-//        return PostResponse.from(savedPost);
-//    }
-//
-//    public void readAllWithComments() {
-//        log.info("readAllWithComments");
-//
-//        List<Post> allWithComments = postRepository.findAllWithComments();
-//    }
-//
-//    public void updatePost() {
-//        log.info("updatePost");
-//    }
-//
-//    public void deletePost() {
-//        log.info("deletePost");
-//    }
-//
-//    private Post postingRequestToPost(PostingRequest request) {
-//        Long userId = request.getUserId();
-//        User findUser = userRepository.findById(userId)
-//                .orElseThrow(() -> new IllegalArgumentException("해당 id : + " + userId + " 의 사용자가 존재하지 않습니다."));
-//
-//        return Post.builder()
-//                .user(findUser)
-//                .title(request.getTitle())
-//                .contents(request.getContents())
-//                .isPublic(request.isPublic())
-//                .forum(request.getForum())
-//                .build();
-//    }
-//
-//    private PostResponse articleToArticleResponseWithComments(Article article) {
-//
-//        log.info("articleToArticleResponse()");
-//
-//        List<CommentResponse> commentResponses = article
-//                .getComments()
-//                .stream()
-//                .map(CommentResponse::from)
-//                .toList();
-//
-//        ApiResponse<List<CommentResponse>> response = new ApiResponse<>(article.getComments().size(), commentResponses);
-//
-//        return ArticleResponseWithComments.builder()
-//                .articleId(article.getId())
-//                .title(article.getTitle())
-//                .content(article.getContent())
-//                .createdAt(article.getCreatedAt())
-//                .updatedAt(article.getUpdatedAt())
-//                .comments(response)
-//                .build();
-//
-//    }
-//
-//}
+package com.example.secondlife.domain.post.service;
+
+import com.example.secondlife.domain.post.dto.PostResponse;
+import com.example.secondlife.domain.post.dto.PostUpdateRequest;
+import com.example.secondlife.domain.post.dto.PostingRequest;
+import com.example.secondlife.domain.post.entity.Post;
+import com.example.secondlife.domain.post.repository.PostRepository;
+import com.example.secondlife.domain.user.entity.User;
+import com.example.secondlife.domain.user.service.UserService;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@Slf4j
+@RequiredArgsConstructor
+@Transactional
+public class PostService {
+
+    private final PostRepository postRepository;
+    private final UserService userService;
+
+    public PostResponse save(Long userId, PostingRequest request) {
+        log.info("save");
+
+        Post savedPost = postRepository.save(postingRequestToPost(userId, request));
+
+        return savedPost.toPostResponse();
+    }
+
+    @Transactional(readOnly = true)
+    public Post findById(Long postId) {
+        log.info("findById");
+
+        return postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. postId = " + postId));
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PostResponse> getPosts(Pageable pageable) {
+        log.info("getPosts");
+
+        Page<Post> posts = postRepository.findAll(pageable);
+
+        return posts.map(Post::toPostResponse);
+    }
+
+    //TODO : Comment class 생성 후 수정
+    @Transactional(readOnly = true)
+    public void readAllWithComments(Long postId) {
+        log.info("readAllWithComments");
+
+        List<Post> allWithComments = postRepository.findAllWithComments();
+    }
+
+    public PostResponse updatePost(Long postId, PostUpdateRequest request) {
+        log.info("updatePost");
+
+        Post findPost = findById(postId);
+
+        findPost.update(request);
+
+        return findPost.toPostResponse();
+    }
+
+    public void deletePost(Long postId) {
+        log.info("deletePost");
+
+        Post findPost = findById(postId);
+
+        findPost.delete();
+    }
+
+    private Post postingRequestToPost(Long userId, PostingRequest request) {
+
+        User findUser = userService.findById(userId);
+
+        return Post.builder()
+                .user(findUser)
+                .title(request.getTitle())
+                .contents(request.getContents())
+                .isPublic(request.isPublic())
+                .forum(request.getForum())
+                .build();
+
+    }
+}
