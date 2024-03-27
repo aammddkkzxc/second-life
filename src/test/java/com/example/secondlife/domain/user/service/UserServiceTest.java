@@ -63,12 +63,13 @@ class UserServiceTest {
                 .selfIntroduction("Hello, I'm a new user.")
                 .build();
 
-        UserInfo updatedUserInfo = userService.updateUserInfo(joinResponse.getUserId(), userInfo);
+        userService.updateUserInfo(joinResponse.getUserId(), userInfo);
+        User byId = userService.findById(joinResponse.getUserId());
 
-        assertEquals(userInfo.getNickname(), updatedUserInfo.getNickname());
-        assertEquals(userInfo.getRegion(), updatedUserInfo.getRegion());
-        assertEquals(userInfo.getBirthDate(), updatedUserInfo.getBirthDate());
-        assertEquals(userInfo.getSelfIntroduction(), updatedUserInfo.getSelfIntroduction());
+        assertEquals(userInfo.getNickname(), byId.getNickname());
+        assertEquals(userInfo.getRegion(), byId.getIntroduction().getRegion());
+        assertEquals(userInfo.getBirthDate(), byId.getIntroduction().getBirthDate());
+        assertEquals(userInfo.getSelfIntroduction(), byId.getIntroduction().getSelfIntroduction());
     }
 
     @Test
