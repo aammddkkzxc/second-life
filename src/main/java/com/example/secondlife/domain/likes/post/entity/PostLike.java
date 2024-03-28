@@ -19,10 +19,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PostLikes {
+public class PostLike {
 
     @Id
-    @Column(name = "postLikes_id")
+    @Column(name = "postLike_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
