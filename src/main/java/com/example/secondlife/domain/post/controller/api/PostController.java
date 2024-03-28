@@ -55,7 +55,7 @@ public class PostController {
 
     @PatchMapping("/posts/{postId}")
     public ResponseEntity<PostResponse> updatePost(@AuthenticationPrincipal(expression = "userId") Long userId,
-                                                   @PathVariable Long postId, PostUpdateRequest request) {
+                                                   @PathVariable Long postId, PostRequest request) {
         log.info("updatePost()");
 
         PostResponse postResponse = postService.updatePost(userId, postId, request);
