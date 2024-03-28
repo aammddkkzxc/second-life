@@ -1,6 +1,7 @@
 package com.example.secondlife.domain.comment.entity;
 
 import com.example.secondlife.common.base.BaseEntity;
+import com.example.secondlife.domain.comment.dto.CommentResponse;
 import com.example.secondlife.domain.likes.comment.entity.CommentLike;
 import com.example.secondlife.domain.post.entity.Post;
 import com.example.secondlife.domain.user.entity.User;
@@ -18,6 +19,7 @@ import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -46,8 +48,23 @@ public class Comment extends BaseEntity {
     @OneToMany(mappedBy = "comment", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<CommentLike> commentLikes = new ArrayList<>();
 
+    @Builder
+    public Comment(Post post, User user, String contents) {
+        this.post = post;
+        this.user = user;
+        this.contents = contents;
+    }
+
     public void addCommentLike(CommentLike commentLike) {
         commentLike.setComment(this);
         commentLikes.add(commentLike);
+    }
+
+    //commentlikes 처리 필요
+    public CommentResponse toCommentResponse() {
+        return CommentResponse.builder().commentId(id).contents(contents).postId(post.getId()).userId(user.getId())
+                .createdDate(getCreatedDate()).lastModifiedDate(getLastModifiedDate())
+                .createdBy(getCreatedBy()).lastModifiedBy(getLastModifiedBy())
+                .build();
     }
 }
