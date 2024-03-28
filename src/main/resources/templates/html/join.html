@@ -12,18 +12,24 @@
     $(document).ready(function () {
         $('#joinForm').submit(function (e) {
             e.preventDefault(); // 폼 기본 제출 동작 방지
-            var formData = $(this).serialize(); // 폼 데이터 직렬화
+
+            // 폼 데이터를 JSON 객체로 변환
+            var formData = {};
+            $(this).serializeArray().forEach(function (item) {
+                formData[item.name] = item.value;
+            });
 
             $.ajax({
                 type: "POST",
-                url: "/users",
-                data: formData,
+                url: "/api/users",
+                contentType: "application/json", // 요청의 Content-Type을 JSON으로 명시
+                data: JSON.stringify(formData), // 데이터를 JSON 문자열로 변환
                 success: function (response) {
-                    // 회원가입 성공 처리, 예를 들어 성공 페이지로 리다이렉트
+                    // 회원가입 성공 처리
                     window.location.href = "/login";
                 },
                 error: function (response) {
-                    // 오류 처리, 예를 들어 오류 메시지 표시
+                    // 오류 처리
                     alert("회원가입 실패");
                 }
             });
@@ -37,9 +43,7 @@
 
     <h1>회원 가입</h1>
 
-    <!-- Form action 수정: '/users'로 변경 -->
-    <!-- th:object를 제거하고, 서버에서 joinRequest를 모델로 추가하지 않는 경우가 많으므로, th:value 대신 value를 사용하는 방향으로 변경 -->
-    <form id="joinForm" action="/users" method="post">
+    <form id="joinForm">
         <label for="loginId">ID:</label>
         <input type="text" id="loginId" name="loginId">
 
