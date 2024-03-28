@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원 가입</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.indigo.min.css"/>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#joinForm').submit(function (e) {
+            e.preventDefault(); // 폼 기본 제출 동작 방지
+            var formData = $(this).serialize(); // 폼 데이터 직렬화
+
+            $.ajax({
+                type: "POST",
+                url: "/users",
+                data: formData,
+                success: function (response) {
+                    // 회원가입 성공 처리, 예를 들어 성공 페이지로 리다이렉트
+                    window.location.href = "/login";
+                },
+                error: function (response) {
+                    // 오류 처리, 예를 들어 오류 메시지 표시
+                    alert("회원가입 실패");
+                }
+            });
+        });
+    });
+</script>
+
+<body>
+<div th:replace="~{fragment/nav :: top}"></div>
+<main class="container" style="width: 500px;">
+
+    <h1>회원 가입</h1>
+
+    <!-- Form action 수정: '/users'로 변경 -->
+    <!-- th:object를 제거하고, 서버에서 joinRequest를 모델로 추가하지 않는 경우가 많으므로, th:value 대신 value를 사용하는 방향으로 변경 -->
+    <form id="joinForm" action="/users" method="post">
+        <label for="loginId">ID:</label>
+        <input type="text" id="loginId" name="loginId">
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+
+        <label for="nickname">Nickname:</label>
+        <input type="text" id="nickname" name="nickname">
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+
+        <label for="region">Region:</label>
+        <select id="region" name="region">
+            <option th:each="region : ${T(com.example.secondlife.domain.user.enumType.Region).values()}"
+                    th:value="${region}"
+                    th:text="${region}">Region
+            </option>
+        </select>
+
+        <label for="birthDate">Birthdate:</label>
+        <input type="date" id="birthDate" name="birthDate">
+
+        <label for="selfIntroduction">Self-Introduction:</label>
+        <textarea id="selfIntroduction" name="selfIntroduction"></textarea>
+
+        <input type="submit" value="Submit">
+    </form>
+
+</main>
+</body>
+
+</html>

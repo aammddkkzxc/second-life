@@ -30,7 +30,7 @@ public class CommentLikes {
     @JoinColumn(name = "member_id")
     private User user;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Comment post;
 
