@@ -6,17 +6,21 @@ import com.example.secondlife.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CommentingRequest {
+public class CommentRequest {
 
     private String contents;
 
     public Comment toEntity(Post post, User user) {
-        return Comment.builder().post(post).user(user).contents(contents).build();
+
+        return Comment.builder()
+                .post(post)
+                .user(user)
+                .contents(contents)
+                .build();
+
     }
 }

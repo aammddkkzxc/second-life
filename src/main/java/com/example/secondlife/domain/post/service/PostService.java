@@ -1,8 +1,8 @@
 package com.example.secondlife.domain.post.service;
 
+import com.example.secondlife.domain.post.dto.PostRequest;
 import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.dto.PostUpdateRequest;
-import com.example.secondlife.domain.post.dto.PostingRequest;
 import com.example.secondlife.domain.post.entity.Post;
 import com.example.secondlife.domain.post.repository.PostRepository;
 import com.example.secondlife.domain.user.entity.User;
@@ -24,7 +24,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserService userService;
 
-    public PostResponse save(Long userId, PostingRequest request) {
+    public PostResponse save(Long userId, PostRequest request) {
         log.info("save");
 
         Post savedPost = postRepository.save(postingRequestToPost(userId, request));
@@ -75,7 +75,7 @@ public class PostService {
         findPost.delete();
     }
 
-    private Post postingRequestToPost(Long userId, PostingRequest request) {
+    private Post postingRequestToPost(Long userId, PostRequest request) {
 
         User findUser = userService.findById(userId);
 
