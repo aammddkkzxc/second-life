@@ -1,7 +1,7 @@
 package com.example.secondlife.domain.post.controller.api;
 
+import com.example.secondlife.domain.post.dto.PostRequest;
 import com.example.secondlife.domain.post.dto.PostResponse;
-import com.example.secondlife.domain.post.dto.PostUpdateRequest;
 import com.example.secondlife.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -49,7 +49,7 @@ public class PostController {
     }
 
     @PatchMapping("/posts/{postId}")
-    public ResponseEntity<PostResponse> updatePost(@PathVariable Long postId, PostUpdateRequest request) {
+    public ResponseEntity<PostResponse> updatePost(@PathVariable Long postId, PostRequest request) {
         PostResponse postResponse = postService.updatePost(postId, request);
 
         return ResponseEntity.ok(postResponse);
