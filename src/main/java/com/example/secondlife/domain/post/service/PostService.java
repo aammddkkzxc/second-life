@@ -27,7 +27,7 @@ public class PostService {
     public PostResponse save(Long userId, PostRequest request) {
         log.info("save");
 
-        Post savedPost = postRepository.save(postingRequestToPost(userId, request));
+        Post savedPost = postRepository.save(postRequestToPost(userId, request));
 
         return savedPost.toPostResponse();
     }
@@ -75,7 +75,7 @@ public class PostService {
         findPost.delete();
     }
 
-    private Post postingRequestToPost(Long userId, PostRequest request) {
+    private Post postRequestToPost(Long userId, PostRequest request) {
 
         User findUser = userService.findById(userId);
 

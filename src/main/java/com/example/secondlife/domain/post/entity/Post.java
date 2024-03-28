@@ -50,10 +50,11 @@ public class Post extends BaseEntity {
     private boolean isDeleted;
 
     @Builder
-    public Post(User user, String title, String contents, boolean isPublic, Forum forum) {
+    public Post(User user, String title, String contents, int hits, boolean isPublic, Forum forum) {
         this.user = user;
         this.title = title;
         this.contents = contents;
+        this.hits = hits;
         this.isPublic = isPublic;
         this.forum = forum;
     }
@@ -64,6 +65,7 @@ public class Post extends BaseEntity {
                 .userId(user.getId())
                 .postId(id)
                 .contents(contents)
+                .hits(hits)
                 .createdDate(getCreatedDate())
                 .lastModifiedDate(getLastModifiedDate())
                 .createdBy(getCreatedBy())
