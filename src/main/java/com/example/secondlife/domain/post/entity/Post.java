@@ -64,6 +64,7 @@ public class Post extends BaseEntity {
         return PostResponse.builder()
                 .userId(user.getId())
                 .postId(id)
+                .title(title)
                 .contents(contents)
                 .hits(hits)
                 .createdDate(getCreatedDate())

@@ -30,9 +30,8 @@ public class PostLikeController {
     }
 
     @GetMapping("/posts/{postId}/like")
-    public ResponseEntity<PostLikeCountResponse> getLikesCount(@PathVariable Long postId,
-                                                               @AuthenticationPrincipal(expression = "userId") Long userId) {
-        PostLikeCountResponse response = postLikeService.getLikeCount(postId, userId);
+    public ResponseEntity<PostLikeCountResponse> getLikesCount(@PathVariable Long postId) {
+        PostLikeCountResponse response = postLikeService.getLikeCount(postId);
 
         return ResponseEntity
                 .ok(response);

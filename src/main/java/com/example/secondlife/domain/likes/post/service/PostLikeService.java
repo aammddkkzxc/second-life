@@ -45,7 +45,7 @@ public class PostLikeService {
     }
 
     @Transactional(readOnly = true)
-    public PostLikeCountResponse getLikeCount(Long postId, Long userId) {
+    public PostLikeCountResponse getLikeCount(Long postId) {
 
         Long likeCount = postLikeRepository.countByPostId(postId);
 
