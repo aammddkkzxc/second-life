@@ -7,7 +7,6 @@ import com.example.secondlife.domain.post.entity.Post;
 import com.example.secondlife.domain.post.repository.PostRepository;
 import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.service.UserService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -50,12 +49,12 @@ public class PostService {
     }
 
     //TODO : Comment class 생성 후 수정
-    @Transactional(readOnly = true)
-    public void readAllWithComments(Long postId) {
-        log.info("readAllWithComments");
-
-        List<Post> allWithComments = postRepository.findAllWithComments();
-    }
+//    @Transactional(readOnly = true)
+//    public void readAllWithComments(Long postId) {
+//        log.info("readAllWithComments");
+//
+//        List<Post> allWithComments = postRepository.findAllWithComments();
+//    }
 
     public PostResponse updatePost(Long postId, PostUpdateRequest request) {
         log.info("updatePost");

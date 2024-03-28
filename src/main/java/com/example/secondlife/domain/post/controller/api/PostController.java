@@ -12,16 +12,18 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class PostController {
 
     private final PostService postService;
 
     //TODO : Spring Security 적용 후 수정
-//    @PostMapping("/post")
+//    @PostMapping("/posts")
 //    public ResponseEntity<PostResponse> writePost(@AuthenticationPrincipal(expression = "id") Long userId,
 //                                                  PostingRequest request) {
 //        PostResponse postingResponse = postService.save(userId, request);
@@ -46,14 +48,14 @@ public class PostController {
         return ResponseEntity.ok(postResponses);
     }
 
-    @PatchMapping("/post/{postId}")
+    @PatchMapping("/posts/{postId}")
     public ResponseEntity<PostResponse> updatePost(@PathVariable Long postId, PostUpdateRequest request) {
         PostResponse postResponse = postService.updatePost(postId, request);
 
         return ResponseEntity.ok(postResponse);
     }
 
-    @DeleteMapping("/post/{postId}")
+    @DeleteMapping("/posts/{postId}")
     public ResponseEntity<?> deletePost(@PathVariable Long postId) {
         postService.deletePost(postId);
 
