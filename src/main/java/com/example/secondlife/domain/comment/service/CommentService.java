@@ -36,14 +36,6 @@ public class CommentService {
         return savedComment.toCommentResponse();
     }
 
-    public CommentsResponse getComments(Long postId) {
-        List<Comment> comments = commentRepository.findCommentsByPostId(postId);
-        List<CommentResponse> commentResponses = comments.stream()
-                .map(Comment::toCommentResponse)
-                .collect(Collectors.toList());
-
-        return new CommentsResponse(commentResponses);
-    }
 
     public Comment findCommentById(Long commentId) {
         return commentRepository.findById(commentId)

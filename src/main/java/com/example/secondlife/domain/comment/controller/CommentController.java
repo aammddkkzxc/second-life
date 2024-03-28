@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentController {
 
     private final CommentService commentService;
-    private final PostService postService;
 
     @PostMapping("/post/{postId}/comments")
     public ResponseEntity<CommentResponse> addComment(@PathVariable Long postId,
@@ -35,13 +34,6 @@ public class CommentController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(commentResponse);
-    }
-
-    @Transactional(readOnly = true)
-    @GetMapping("/posts/{postId}/comments")
-    public ResponseEntity<CommentsResponse> getComments(@PathVariable Long postId) {
-        CommentsResponse commentsResponse = commentService.getComments(postId);
-        return ResponseEntity.status(HttpStatus.FOUND).body(commentsResponse);
     }
 
     @PutMapping("/comments/{commentId}")

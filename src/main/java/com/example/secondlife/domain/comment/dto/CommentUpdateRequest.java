@@ -8,5 +8,4 @@ import lombok.Data;
 @AllArgsConstructor
 @Builder
 public class CommentUpdateRequest {
-    private String contents;
-}
+    private String contents;}
