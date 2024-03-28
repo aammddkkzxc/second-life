@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,22 +57,34 @@ public class PostService {
 //        List<Post> allWithComments = postRepository.findAllWithComments();
 //    }
 
-    public PostResponse updatePost(Long postId, PostUpdateRequest request) {
+    public PostResponse updatePost(Long userId, Long postId, PostUpdateRequest request) {
         log.info("updatePost");
 
         Post findPost = findById(postId);
+
+        validUser(userId, findPost);
 
         findPost.update(request);
 
         return findPost.toPostResponse();
     }
 
-    public void deletePost(Long postId) {
+    public void deletePost(Long userId, Long postId) {
         log.info("deletePost");
 
         Post findPost = findById(postId);
 
+        validUser(userId, findPost);
+
         findPost.delete();
+    }
+
+    private void validUser(Long userId, Post findPost) {
+        Long postUserId = findPost.getUser().getId();
+
+        if (!postUserId.equals(userId)) {
+            throw new AccessDeniedException("자신의 게시글만 조작할 수 있습니다.");
+        }
     }
 
     private Post postRequestToPost(Long userId, PostRequest request) {
