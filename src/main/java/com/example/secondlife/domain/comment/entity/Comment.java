@@ -1,8 +1,10 @@
 package com.example.secondlife.domain.comment.entity;
 
 import com.example.secondlife.common.base.BaseEntity;
+import com.example.secondlife.domain.likes.comment.entity.CommentLike;
 import com.example.secondlife.domain.post.entity.Post;
 import com.example.secondlife.domain.user.entity.User;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,6 +14,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,4 +42,11 @@ public class Comment extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private User user;
+
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<CommentLike> commentLikes = new ArrayList<>();
+
+    public void addCommentLike(CommentLike commentLike) {
+        commentLikes.add(commentLike);
+    }
 }

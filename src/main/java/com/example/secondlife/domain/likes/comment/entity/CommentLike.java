@@ -1,7 +1,5 @@
 package com.example.secondlife.domain.likes.comment.entity;
 
-import static jakarta.persistence.FetchType.LAZY;
-
 import com.example.secondlife.domain.comment.entity.Comment;
 import com.example.secondlife.domain.user.entity.User;
 import jakarta.persistence.Column;
@@ -19,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CommentLikes {
+public class CommentLike {
 
     @Id
     @Column(name = "postLikes_id")
