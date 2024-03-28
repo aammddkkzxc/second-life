@@ -2,17 +2,12 @@ package com.example.secondlife.domain.comment.controller;
 
 import com.example.secondlife.domain.comment.dto.CommentRequest;
 import com.example.secondlife.domain.comment.dto.CommentResponse;
-import com.example.secondlife.domain.comment.dto.CommentUpdateRequest;
-import com.example.secondlife.domain.comment.dto.CommentsResponse;
 import com.example.secondlife.domain.comment.service.CommentService;
-import com.example.secondlife.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -39,7 +34,7 @@ public class CommentController {
     @PutMapping("/comments/{commentId}")
     public ResponseEntity<CommentResponse> updateComment(@PathVariable Long commentId,
                                                          @AuthenticationPrincipal(expression = "userId") Long userId,
-                                                         CommentUpdateRequest request) {
+                                                         CommentRequest request) {
 
         CommentResponse response = commentService.updateComment(commentId, userId, request);
 

@@ -2,7 +2,6 @@ package com.example.secondlife.domain.comment.service;
 
 import com.example.secondlife.domain.comment.dto.CommentRequest;
 import com.example.secondlife.domain.comment.dto.CommentResponse;
-import com.example.secondlife.domain.comment.dto.CommentUpdateRequest;
 import com.example.secondlife.domain.comment.entity.Comment;
 import com.example.secondlife.domain.comment.repository.CommentRepository;
 import com.example.secondlife.domain.post.entity.Post;
@@ -33,7 +32,7 @@ public class CommentService {
         return savedComment.toCommentResponse();
     }
 
-    public CommentResponse updateComment(Long commentId, Long userId, CommentUpdateRequest request) {
+    public CommentResponse updateComment(Long commentId, Long userId, CommentRequest request) {
         Comment findComment = findCommentById(commentId);
 
         // 현재 사용자와 코멘트를 작성한 사용자가 다를 경우 null 로 했는데 수정 필요할듯
