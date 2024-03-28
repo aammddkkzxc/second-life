@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-public class PostingRequest {
+public class PostRequest {
 
     private String title;
     private String contents;

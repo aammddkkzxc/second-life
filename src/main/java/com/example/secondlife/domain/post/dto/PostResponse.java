@@ -14,6 +14,7 @@ public class PostResponse {
     private Long postId;
     private String title;
     private String contents;
+    private int hits;
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
     private String createdBy;

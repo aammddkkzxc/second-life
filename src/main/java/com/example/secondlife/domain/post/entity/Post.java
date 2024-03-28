@@ -1,12 +1,10 @@
 package com.example.secondlife.domain.post.entity;
 
 import com.example.secondlife.common.base.BaseEntity;
-import com.example.secondlife.domain.comment.entity.Comment;
 import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.dto.PostUpdateRequest;
 import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.user.entity.User;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -17,9 +15,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,9 +34,6 @@ public class Post extends BaseEntity {
     @JoinColumn(name = "member_id")
     private User user;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Comment> comments = new ArrayList<>();
-
     @Column(nullable = false)
     private String title;
 
@@ -58,10 +50,11 @@ public class Post extends BaseEntity {
     private boolean isDeleted;
 
     @Builder
-    public Post(User user, String title, String contents, boolean isPublic, Forum forum) {
+    public Post(User user, String title, String contents, int hits, boolean isPublic, Forum forum) {
         this.user = user;
         this.title = title;
         this.contents = contents;
+        this.hits = hits;
         this.isPublic = isPublic;
         this.forum = forum;
     }
@@ -72,6 +65,7 @@ public class Post extends BaseEntity {
                 .userId(user.getId())
                 .postId(id)
                 .contents(contents)
+                .hits(hits)
                 .createdDate(getCreatedDate())
                 .lastModifiedDate(getLastModifiedDate())
                 .createdBy(getCreatedBy())
