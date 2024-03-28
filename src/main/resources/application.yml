@@ -24,6 +24,11 @@ spring:
         default-page-size: 10
         max-page-size: 20
 
+  h2:
+    console:
+      enabled: true
+
 logging.level:
+  root: INFO
   org.hibernate.SQL: debug
   org.springframework.transaction.interceptor: TRACE
