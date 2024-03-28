@@ -3,6 +3,7 @@ package com.example.secondlife.common.security.config;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
+import com.example.secondlife.common.security.CustomLogoutSuccessHandler;
 import com.example.secondlife.domain.user.enumType.Role;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -64,6 +65,7 @@ public class SecurityConfig {
         httpSecurity
                 .logout(logout -> logout
                         .logoutUrl("/logout")
+                        .logoutSuccessHandler(new CustomLogoutSuccessHandler())
                         .invalidateHttpSession(true)
                 );
 
