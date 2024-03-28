@@ -17,6 +17,11 @@ public class CommonController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = authentication.getName();
         log.info("mainPage - 현재 로그인된 사용자: {}", currentUserName);
+        log.info("mainPage - 현재 사용자의 권한: {}", authentication.getAuthorities().iterator().next().getAuthority());
+        log.info("mainPage - 현재 사용자의 인증정보: {}", authentication.getDetails());
+        log.info("mainPage - 현재 사용자의 인증여부: {}", authentication.isAuthenticated());
+        log.info("mainPage - 현재 사용자의 Principal: {}", authentication.getPrincipal());
+        log.info("mainPage - 현재 사용자의 Credentials: {}", authentication.getCredentials());
 
         return "html/main";
     }
