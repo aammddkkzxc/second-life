@@ -57,7 +57,7 @@ public class PostService {
 //    }
 
 
-    public PostResponse updatePost(Long userId, Long postId, PostUpdateRequest request) {
+    public PostResponse updatePost(Long userId, Long postId, PostRequest request) {
         log.info("updatePost");
 
         Post findPost = findById(postId);
