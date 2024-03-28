@@ -1,13 +1,16 @@
 package com.example.secondlife.common.security.config;
 
 
+import static com.example.secondlife.domain.user.enumType.Role.ADMIN;
+import static com.example.secondlife.domain.user.enumType.Role.L1;
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 import com.example.secondlife.common.security.CustomLogoutSuccessHandler;
-import com.example.secondlife.domain.user.enumType.Role;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -21,9 +24,20 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public WebSecurityCustomizer configure() {      // 스프링 시큐리티 기능 비활성화
+    public WebSecurityCustomizer configure() {
         return web -> web.ignoring().requestMatchers(toH2Console())
                 .requestMatchers("/static/**", "swagger-ui/**", "/v3/api-docs/**", "swagger-ui.html");
+    }
+
+    @Bean
+    public RoleHierarchy roleHierarchy() {
+
+        RoleHierarchyImpl hierarchy = new RoleHierarchyImpl();
+
+        hierarchy.setHierarchy("ROLE_ADMIN > ROLE_L2\n" +
+                "ROLE_L2 > ROLE_L1");
+
+        return hierarchy;
     }
 
     @Bean
@@ -31,25 +45,24 @@ public class SecurityConfig {
 
         httpSecurity.
                 authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                                .requestMatchers("/login", "/join", "users", "/api/**")
-                                .permitAll()
-                                .requestMatchers("/").hasRole(Role.L1.name())
-//                        .requestMatchers("/admin").hasRole("ADMIN")
-//                        .requestMatchers("/my/**").hasAnyRole("ADMIN", "USER")
-                                .anyRequest()
-                                .authenticated()
+                        .requestMatchers("/login", "/join", "users", "/api/**")
+                        .permitAll()
+                        .requestMatchers("/").hasRole(L1.name())
+                        .requestMatchers("/my/**").hasAnyRole(L1.name())
+                        .requestMatchers("/admin/**").hasAnyRole(ADMIN.name())
+                        .anyRequest()
+                        .authenticated()
                 );
 
         httpSecurity
                 .formLogin(auth -> auth
-                                .loginPage("/login")
-                                .defaultSuccessUrl("/", true)
-//                                .loginProcessingUrl("/articles")
-//                        .permitAll()
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/", true)
                 );
 
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable);
+
         httpSecurity
                 .sessionManagement(auth -> auth
                         .maximumSessions(1)

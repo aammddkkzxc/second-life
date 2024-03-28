@@ -1,13 +1,22 @@
 package com.example.secondlife.common.test;
 
+import com.example.secondlife.domain.post.dto.PostRequest;
+import com.example.secondlife.domain.post.enumType.Forum;
+import com.example.secondlife.domain.post.service.PostService;
 import com.example.secondlife.domain.user.dto.JoinRequest;
+import com.example.secondlife.domain.user.dto.JoinResponse;
+import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.enumType.Region;
+import com.example.secondlife.domain.user.enumType.Role;
+import com.example.secondlife.domain.user.repository.UserRepository;
 import com.example.secondlife.domain.user.service.UserService;
+import com.example.secondlife.domain.user.valueType.Introduction;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
@@ -15,21 +24,85 @@ import org.springframework.stereotype.Component;
 @Component
 public class InitData {
     private final UserService userService;
+    private final UserRepository userRepository;
+    private final PostService postService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @EventListener(ApplicationReadyEvent.class)
     public void init() {
         log.info("init()");
 
-        JoinRequest joinRequest = new JoinRequest(
+        JoinRequest joinRequestL1 = new JoinRequest(
                 "test",
                 "test",
                 "nickname1",
                 null,
                 Region.GANGWON,
                 LocalDate.now(),
-                "안녕"
+                "일반 회원입니다."
+        );
+        JoinRequest joinRequestL2 = new JoinRequest(
+                "test2",
+                "test2",
+                "nickname2",
+                null,
+                Region.SEOUL,
+                LocalDate.now(),
+                "인증된 회원입니다."
+        );
+        JoinRequest joinRequestAdmin = new JoinRequest(
+                "admin",
+                "admin",
+                "admin",
+                null,
+                Region.GYEONGGI,
+                LocalDate.now(),
+                "ADMIN 입니다."
         );
 
-        userService.save(joinRequest);
+        JoinResponse joinResponse = userService.save(joinRequestL1);
+        userRepository.save(joinRequestToL2User(joinRequestL2));
+        userRepository.save(joinRequestToAdminUser(joinRequestAdmin));
+
+        for (int i = 0; i < 50; i++) {
+            PostRequest postRequest = new PostRequest("title" + i, "content" + i, true, Forum.FREE);
+            postService.save(joinResponse.getUserId(), postRequest);
+        }
+
     }
+
+    public User joinRequestToL2User(JoinRequest request) {
+        log.info("joinRequestToL2User()");
+
+        Introduction introduction = new Introduction(request.getRegion(), request.getBirthDate(),
+                request.getSelfIntroduction());
+
+        return User.builder()
+                .loginId(request.getLoginId())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .nickname(request.getNickname())
+                .email(request.getEmail())
+                .introduction(introduction)
+                .role(Role.L2)
+                .build();
+
+    }
+
+    public User joinRequestToAdminUser(JoinRequest request) {
+        log.info("joinRequestToAdminUser()");
+
+        Introduction introduction = new Introduction(request.getRegion(), request.getBirthDate(),
+                request.getSelfIntroduction());
+
+        return User.builder()
+                .loginId(request.getLoginId())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .nickname(request.getNickname())
+                .email(request.getEmail())
+                .introduction(introduction)
+                .role(Role.ADMIN)
+                .build();
+
+    }
+
 }
