@@ -47,6 +47,7 @@ public class Comment extends BaseEntity {
     private List<CommentLike> commentLikes = new ArrayList<>();
 
     public void addCommentLike(CommentLike commentLike) {
+        commentLike.setComment(this);
         commentLikes.add(commentLike);
     }
 }
