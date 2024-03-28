@@ -49,6 +49,19 @@ public class Post extends BaseEntity {
 
     private boolean isDeleted;
 
+    public void update(PostRequest request) {
+
+        this.title = request.getTitle() != null ? request.getTitle() : this.title;
+        this.contents = request.getContents() != null ? request.getContents() : this.contents;
+        this.isPublic = request.isPublic();
+        this.forum = request.getForum() != null ? request.getForum() : this.forum;
+
+    }
+
+    public void delete() {
+        isDeleted = true;
+    }
+
     @Builder
     public Post(User user, String title, String contents, int hits, boolean isPublic, Forum forum) {
         this.user = user;
@@ -73,18 +86,5 @@ public class Post extends BaseEntity {
                 .lastModifiedBy(getLastModifiedBy())
                 .build();
 
-    }
-
-    public void update(PostRequest request) {
-
-        this.title = request.getTitle() != null ? request.getTitle() : this.title;
-        this.contents = request.getContents() != null ? request.getContents() : this.contents;
-        this.isPublic = request.isPublic();
-        this.forum = request.getForum() != null ? request.getForum() : this.forum;
-
-    }
-
-    public void delete() {
-        isDeleted = true;
     }
 }

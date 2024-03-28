@@ -43,6 +43,14 @@ public class Comment extends BaseEntity {
 
     private boolean isDeleted;
 
+    public void update(CommentRequest request) {
+        this.contents = request.getContents() != null ? request.getContents() : this.contents;
+    }
+
+    public void delete() {
+        isDeleted = true;
+    }
+
     @Builder
     public Comment(Post post, User user, String contents) {
         this.post = post;
@@ -63,13 +71,5 @@ public class Comment extends BaseEntity {
                 .lastModifiedBy(getLastModifiedBy())
                 .build();
 
-    }
-
-    public void update(CommentRequest request) {
-        this.contents = request.getContents() != null ? request.getContents() : this.contents;
-    }
-
-    public void delete() {
-        isDeleted = true;
     }
 }

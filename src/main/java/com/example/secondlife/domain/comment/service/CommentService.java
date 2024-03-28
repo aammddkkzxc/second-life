@@ -8,9 +8,10 @@ import com.example.secondlife.domain.post.entity.Post;
 import com.example.secondlife.domain.post.service.PostService;
 import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.service.UserService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,30 +33,35 @@ public class CommentService {
         return savedComment.toCommentResponse();
     }
 
-    public CommentResponse updateComment(Long commentId, Long userId, CommentRequest request) {
-        Comment findComment = findCommentById(commentId);
-
-        // 현재 사용자와 코멘트를 작성한 사용자가 다를 경우 null 로 했는데 수정 필요할듯
-        if (!findComment.getUser().getId().equals(userId)) {
-            return null;
-        }
-
-        // 현재 사용자가 코멘트의 작성자와 동일한 경우
-        findComment.update(request);
-        return findComment.toCommentResponse();
-    }
-
-    public Comment findCommentById(Long commentId) {
+    @Transactional(readOnly = true)
+    public Comment findById(Long commentId) {
         return commentRepository.findById(commentId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다. commentId = " + commentId));
     }
 
-    public void deleteComment(Long commentId, Long userId) {
-        Comment findComment = findCommentById(commentId);
+    public CommentResponse updateComment(Long commentId, Long userId, CommentRequest request) {
+        Comment findComment = findById(commentId);
 
-        // 현재 사용자가 코멘트의 작성자와 동일한 경우
-        if (findComment.getUser().getId().equals(userId)) {
-            findComment.delete();
+        validUser(userId, findComment);
+
+        findComment.update(request);
+
+        return findComment.toCommentResponse();
+    }
+
+    public void deleteComment(Long commentId, Long userId) {
+        Comment findComment = findById(commentId);
+
+        validUser(userId, findComment);
+
+        findComment.delete();
+    }
+
+    private void validUser(Long userId, Comment findComment) {
+        Long postUserId = findComment.getUser().getId();
+
+        if (!postUserId.equals(userId)) {
+            throw new AccessDeniedException("자신의 댓글만 조작할 수 있습니다.");
         }
     }
 }
