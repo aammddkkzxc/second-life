@@ -1,7 +1,7 @@
 package com.example.secondlife.domain.post.controller.api;
 
+import com.example.secondlife.domain.post.dto.PostRequest;
 import com.example.secondlife.domain.post.dto.PostResponse;
-import com.example.secondlife.domain.post.dto.PostUpdateRequest;
 import com.example.secondlife.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -31,4 +31,31 @@ public class CommentService {
 
         return savedComment.toCommentResponse();
     }
+
+    public CommentResponse updateComment(Long commentId, Long userId, CommentRequest request) {
+        Comment findComment = findCommentById(commentId);
+
+        // 현재 사용자와 코멘트를 작성한 사용자가 다를 경우 null 로 했는데 수정 필요할듯
+        if (!findComment.getUser().getId().equals(userId)) {
+            return null;
+        }
+
+        // 현재 사용자가 코멘트의 작성자와 동일한 경우
+        findComment.update(request);
+        return findComment.toCommentResponse();
+    }
+
+    public Comment findCommentById(Long commentId) {
+        return commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다. commentId = " + commentId));
+    }
+
+    public void deleteComment(Long commentId, Long userId) {
+        Comment findComment = findCommentById(commentId);
+
+        // 현재 사용자가 코멘트의 작성자와 동일한 경우
+        if (findComment.getUser().getId().equals(userId)) {
+            findComment.delete();
+        }
+    }
 }

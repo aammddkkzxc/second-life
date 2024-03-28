@@ -1,8 +1,8 @@
 package com.example.secondlife.domain.post.entity;
 
 import com.example.secondlife.common.base.BaseEntity;
+import com.example.secondlife.domain.post.dto.PostRequest;
 import com.example.secondlife.domain.post.dto.PostResponse;
-import com.example.secondlife.domain.post.dto.PostUpdateRequest;
 import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.user.entity.User;
 import jakarta.persistence.Column;
@@ -75,7 +75,7 @@ public class Post extends BaseEntity {
 
     }
 
-    public void update(PostUpdateRequest request) {
+    public void update(PostRequest request) {
 
         this.title = request.getTitle() != null ? request.getTitle() : this.title;
         this.contents = request.getContents() != null ? request.getContents() : this.contents;

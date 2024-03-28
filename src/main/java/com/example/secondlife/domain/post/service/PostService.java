@@ -2,7 +2,6 @@ package com.example.secondlife.domain.post.service;
 
 import com.example.secondlife.domain.post.dto.PostRequest;
 import com.example.secondlife.domain.post.dto.PostResponse;
-import com.example.secondlife.domain.post.dto.PostUpdateRequest;
 import com.example.secondlife.domain.post.entity.Post;
 import com.example.secondlife.domain.post.repository.PostRepository;
 import com.example.secondlife.domain.user.entity.User;
@@ -56,6 +55,7 @@ public class PostService {
 //
 //        List<Post> allWithComments = postRepository.findAllWithComments();
 //    }
+
 
     public PostResponse updatePost(Long userId, Long postId, PostUpdateRequest request) {
         log.info("updatePost");

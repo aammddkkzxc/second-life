@@ -1,6 +1,7 @@
 package com.example.secondlife.domain.comment.entity;
 
 import com.example.secondlife.common.base.BaseEntity;
+import com.example.secondlife.domain.comment.dto.CommentRequest;
 import com.example.secondlife.domain.comment.dto.CommentResponse;
 import com.example.secondlife.domain.post.entity.Post;
 import com.example.secondlife.domain.user.entity.User;
@@ -62,5 +63,13 @@ public class Comment extends BaseEntity {
                 .lastModifiedBy(getLastModifiedBy())
                 .build();
 
+    }
+
+    public void update(CommentRequest request) {
+        this.contents = request.getContents() != null ? request.getContents() : this.contents;
+    }
+
+    public void delete() {
+        isDeleted = true;
     }
 }
