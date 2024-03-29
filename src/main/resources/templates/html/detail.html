@@ -36,7 +36,7 @@
         </footer>
     </article>
     <div class="comment-total-info">
-        <p>
+        <p th:text="'댓글 수: ' + ${post.commentResponses.size()}">
             댓글 수
         </p>
         <p>
@@ -48,41 +48,20 @@
     </div>
     <input type="text" name="text" placeholder="댓글을 입력해 주세요" aria-label="Text"/>
     <ul>
-        <li class="comment">
-            <article>
-                <p>
+        <li class="comment_list" th:unless="${post.commentResponses.isEmpty()}">
+            <article th:each="commentResponse : ${post.commentResponses}">
+                <p th:text="'작성자 닉네임: ' + ${commentResponse.nickName}">
                     댓글 작성자 아이디
                 </p>
-                <p>
+                <p th:text="'댓글 내용: ' + ${commentResponse.contents}">
                     댓글 내용
                 </p>
                 <div class="comment-each-info">
-                    <p>
-                        작성 시간
+                    <p th:text="'작성: ' + ${#temporals.format(commentResponse.createdDate, 'yyyy-MM-dd HH:mm')}">
+                        작성
                     </p>
-                    <p>
-                        좋아요 버튼
-                    </p>
-                    <p>
-                        대댓글 달기
-                    </p>
-                </div>
-            </article>
-        </li>
-        <li class="comment">
-            <article>
-                <p>
-                    댓글 작성자 아이디
-                </p>
-                <p>
-                    댓글 내용
-                </p>
-                <div class="comment-each-info">
-                    <p>
-                        작성 시간
-                    </p>
-                    <p>
-                        좋아요 버튼
+                    <p th:text="'수정: ' + ${#temporals.format(commentResponse.lastModifiedDate, 'yyyy-MM-dd HH:mm')}">
+                        수정
                     </p>
                     <p>
                         대댓글 달기

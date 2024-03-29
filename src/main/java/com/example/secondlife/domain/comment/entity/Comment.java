@@ -72,6 +72,7 @@ public class Comment extends BaseEntity {
                 .commentId(id)
                 .postId(post.getId())
                 .userId(user.getId())
+                .nickName(user.getNickname())
                 .contents(contents)
                 .createdDate(getCreatedDate())
                 .lastModifiedDate(getLastModifiedDate())
