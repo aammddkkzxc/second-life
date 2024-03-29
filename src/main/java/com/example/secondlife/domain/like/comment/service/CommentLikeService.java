@@ -2,6 +2,7 @@ package com.example.secondlife.domain.like.comment.service;
 
 import com.example.secondlife.domain.comment.entity.Comment;
 import com.example.secondlife.domain.comment.service.CommentService;
+import com.example.secondlife.domain.like.comment.dto.CommentLikeCountResponse;
 import com.example.secondlife.domain.like.comment.dto.CommentLikeResponse;
 import com.example.secondlife.domain.like.comment.entity.CommentLike;
 import com.example.secondlife.domain.like.comment.repository.CommentLikeRepository;
@@ -35,6 +36,17 @@ public class CommentLikeService {
                 .commentId(savedCommentLike.getComment().getId())
                 .userId(savedCommentLike.getUser().getId())
                 .commentLikeId(savedCommentLike.getId())
+                .build();
+    }
+
+    @Transactional(readOnly = true)
+    public CommentLikeCountResponse getLikeCount(Long commentId) {
+
+        Long likeCount = commentLikeRepository.countByCommentId(commentId);
+
+        return CommentLikeCountResponse.builder()
+                .count(likeCount)
+                .commentId(commentId)
                 .build();
     }
 
