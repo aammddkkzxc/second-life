@@ -11,6 +11,7 @@ public class CommonController {
     @GetMapping("/")
     public String mainPage() {
         log.info("mainPage()");
+
         return "html/main";
     }
 
@@ -28,10 +29,5 @@ public class CommonController {
         return "html/login";
     }
 
-    @GetMapping("/info")
-    public String info() {
-        log.info("info()");
 
-        return "html/info";
-    }
 }

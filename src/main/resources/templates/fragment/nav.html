@@ -31,10 +31,14 @@
                 <div th:if="${#authentication}">
                     <div th:if="${#authentication.principal != 'anonymousUser'}">
                         <!-- 사용자가 로그인한 경우 -->
-                        <button id="logoutBtn" style="width: 110px;" class="secondary"
+                        <button id="logoutBtn" style="width: 110px; margin-right: 10px; "
+                                class="secondary"
                                 onclick="window.location.href='/logout'">로그아웃
                         </button>
-
+                        <button id="myInfoBtn" style="width: 110px; background-color: #423736; border-color: #423736"
+                                class="secondary"
+                                onclick="window.location.href='/profile'">내정보
+                        </button>
                     </div>
                     <div th:if="${#authentication.principal == 'anonymousUser'}">
                         <!-- 사용자가 로그아웃한 경우 -->
