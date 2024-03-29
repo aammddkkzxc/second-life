@@ -43,7 +43,14 @@ public class UserService {
     public UserResponse updateUserProfile(Long userId, UpdateUserRequest request) {
         log.info("updateUserProfile()");
 
-        request.setPassword(passwordEncoder.encode(request.getPassword()));
+        String password = request.getPassword();
+
+        if (password != null && !password.isEmpty()) {
+            log.info("password is not empty");
+            request.setPassword(passwordEncoder.encode(password));
+        } else {
+            log.info("password is empty");
+        }
 
         User user = findById(userId);
 

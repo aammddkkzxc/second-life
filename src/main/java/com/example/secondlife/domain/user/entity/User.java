@@ -88,13 +88,13 @@ public class User extends BaseTimeEntity {
     }
 
     public void updateUserProfile(UpdateUserRequest request) {
-        nickname = request.getNickname() != null ? request.getNickname() : nickname;
-        password = request.getPassword() != null ? request.getPassword() : password;
+        nickname = request.getNickname().isEmpty() ? nickname : request.getNickname();
+        password = request.getPassword().isEmpty() ? password : request.getPassword();
         introduction = new Introduction(
                 request.getRegion() != null ? request.getRegion() : introduction.getRegion(),
                 request.getBirthDate() != null ? request.getBirthDate() : introduction.getBirthDate(),
-                request.getSelfIntroduction() != null ? request.getSelfIntroduction()
-                        : introduction.getSelfIntroduction()
+                request.getSelfIntroduction().isEmpty() ? introduction.getSelfIntroduction()
+                        : request.getSelfIntroduction()
         );
     }
 
