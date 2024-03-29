@@ -9,7 +9,13 @@
 <div th:replace="~{fragment/nav :: top}"></div>
 
 <main class="container" style="width: 500px">
-    <h2>회원 정보 수정</h2>
+
+    <h1>회원 정보 수정</h1>
+    <span style="color: #EE402E"> 업데이트 할 부분만 입력하고 </span>
+    <br>
+    <span style="color: #EE402E"> 나머지는 비워주세요. </span>
+    <br>
+    <br>
     <form id="userInfoForm" method="POST" th:action="@{'/api/users/' + ${#authentication.principal.userId}}"
           onsubmit="submitForm(event)">
         <label for="nickname">닉네임:</label>
@@ -17,6 +23,10 @@
 
         <label for="password">비밀번호:</label>
         <input type="password" id="password" name="password"><br>
+
+        <label for="passwordConfirm">비밀번호 확인:</label>
+        <input type="password" id="passwordConfirm" name="passwordConfirm"><br>
+
 
         <label for="region">지역:</label>
         <select id="region" name="region">
@@ -46,7 +56,25 @@
             event.preventDefault(); // 폼 기본 동작 막기
 
             const form = document.getElementById('userInfoForm');
+            const nicknameInput = document.getElementById('nickname');
+            const passwordInput = document.getElementById('password');
+            const passwordConfirmInput = document.getElementById('passwordConfirm');
             const formData = new FormData(form);
+
+            // 닉네임 길이 체크
+            const nickname = nicknameInput.value.trim();
+            if (nickname.length > 10) {
+                alert('닉네임은 10자 이하로 입력해주세요.');
+                return; // 폼 제출 중단
+            }
+
+            // 비밀번호 일치 여부 체크
+            const password = passwordInput.value;
+            const passwordConfirm = passwordConfirmInput.value;
+            if (password !== passwordConfirm) {
+                alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+                return; // 폼 제출 중단
+            }
 
             const url = form.getAttribute('action');
 
@@ -66,6 +94,7 @@
                 });
         }
     </script>
+
 </main>
 
 </body>

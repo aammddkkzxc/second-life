@@ -48,8 +48,6 @@ public class UserService {
         if (password != null && !password.isEmpty()) {
             log.info("password is not empty");
             request.setPassword(passwordEncoder.encode(password));
-        } else {
-            log.info("password is empty");
         }
 
         User user = findById(userId);
