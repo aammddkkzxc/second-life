@@ -67,7 +67,7 @@ public class InitData {
         userRepository.save(joinRequestToL2User(joinRequestL2));
         userRepository.save(joinRequestToAdminUser(joinRequestAdmin));
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 150; i++) {
             PostRequest postRequest = new PostRequest("title" + i, "content" + i, true, Forum.FREE);
             postService.save(joinResponse.getUserId(), postRequest);
         }
