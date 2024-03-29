@@ -1,6 +1,6 @@
-package com.example.secondlife.domain.likes.post.repository;
+package com.example.secondlife.domain.like.post.repository;
 
-import com.example.secondlife.domain.likes.post.entity.PostLike;
+import com.example.secondlife.domain.like.post.entity.PostLike;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

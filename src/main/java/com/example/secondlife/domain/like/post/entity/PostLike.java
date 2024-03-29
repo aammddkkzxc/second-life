@@ -1,4 +1,4 @@
-package com.example.secondlife.domain.likes.post.entity;
+package com.example.secondlife.domain.like.post.entity;
 
 import com.example.secondlife.domain.post.entity.Post;
 import com.example.secondlife.domain.user.entity.User;

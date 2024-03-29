@@ -1,9 +1,9 @@
-package com.example.secondlife.domain.likes.post.service;
+package com.example.secondlife.domain.like.post.service;
 
-import com.example.secondlife.domain.likes.post.dto.PostLikeCountResponse;
-import com.example.secondlife.domain.likes.post.dto.PostLikeResponse;
-import com.example.secondlife.domain.likes.post.entity.PostLike;
-import com.example.secondlife.domain.likes.post.repository.PostLikeRepository;
+import com.example.secondlife.domain.like.post.dto.PostLikeCountResponse;
+import com.example.secondlife.domain.like.post.dto.PostLikeResponse;
+import com.example.secondlife.domain.like.post.entity.PostLike;
+import com.example.secondlife.domain.like.post.repository.PostLikeRepository;
 import com.example.secondlife.domain.post.entity.Post;
 import com.example.secondlife.domain.post.service.PostService;
 import com.example.secondlife.domain.user.entity.User;

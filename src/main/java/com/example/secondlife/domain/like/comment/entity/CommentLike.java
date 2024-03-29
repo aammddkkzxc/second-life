@@ -1,4 +1,4 @@
-package com.example.secondlife.domain.likes.comment.entity;
+package com.example.secondlife.domain.like.comment.entity;
 
 import com.example.secondlife.domain.comment.entity.Comment;
 import com.example.secondlife.domain.user.entity.User;
