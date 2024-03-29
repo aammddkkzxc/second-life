@@ -1,8 +1,8 @@
-package com.example.secondlife.domain.likes.post.controller;
+package com.example.secondlife.domain.like.post.controller;
 
-import com.example.secondlife.domain.likes.post.dto.PostLikeCountResponse;
-import com.example.secondlife.domain.likes.post.dto.PostLikeResponse;
-import com.example.secondlife.domain.likes.post.service.PostLikeService;
+import com.example.secondlife.domain.like.post.dto.PostLikeCountResponse;
+import com.example.secondlife.domain.like.post.dto.PostLikeResponse;
+import com.example.secondlife.domain.like.post.service.PostLikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
