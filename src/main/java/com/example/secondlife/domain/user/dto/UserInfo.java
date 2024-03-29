@@ -17,5 +17,6 @@ public class UserInfo {
     private Region region;
     private LocalDate birthDate;
     private String selfIntroduction;
+    private boolean isDeleted;
 
 }

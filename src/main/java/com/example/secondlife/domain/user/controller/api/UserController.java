@@ -61,7 +61,7 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
         log.info("deleteUser()");
 
-        userService.deleteUser(userId);
+        userService.delete(userId);
 
         return ResponseEntity
                 .noContent()

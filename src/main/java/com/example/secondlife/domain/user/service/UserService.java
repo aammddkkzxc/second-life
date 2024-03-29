@@ -49,8 +49,8 @@ public class UserService {
         return user.toUserInfo();
     }
 
-    public void deleteUser(Long userId) {
-        log.info("deleteUser()");
+    public void delete(Long userId) {
+        log.info("delete()");
 
         User findUser = findById(userId);
 

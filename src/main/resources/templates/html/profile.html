@@ -145,8 +145,42 @@
         </div>
     </section>
 </main>
-<footer style="display:flex; justify-content: center">
-    <button>회원탈퇴</button>
+<footer class="grid" style="display:flex; justify-content: center">
+    <button>회원정보수정</button>
+    <button style="background-color: #5d2d28; border-color: #5d2d28">이메일 인증</button>
+    <button id="deleteUserBtn"
+            th:attr="data-user-id=${#authentication.principal.userId}"
+            style="background-color: #EE402E; border-color: #EE402E">회원탈퇴</button>
+
+    </button>
+
 </footer>
 </body>
+<script>
+    document.getElementById('deleteUserBtn').addEventListener('click', function () {
+        const userId = this.getAttribute('data-user-id');
+        if (confirm('정말로 탈퇴하시겠습니까?')) {
+            fetch(`/api/users/${userId}`, {
+                method: 'DELETE',
+                headers: {
+                    // 필요한 경우 CSRF 토큰 및 콘텐트 타입 추가
+                    'Content-Type': 'application/json',
+                    // 'X-CSRF-TOKEN': 'CSRF 토큰 값'
+                },
+                credentials: 'include' // 쿠키를 포함시키기 위해 필요 (세션 인증을 사용하는 경우)
+            }).then(response => {
+                if (response.ok) {
+                    alert('회원 탈퇴가 완료되었습니다.');
+                    window.location.href = '/logout';
+                } else {
+                    alert('회원 탈퇴에 실패하였습니다.');
+                }
+            }).catch(error => {
+                console.error('탈퇴 처리 중 오류 발생:', error);
+                alert('처리 중 오류가 발생하였습니다.');
+            });
+        }
+    });
+</script>
+
 </html>
