@@ -10,6 +10,7 @@
 
 <main class="container" style="width: 500px">
     <h2>회원 정보 수정</h2>
+    <h2>비워두시면 업데이트가 되지 않습니다.</h2>
     <form id="userInfoForm" method="POST" th:action="@{'/api/users/' + ${#authentication.principal.userId}}"
           onsubmit="submitForm(event)">
         <label for="nickname">닉네임:</label>
@@ -46,7 +47,15 @@
             event.preventDefault(); // 폼 기본 동작 막기
 
             const form = document.getElementById('userInfoForm');
+            const nicknameInput = document.getElementById('nickname');
             const formData = new FormData(form);
+
+            // 닉네임 길이 체크
+            const nickname = nicknameInput.value.trim();
+            if (nickname.length > 10) {
+                alert('닉네임은 10자 이하로 입력해주세요.');
+                return; // 폼 제출 중단
+            }
 
             const url = form.getAttribute('action');
 
@@ -66,6 +75,7 @@
                 });
         }
     </script>
+
 </main>
 
 </body>
