@@ -1,0 +1,114 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.indigo.min.css"/>
+</head>
+
+
+<body class="container">
+<div th:replace="~{fragment/nav :: top}"></div>
+<main>
+    <div class="container">
+
+        <div class="grid" style="display: flex; justify-content: center;  text-align: center;">
+
+            <button style="background-color: #221d1d; border-color: black;">자유게시판</button>
+
+        </div>
+        <br>
+        <div th:replace="~{fragment/search :: search}"></div>
+        <br>
+        <br>
+        <div class="grid" style="display: block">
+            <article th:each="post : ${posts}">
+                <header style="background-color: #423736;">
+                    <div class="bold clickable" th:text="${post.title}"
+                         th:onclick="'window.location.href=\'/board/' + ${post.postId} + '\''"></div>
+                </header>
+
+                <div class="body clickable" th:onclick="'window.location.href=\'/board/' + ${post.postId} + '\''">
+                    <span th:text="${post.contents}">1. 우선 엔티티를 DTO로 변환하는 방법을 선택한다. <br></span>
+                </div>
+                <footer class="cardF">
+                    <img class="icon" src="icon/calendar.png">
+                    <span class="text post-createdDate" th:text="${post.createdDate}">2023-06-24</span>
+
+                    <img class="icon" src="icon/tag.png">
+                    <span class="text">JAVA Spring JPA</span>
+                    <!-- 이 부분은 post.tags와 같이 게시글 태그 정보가 있다면 동적으로 바꿀 수 있습니다. -->
+                </footer>
+            </article>
+        </div>
+
+        <div class="pagination" th:if="${page.totalPages > 1}">
+            <!-- "이전" 링크: 첫 페이지가 아닐 때만 표시 -->
+            <a href="?page=0" th:if="${!page.first}" th:href="@{/board(page=${page.number - 1})}">&laquo; prev</a>
+
+            <div th:if="${page.totalPages <= 5}">
+                <a th:each="pageNum : ${#numbers.sequence(0, page.totalPages - 1)}"
+                   th:href="@{/board(page=${pageNum})}" th:text="${pageNum + 1}"
+                   th:classappend="${pageNum == page.number ? 'active' : ''}"></a>
+            </div>
+
+            <div th:if="${page.totalPages > 5}">
+                <a th:each="pageNum : ${#numbers.sequence(page.number > 2 ? (page.number < page.totalPages - 3 ? page.number - 2 : page.totalPages - 5) : 0, page.number > 2 ? (page.number < page.totalPages - 3 ? page.number + 2 : page.totalPages - 1) : 4)}"
+                   th:href="@{/board(page=${pageNum})}" th:text="${pageNum + 1}"
+                   th:classappend="${pageNum == page.number ? 'active' : ''}"></a>
+            </div>
+
+            <!-- "다음" 링크: 마지막 페이지가 아닐 때만 표시 -->
+            <a href="?page=${page.totalPages - 1}" th:if="${!page.last}" th:href="@{/board(page=${page.number + 1})}">next
+                &raquo;</a>
+        </div>
+
+
+        <style>
+            .pagination {
+                display: flex;
+                justify-content: center;
+                margin: 20px 0;
+            }
+
+            .pagination a {
+                color: rgb(255, 255, 255);
+                padding: 8px 16px;
+                text-decoration: none;
+                transition: background-color .3s;
+            }
+
+            .pagination a.active {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            .pagination a:hover:not(.active) {
+                background-color: #ddd;
+            }
+        </style>
+    </div>
+
+</main>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 모든 게시물의 생성 날짜를 포함하는 요소를 찾아 포맷 변경
+        document.querySelectorAll('.post-createdDate').forEach(function (element) {
+            // ISO 시간 문자열 파싱
+            const isoDate = new Date(element.textContent);
+            // 원하는 포맷으로 날짜 변환
+            const formattedDate = isoDate.getFullYear() + '-' +
+                String(isoDate.getMonth() + 1).padStart(2, '0') + '-' +
+                String(isoDate.getDate()).padStart(2, '0') + ' ' +
+                String(isoDate.getHours()).padStart(2, '0') + ':' +
+                String(isoDate.getMinutes()).padStart(2, '0');
+            // 요소의 텍스트를 업데이트
+            element.textContent = formattedDate;
+        });
+    });
+</script>
+
+
+</html>
