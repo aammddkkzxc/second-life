@@ -57,10 +57,10 @@
                     댓글 내용
                 </p>
                 <div class="comment-each-info">
-                    <p th:text="'작성: ' + ${#dates.format(commentResponse.createdDate, 'yyyy-MM-dd HH:mm')}">
+                    <p th:text="'작성: ' + ${#temporals.format(commentResponse.createdDate, 'yyyy-MM-dd HH:mm')}">
                         작성
                     </p>
-                    <p th:text="'수정: ' + ${#dates.format(commentResponse.lastModifiedDate, 'yyyy-MM-dd HH:mm')}">
+                    <p th:text="'수정: ' + ${#temporals.format(commentResponse.lastModifiedDate, 'yyyy-MM-dd HH:mm')}">
                         수정
                     </p>
                     <p>
