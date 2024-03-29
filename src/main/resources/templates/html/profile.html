@@ -1,10 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.indigo.min.css"/>
     <meta charset="UTF-8">
     <title>마이페이지</title>
     <style>
+
+        /* 테이블 스타일 설정 */
+        table {
+            width: 100%; /* 테이블 전체 너비를 100%로 설정 */
+            table-layout: fixed; /* 테이블 레이아웃을 고정하여 열 너비가 변경되지 않도록 함 */
+        }
+        th, td {
+            text-align: left; /* 텍스트를 왼쪽 정렬 */
+            padding: 8px; /* 패딩 설정 */
+        }
+        .date-column {
+            width: 32%; /* 날짜 열의 너비를 25%로 설정 */
+        }
+        .title-column {
+            width: 68%; /* 제목 열의 너비를 75%로 설정 */
+        }
+
+
         ul li {
             list-style: none;
         }
@@ -95,16 +113,16 @@
                                               style="width:1100px; height:300px; border-radius:50% "></a>
             <div class="container">
                 <ul id="info1">
-                    <li><h2>닉네임 : Orumi</h2></li>
-                    <li>지역 : Busan</li>
-                    <li>등급 : 인증회원</li>
+                    <li><h2>닉네임 : <span th:text="${user.nickname}">Orumi</span></h2></li>
+                    <li>지역 : <span th:text="${user.region}">Busan</span></li>
+                    <li>등급 : <span th:text="${user.role}">인증회원</span></li>
                 </ul>
             </div>
             <div class="vline" style="line{border-left: thick solid #EE402E;height:100px;left: 1000px;}"></div>
             <div class="container">
                 <ul id="info2">
                     <li id="info2_1">게시글</li>
-                    <li id="info2_2"><h2>30</h2></li>
+                    <li id="info2_2"><h2 th:text="${postCount}">30</h2></li>
                 </ul>
             </div>
             <div class="container">
@@ -118,27 +136,27 @@
     <section class="flex-container">
         <div class="container">
             <h3>AboutMe</h3>
-            <label for=""></label><textarea placeholder="간단한 자기소개를 입력해보세요!" name="" id="" cols="30" rows="10"
-                                            style="height:160px;"></textarea>
+            <textarea placeholder="간단한 자기소개를 입력해보세요!" cols="30" rows="10" style="height:160px;" readonly th:text="${user.selfIntroduction}"></textarea>
+
         </div>
 
         <div class="container" style="margin-left:50px;">
+            <div class="container grid">
             <h3>Recent Post</h3>
-            <table>
+            <button th:onclick="'window.location.href=\'/my/board\';'">Load Recent Posts</button>
+
+            </div>
+            <table th:each="post : ${posts}">
                 <thead>
                 <tr>
-                    <th scope="col"><strong>Date</strong></th>
-                    <th scope="col"><strong>Title</strong></th>
+                    <th class="date-column">Date</th>
+                    <th class="title-column">Title</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <th scope="row">24.03.25</th>
-                    <td>안녕하세요!</td>
-                </tr>
-                <tr>
-                    <th scope="row">24.03.24</th>
-                    <td>오늘날씨가 좋아요</td>
+                    <td class="date-column" th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd')}">24.03.25</td>
+                    <td class="title-column" th:text="${post.title}">안녕하세요!</td>
                 </tr>
                 </tbody>
             </table>

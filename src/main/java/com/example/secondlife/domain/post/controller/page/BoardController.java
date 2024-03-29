@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,19 @@ public class BoardController {
         Page<PostResponse> postResponses = postSearchService.getPosts(pageable);
         model.addAttribute("posts", postResponses.getContent());
         model.addAttribute("page", postResponses);
+
+        return "html/board";
+    }
+
+    @GetMapping("/my/board")
+    public String myBoard(Model model, @PageableDefault Pageable pageable,
+                          @AuthenticationPrincipal(expression = "userId") Long userId) {
+        log.info("board()");
+
+        Page<PostResponse> postsByUserId = postSearchService.getPostsByUserId(pageable, userId);
+
+        model.addAttribute("posts", postsByUserId.getContent());
+        model.addAttribute("page", postsByUserId);
 
         return "html/board";
     }
