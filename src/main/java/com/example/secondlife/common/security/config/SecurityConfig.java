@@ -45,9 +45,9 @@ public class SecurityConfig {
 
         httpSecurity.
                 authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/login", "/join", "users", "/api/**")
+                        .requestMatchers("/login", "/join", "users", "/api/**", "/")
                         .permitAll()
-                        .requestMatchers("/").hasRole(L1.name())
+                        .requestMatchers("/board").hasRole(L1.name())
                         .requestMatchers("/my/**").hasAnyRole(L1.name())
                         .requestMatchers("/admin/**").hasAnyRole(ADMIN.name())
                         .anyRequest()
