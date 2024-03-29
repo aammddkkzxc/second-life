@@ -31,7 +31,7 @@ public class BoardController {
     }
 
     @GetMapping("/board/{postId}")
-    public String post(@PathVariable Long postId, Model model) {
+    public String post(@PathVariable("postId") Long postId, Model model) {
         log.info("post()");
 
         PostResponse postResponse = postSearchService.readWithComments(postId);
