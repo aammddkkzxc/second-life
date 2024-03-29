@@ -20,7 +20,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
 public class PostLike {
 
     @Id
@@ -36,4 +35,9 @@ public class PostLike {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    @Builder
+    public PostLike(User user, Post post) {
+        this.user = user;
+        this.post = post;
+    }
 }

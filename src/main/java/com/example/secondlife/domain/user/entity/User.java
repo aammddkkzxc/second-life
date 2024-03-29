@@ -24,7 +24,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Builder
 public class User extends BaseTimeEntity {
 
     @Id
@@ -52,6 +51,26 @@ public class User extends BaseTimeEntity {
     private Role role;
 
     private boolean isDeleted;
+
+    @Builder
+    public User(String loginId, String password, String nickname, String email, Introduction introduction, Role role) {
+        this.loginId = loginId;
+        this.password = password;
+        this.nickname = nickname;
+        this.email = email;
+        this.introduction = introduction;
+        this.role = role;
+    }
+
+    public User(BaseTimeEntityBuilder<?, ?> b, String loginId, String password, String nickname, String email,
+                Introduction introduction) {
+        super(b);
+        this.loginId = loginId;
+        this.password = password;
+        this.nickname = nickname;
+        this.email = email;
+        this.introduction = introduction;
+    }
 
     public JoinResponse toJoinResponse() {
         return JoinResponse.builder()

@@ -1,7 +1,7 @@
 package com.example.secondlife.domain.like.comment.service;
 
 import com.example.secondlife.domain.comment.entity.Comment;
-import com.example.secondlife.domain.comment.service.CommentService;
+import com.example.secondlife.domain.comment.service.CommentSearchService;
 import com.example.secondlife.domain.like.comment.dto.CommentLikeCountResponse;
 import com.example.secondlife.domain.like.comment.dto.CommentLikeResponse;
 import com.example.secondlife.domain.like.comment.entity.CommentLike;
@@ -18,11 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentLikeService {
 
     private final CommentLikeRepository commentLikeRepository;
-    private final CommentService commentService;
+    private final CommentSearchService commentSearchService;
     private final UserService userService;
 
     public CommentLikeResponse save(Long commentId, Long userId) {
-        Comment findComment = commentService.findById(commentId);
+        Comment findComment = commentSearchService.findById(commentId);
         User findUser = userService.findById(userId);
 
         CommentLike commentLike = CommentLike.builder()

@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -56,6 +57,13 @@ public class Comment extends BaseEntity {
         this.post = post;
         this.user = user;
         this.contents = contents;
+    }
+
+    public static List<CommentResponse> toCommentResponseList(List<Comment> comments) {
+
+        return comments.stream()
+                .map(Comment::toCommentResponse)
+                .toList();
     }
 
     public CommentResponse toCommentResponse() {

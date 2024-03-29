@@ -1,5 +1,7 @@
 package com.example.secondlife.common.test;
 
+import com.example.secondlife.domain.comment.dto.CommentRequest;
+import com.example.secondlife.domain.comment.service.CommentService;
 import com.example.secondlife.domain.post.dto.PostRequest;
 import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.service.PostService;
@@ -26,6 +28,7 @@ public class InitData {
     private final UserService userService;
     private final UserRepository userRepository;
     private final PostService postService;
+    private final CommentService commentService;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @EventListener(ApplicationReadyEvent.class)
@@ -68,6 +71,22 @@ public class InitData {
             PostRequest postRequest = new PostRequest("title" + i, "content" + i, true, Forum.FREE);
             postService.save(joinResponse.getUserId(), postRequest);
         }
+
+        CommentRequest commentRequest1 = new CommentRequest("comment1");
+        CommentRequest commentRequest2 = new CommentRequest("comment2");
+        commentService.save(1L, 1L, commentRequest1);
+        commentService.save(1L, 1L, commentRequest2);
+        commentService.save(1L, 1L, commentRequest2);
+        commentService.save(1L, 1L, commentRequest2);
+        commentService.save(1L, 1L, commentRequest2);
+        commentService.save(1L, 1L, commentRequest2);
+        commentService.save(1L, 1L, commentRequest2);
+        commentService.save(1L, 1L, commentRequest2);
+        commentService.save(1L, 1L, commentRequest2);
+        commentService.save(1L, 1L, commentRequest2);
+        commentService.save(1L, 1L, commentRequest2);
+        commentService.save(1L, 1L, commentRequest2);
+        commentService.save(1L, 1L, commentRequest2);
 
     }
 

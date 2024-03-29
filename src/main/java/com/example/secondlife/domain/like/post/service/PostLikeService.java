@@ -5,7 +5,7 @@ import com.example.secondlife.domain.like.post.dto.PostLikeResponse;
 import com.example.secondlife.domain.like.post.entity.PostLike;
 import com.example.secondlife.domain.like.post.repository.PostLikeRepository;
 import com.example.secondlife.domain.post.entity.Post;
-import com.example.secondlife.domain.post.service.PostService;
+import com.example.secondlife.domain.post.service.PostSearchService;
 import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostLikeService {
 
     private final PostLikeRepository postLikeRepository;
-    private final PostService postService;
+    private final PostSearchService postSearchService;
     private final UserService userService;
 
     public PostLikeResponse save(Long postId, Long userId) {
-        Post findPost = postService.findById(postId);
+        Post findPost = postSearchService.findById(postId);
         User findUser = userService.findById(userId);
 
         PostLike postLike = PostLike.builder()

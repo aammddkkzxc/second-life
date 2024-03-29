@@ -8,8 +8,6 @@ import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +20,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserService userService;
+    private final PostSearchService postSearchService;
 
     public PostResponse save(Long userId, PostRequest request) {
         log.info("save");
@@ -31,36 +30,10 @@ public class PostService {
         return savedPost.toPostResponse();
     }
 
-    @Transactional(readOnly = true)
-    public Post findById(Long postId) {
-        log.info("findById");
-
-        return postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. postId = " + postId));
-    }
-
-    @Transactional(readOnly = true)
-    public Page<PostResponse> getPosts(Pageable pageable) {
-        log.info("getPosts");
-
-        Page<Post> posts = postRepository.findAll(pageable);
-
-        return posts.map(Post::toPostResponse);
-    }
-
-    //TODO : Comment class 생성 후 수정
-//    @Transactional(readOnly = true)
-//    public void readAllWithComments(Long postId) {
-//        log.info("readAllWithComments");
-//
-//        List<Post> allWithComments = postRepository.findAllWithComments();
-//    }
-
-
     public PostResponse updatePost(Long userId, Long postId, PostRequest request) {
         log.info("updatePost");
 
-        Post findPost = findById(postId);
+        Post findPost = postSearchService.findById(postId);
 
         validUser(userId, findPost);
 
@@ -72,7 +45,7 @@ public class PostService {
     public void deletePost(Long userId, Long postId) {
         log.info("deletePost");
 
-        Post findPost = findById(postId);
+        Post findPost = postSearchService.findById(postId);
 
         validUser(userId, findPost);
 
@@ -100,4 +73,5 @@ public class PostService {
                 .build();
 
     }
+
 }
