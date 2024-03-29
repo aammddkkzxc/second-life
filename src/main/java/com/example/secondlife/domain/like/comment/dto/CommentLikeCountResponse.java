@@ -1,4 +1,4 @@
-package com.example.secondlife.domain.likes.post.dto;
+package com.example.secondlife.domain.like.comment.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,9 +7,9 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-public class PostLikeCountResponse {
+public class CommentLikeCountResponse {
 
-    private Long postId;
+    private Long commentId;
     private Long count;
 
 }
