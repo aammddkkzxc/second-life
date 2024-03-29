@@ -50,4 +50,8 @@ public class CommentLikeService {
                 .build();
     }
 
+    public void delete(Long commentId, Long userId) {
+        commentLikeRepository.findByCommentIdAndUserId(commentId, userId)
+                .ifPresent(commentLikeRepository::delete);
+    }
 }
