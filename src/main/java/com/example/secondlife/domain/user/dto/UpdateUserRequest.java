@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserInfo {
+public class UpdateUserRequest {
 
     private String nickname;
+    private String password;
     private Region region;
     private LocalDate birthDate;
     private String selfIntroduction;
-    private boolean isDeleted;
 
 }

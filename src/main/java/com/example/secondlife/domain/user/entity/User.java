@@ -2,7 +2,8 @@ package com.example.secondlife.domain.user.entity;
 
 import com.example.secondlife.common.base.BaseTimeEntity;
 import com.example.secondlife.domain.user.dto.JoinResponse;
-import com.example.secondlife.domain.user.dto.UserInfo;
+import com.example.secondlife.domain.user.dto.UpdateUserRequest;
+import com.example.secondlife.domain.user.dto.UserResponse;
 import com.example.secondlife.domain.user.enumType.Role;
 import com.example.secondlife.domain.user.valueType.Introduction;
 import jakarta.persistence.Column;
@@ -86,18 +87,9 @@ public class User extends BaseTimeEntity {
                 .build();
     }
 
-    public UserInfo toUserInfo() {
-        return UserInfo.builder()
-                .nickname(nickname)
-                .region(introduction.getRegion())
-                .birthDate(introduction.getBirthDate())
-                .selfIntroduction(introduction.getSelfIntroduction())
-                .isDeleted(isDeleted)
-                .build();
-    }
-
-    public void updateUserInfo(UserInfo request) {
+    public void updateUserProfile(UpdateUserRequest request) {
         nickname = request.getNickname() != null ? request.getNickname() : nickname;
+        password = request.getPassword() != null ? request.getPassword() : password;
         introduction = new Introduction(
                 request.getRegion() != null ? request.getRegion() : introduction.getRegion(),
                 request.getBirthDate() != null ? request.getBirthDate() : introduction.getBirthDate(),
@@ -108,5 +100,18 @@ public class User extends BaseTimeEntity {
 
     public void delete() {
         isDeleted = true;
+    }
+
+    public UserResponse UserResponse() {
+
+        return UserResponse.builder()
+                .nickname(nickname)
+                .region(introduction.getRegion())
+                .birthDate(introduction.getBirthDate())
+                .selfIntroduction(introduction.getSelfIntroduction())
+                .isDeleted(isDeleted)
+                .lastModifiedDate(getLastModifiedDate())
+                .build();
+
     }
 }

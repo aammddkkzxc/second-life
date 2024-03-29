@@ -146,7 +146,7 @@
     </section>
 </main>
 <footer class="grid" style="display:flex; justify-content: center">
-    <button>회원정보수정</button>
+    <button onclick="window.location.href = '/profile/update'">회원정보수정</button>
     <button style="background-color: #5d2d28; border-color: #5d2d28">이메일 인증</button>
     <button id="deleteUserBtn"
             th:attr="data-user-id=${#authentication.principal.userId}"

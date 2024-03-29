@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.example.secondlife.domain.user.dto.JoinRequest;
 import com.example.secondlife.domain.user.dto.JoinResponse;
-import com.example.secondlife.domain.user.dto.UserInfo;
+import com.example.secondlife.domain.user.dto.UpdateUserRequest;
 import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.enumType.Region;
 import com.example.secondlife.domain.user.repository.UserRepository;
@@ -44,7 +44,7 @@ class UserServiceTest {
     void getUserInfo() {
         JoinResponse joinResponse = saveMember();
 
-        userService.getUserInfo(joinResponse.getUserId());
+        userService.getUserProfile(joinResponse.getUserId());
         User byId = userService.findById(joinResponse.getUserId());
 
         assertEquals(joinResponse.getNickname(), byId.getNickname());
@@ -57,14 +57,14 @@ class UserServiceTest {
     void updateUserInfo() {
         JoinResponse joinResponse = saveMember();
 
-        UserInfo userInfo = UserInfo.builder()
+        UpdateUserRequest userInfo = UpdateUserRequest.builder()
                 .nickname("newNickname")
                 .region(Region.JEJU)
                 .birthDate(LocalDate.of(1991, 1, 1))
                 .selfIntroduction("Hello, I'm a new user.")
                 .build();
 
-        userService.updateUserInfo(joinResponse.getUserId(), userInfo);
+        userService.updateUserProfile(joinResponse.getUserId(), userInfo);
         User byId = userService.findById(joinResponse.getUserId());
 
         assertEquals(userInfo.getNickname(), byId.getNickname());
