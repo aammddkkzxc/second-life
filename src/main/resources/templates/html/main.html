@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.indigo.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.indigo.min.css"/>
     <style>
         .gridH {
             display: flex;
@@ -15,143 +15,161 @@
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
         }
+
         table {
-    width: 100%; /* 테이블 전체 너비 */
-  }
-  th:nth-child(1), td:nth-child(1) { width: 10%; } /* 태그 */
-  th:nth-child(2), td:nth-child(2) { width: 60%; } /* 제목 */
-  th:nth-child(3), td:nth-child(3) { width: 10%; } /* 추천 */
-  th:nth-child(4), td:nth-child(4) { width: 10%; } /* 댓글 */
-  th:nth-child(5), td:nth-child(5) { width: 10%; } /* 조회수 */
+            width: 100%; /* 테이블 전체 너비 */
+        }
+
+        th:nth-child(1), td:nth-child(1) {
+            width: 10%;
+        }
+
+        /* 태그 */
+        th:nth-child(2), td:nth-child(2) {
+            width: 60%;
+        }
+
+        /* 제목 */
+        th:nth-child(3), td:nth-child(3) {
+            width: 10%;
+        }
+
+        /* 추천 */
+        th:nth-child(4), td:nth-child(4) {
+            width: 10%;
+        }
+
+        /* 댓글 */
+        th:nth-child(5), td:nth-child(5) {
+            width: 10%;
+        }
+
+        /* 조회수 */
     </style>
 </head>
 
 <body class="container">
-    <div th:replace="~{fragment/nav :: top}"></div>
-    <main>
-        <div th:replace="~{fragment/search :: search}"></div>
-        <details open>
-            <summary role="button">인기 게시글</summary>
-            <table>
+<div th:replace="~{fragment/nav :: top}"></div>
+<main>
+    <div th:replace="~{fragment/search :: search}"></div>
+    <details open>
+        <summary role="button">인기 게시글</summary>
+        <table>
 
-                <thead>
-                  <tr>
-                    <th scope="col">태그</th>
-                    <th scope="col">제목</th>
-                    <th scope="col">추천</th>
-                    <th scope="col">댓글</th>
-                    <th scope="col">조회수</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">Venus</th>
-                    <td>12,104</td>
-                    <td>5</td>
-                    <td>225</td>
-                    <td>225</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Earth</th>
-                    <td>12,742</td>
-                    <td>6</td>
-                    <td>365</td>
-                    <td>365</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Mars</th>
-                    <td>6,779</td>
-                    <td>7</td>
-                    <td>687</td>
-                    <td>687</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Mercury</th>
-                    <td>4,880</td>
-                    <td>8</td>
-                    <td>88</td>
-                    <td>88</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Venus</th>
-                    <td>12,104</td>
-                    <td>20</td>
-                    <td>225</td>
-                    <td>225</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Earth</th>
-                    <td>12,742</td>
-                    <td>30</td>
-                    <td>365</td>
-                    <td>365</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Mars</th>
-                    <td>6,779</td>
-                    <td>10</td>
-                    <td>687</td>
-                    <td>687</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Mercury</th>
-                    <td>4,880</td>
-                    <td>3</td>
-                    <td>88</td>
-                    <td>88</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Venus</th>
-                    <td>12,104</td>
-                    <td>7</td>
-                    <td>225</td>
-                    <td>225</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Earth</th>
-                    <td>12,742</td>
-                    <td>8</td>
-                    <td>365</td>
-                    <td>365</td>
-                  </tr>
-                  
-                </tbody>
-              </table>
-            
-        </details>
-        
-        
-        
-        
-        
-        
-        <div class="grid">
-            <div>
-                <details open>
-                    <summary role="button" style="background-color:#5b6170; border-color: #5b6170;">태그</summary>
+            <thead>
+            <tr>
+                <th scope="col">지역</th>
+                <th scope="col">제목</th>
+                <th scope="col">추천</th>
+                <th scope="col">댓글</th>
+                <th scope="col">조회수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">Venus</th>
+                <td>12,104</td>
+                <td>5</td>
+                <td>225</td>
+                <td>225</td>
+            </tr>
+            <tr>
+                <th scope="row">Earth</th>
+                <td>12,742</td>
+                <td>6</td>
+                <td>365</td>
+                <td>365</td>
+            </tr>
+            <tr>
+                <th scope="row">Mars</th>
+                <td>6,779</td>
+                <td>7</td>
+                <td>687</td>
+                <td>687</td>
+            </tr>
+            <tr>
+                <th scope="row">Mercury</th>
+                <td>4,880</td>
+                <td>8</td>
+                <td>88</td>
+                <td>88</td>
+            </tr>
+            <tr>
+                <th scope="row">Venus</th>
+                <td>12,104</td>
+                <td>20</td>
+                <td>225</td>
+                <td>225</td>
+            </tr>
+            <tr>
+                <th scope="row">Earth</th>
+                <td>12,742</td>
+                <td>30</td>
+                <td>365</td>
+                <td>365</td>
+            </tr>
+            <tr>
+                <th scope="row">Mars</th>
+                <td>6,779</td>
+                <td>10</td>
+                <td>687</td>
+                <td>687</td>
+            </tr>
+            <tr>
+                <th scope="row">Mercury</th>
+                <td>4,880</td>
+                <td>3</td>
+                <td>88</td>
+                <td>88</td>
+            </tr>
+            <tr>
+                <th scope="row">Venus</th>
+                <td>12,104</td>
+                <td>7</td>
+                <td>225</td>
+                <td>225</td>
+            </tr>
+            <tr>
+                <th scope="row">Earth</th>
+                <td>12,742</td>
+                <td>8</td>
+                <td>365</td>
+                <td>365</td>
+            </tr>
 
-                    <br>
-                    <div class="grid">
-                        <div>취업</div>
-                        <div>운동</div>
-                        <div>이직</div>
-                        <div>고민</div>
-                        <div>인생</div>
-                    </div>
-                    <br>
-                    <div class="grid">
-                        <div>취미</div>
-                        <div>공부</div>
-                        <div>구직</div>
-                        <div>자기관리</div>
-                        <div>시간관리</div>
-                    </div>
+            </tbody>
+        </table>
 
-                </details>
-            </div>
+    </details>
+
+
+    <div class="grid">
+        <div>
+            <details open>
+                <summary role="button" style="background-color:#5b6170; border-color: #5b6170;">지역</summary>
+
+                <br>
+                <div class="grid">
+                    <div>서울</div>
+                    <div>경기</div>
+                    <div>충북</div>
+                    <div>충남</div>
+                    <div>강원</div>
+                </div>
+                <br>
+                <div class="grid">
+                    <div>전북</div>
+                    <div>전남</div>
+                    <div>경북</div>
+                    <div>경남</div>
+                    <div>제주</div>
+                </div>
+
+            </details>
         </div>
+    </div>
 
-    </main>
+</main>
 </body>
 
 </html>
