@@ -22,7 +22,6 @@ public class PostSearchService {
     private final PostRepository postRepository;
     private final CommentSearchService commentSearchService;
 
-    @Transactional(readOnly = true)
     public Page<PostResponse> getPosts(Pageable pageable) {
         log.info("getPosts");
 
@@ -31,7 +30,14 @@ public class PostSearchService {
         return posts.map(this::postToPostResponse);
     }
 
-    @Transactional(readOnly = true)
+    public Page<PostResponse> getPostsByUserId(Pageable pageable, Long userId) {
+        log.info("getPostsByUserId");
+
+        Page<Post> posts = postRepository.findAllByUserId(pageable, userId);
+
+        return posts.map(this::postToPostResponse);
+    }
+
     public PostResponse readWithComments(Long postId) {
         log.info("readWithComments");
 
@@ -49,7 +55,13 @@ public class PostSearchService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. postId = " + postId));
     }
 
-    public PostResponse postWithCommentToPostResponse(Post post, List<CommentResponse> comments) {
+    public Long getPostCount(Long userId) {
+        log.info("getPostCount");
+
+        return postRepository.countByUserId(userId);
+    }
+
+    private PostResponse postWithCommentToPostResponse(Post post, List<CommentResponse> comments) {
 
         PostResponse postResponse = postToPostResponse(post);
         postResponse.setCommentResponses(comments);
@@ -57,7 +69,7 @@ public class PostSearchService {
 
     }
 
-    public PostResponse postToPostResponse(Post post) {
+    private PostResponse postToPostResponse(Post post) {
 
         return PostResponse.builder()
                 .userId(post.getUser().getId())

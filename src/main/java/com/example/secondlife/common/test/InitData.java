@@ -64,12 +64,16 @@ public class InitData {
         );
 
         JoinResponse joinResponse = userService.save(joinRequestL1);
-        userRepository.save(joinRequestToL2User(joinRequestL2));
+        final User save = userRepository.save(joinRequestToL2User(joinRequestL2));
         userRepository.save(joinRequestToAdminUser(joinRequestAdmin));
 
-        for (int i = 0; i < 150; i++) {
-            PostRequest postRequest = new PostRequest("title" + i, "content" + i, true, Forum.FREE);
-            postService.save(joinResponse.getUserId(), postRequest);
+        for (int i = 0; i < 110; i++) {
+            PostRequest postRequest = new PostRequest("title" + i + i, "content" + i + i, true, Forum.FREE);
+            postService.save(2L, postRequest);
+        }
+        for (int i = 0; i < 110; i++) {
+            PostRequest postRequest = new PostRequest("반갑습니다" + i, "안녕하세요" + i, true, Forum.FREE);
+            postService.save(1L, postRequest);
         }
 
         CommentRequest commentRequest1 = new CommentRequest("comment1");

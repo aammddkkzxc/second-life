@@ -15,8 +15,6 @@
 
         <div class="grid" style="display: flex; justify-content: center;  text-align: center;">
 
-            <button style="background-color: #221d1d; border-color: black;">자유게시판</button>
-
         </div>
         <br>
         <div th:replace="~{fragment/search :: search}"></div>
@@ -42,6 +40,7 @@
                 </footer>
             </article>
         </div>
+
 
         <div class="pagination" th:if="${page.totalPages > 1}">
             <!-- "이전" 링크: 첫 페이지가 아닐 때만 표시 -->
@@ -107,6 +106,37 @@
             // 요소의 텍스트를 업데이트
             element.textContent = formattedDate;
         });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const totalPages = [[${page.totalPages}]]; // 타임리프로부터 총 페이지 수를 받아와서 설정
+        const visiblePages = 5;
+        // URL에서 페이지 파라미터 값을 받아와서 현재 페이지 번호로 설정. 페이지 번호가 0부터 시작한다고 가정합니다.
+        let currentPage = parseInt(new URLSearchParams(window.location.search).get('page')) || 0;
+
+        const paginationContainer = document.querySelector('.pagination');
+        paginationContainer.innerHTML = '';
+
+        // 페이지네이션 로직 수정. 시작 페이지 계산 시 현재 페이지가 0부터 시작한다고 가정하고 계산합니다.
+        const startPage = Math.max(currentPage - Math.floor(visiblePages / 2), 0);
+        const endPage = Math.min(startPage + visiblePages - 1, totalPages - 1);
+
+        if (currentPage > 0) {
+            const prevLink = `<a href="?page=${currentPage - 1}">&laquo; prev</a>`;
+            paginationContainer.insertAdjacentHTML('beforeend', prevLink);
+        }
+
+        for (let pageNum = startPage; pageNum <= endPage; pageNum++) {
+            const pageLinkClass = currentPage === pageNum ? 'active' : '';
+            const pageLink = `<a href="?page=${pageNum}" class="${pageLinkClass}">${pageNum + 1}</a>`; // 사용자에게 보여지는 페이지 번호는 +1하여 표시
+            paginationContainer.insertAdjacentHTML('beforeend', pageLink);
+        }
+
+        if (currentPage < totalPages - 1) {
+            const nextLink = `<a href="?page=${currentPage + 1}">next &raquo;</a>`;
+            paginationContainer.insertAdjacentHTML('beforeend', nextLink);
+        }
     });
 </script>
 
