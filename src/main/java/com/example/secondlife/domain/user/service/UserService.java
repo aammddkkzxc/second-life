@@ -2,7 +2,8 @@ package com.example.secondlife.domain.user.service;
 
 import com.example.secondlife.domain.user.dto.JoinRequest;
 import com.example.secondlife.domain.user.dto.JoinResponse;
-import com.example.secondlife.domain.user.dto.UserInfo;
+import com.example.secondlife.domain.user.dto.UpdateUserRequest;
+import com.example.secondlife.domain.user.dto.UserResponse;
 import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.enumType.Role;
 import com.example.secondlife.domain.user.repository.UserRepository;
@@ -31,22 +32,24 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserInfo getUserInfo(Long userId) {
+    public UserResponse getUserProfile(Long userId) {
         log.info("getUserInfo()");
 
         User user = findById(userId);
 
-        return user.toUserInfo();
+        return user.UserResponse();
     }
 
-    public UserInfo updateUserInfo(Long userId, UserInfo request) {
-        log.info("updateUserInfo()");
+    public UserResponse updateUserProfile(Long userId, UpdateUserRequest request) {
+        log.info("updateUserProfile()");
+
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
 
         User user = findById(userId);
 
-        user.updateUserInfo(request);
+        user.updateUserProfile(request);
 
-        return user.toUserInfo();
+        return user.UserResponse();
     }
 
     public void delete(Long userId) {
@@ -65,7 +68,7 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다. userId = " + userId));
     }
 
-    public User joinRequestToUser(JoinRequest request) {
+    private User joinRequestToUser(JoinRequest request) {
         log.info("joinRequestToUser()");
 
         Introduction introduction = new Introduction(request.getRegion(), request.getBirthDate(),
@@ -81,4 +84,5 @@ public class UserService {
                 .build();
 
     }
+
 }

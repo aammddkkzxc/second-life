@@ -4,7 +4,8 @@ import static org.springframework.http.HttpStatus.CREATED;
 
 import com.example.secondlife.domain.user.dto.JoinRequest;
 import com.example.secondlife.domain.user.dto.JoinResponse;
-import com.example.secondlife.domain.user.dto.UserInfo;
+import com.example.secondlife.domain.user.dto.UpdateUserRequest;
+import com.example.secondlife.domain.user.dto.UserResponse;
 import com.example.secondlife.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,19 +41,19 @@ public class UserController {
     }
 
     @GetMapping("/users/{userId}")
-    public ResponseEntity<UserInfo> getUserInfo(@PathVariable Long userId) {
+    public ResponseEntity<UserResponse> getUserProfile(@PathVariable Long userId) {
         log.info("getUserInfo()");
 
-        UserInfo userInfo = userService.getUserInfo(userId);
+        UserResponse userInfo = userService.getUserProfile(userId);
 
         return ResponseEntity.ok(userInfo);
     }
 
     @PatchMapping("/users/{userId}")
-    public ResponseEntity<UserInfo> updateUserInfo(@PathVariable Long userId, UserInfo request) {
+    public ResponseEntity<UserResponse> updateUserInfo(@PathVariable Long userId, UpdateUserRequest request) {
         log.info("updateUserInfo()");
 
-        UserInfo userInfo = userService.updateUserInfo(userId, request);
+        UserResponse userInfo = userService.updateUserProfile(userId, request);
 
         return ResponseEntity.ok(userInfo);
     }

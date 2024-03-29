@@ -11,7 +11,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.secondlife.domain.user.dto.JoinRequest;
 import com.example.secondlife.domain.user.dto.JoinResponse;
-import com.example.secondlife.domain.user.dto.UserInfo;
+import com.example.secondlife.domain.user.dto.UpdateUserRequest;
+import com.example.secondlife.domain.user.dto.UserResponse;
 import com.example.secondlife.domain.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,11 +40,11 @@ class UserControllerTest {
     @BeforeEach
     void setUp() {
         JoinResponse joinResponse = new JoinResponse();
-        UserInfo userInfo = new UserInfo();
+        UserResponse response = new UserResponse();
 
         when(userService.save(any(JoinRequest.class))).thenReturn(joinResponse);
-        when(userService.getUserInfo(anyLong())).thenReturn(userInfo);
-        when(userService.updateUserInfo(anyLong(), any(UserInfo.class))).thenReturn(userInfo);
+        when(userService.getUserProfile(anyLong())).thenReturn(response);
+        when(userService.updateUserProfile(anyLong(), any(UpdateUserRequest.class))).thenReturn(response);
     }
 
     @Test
@@ -65,7 +66,7 @@ class UserControllerTest {
 
     @Test
     void updateUserInfo() throws Exception {
-        UserInfo userInfo = new UserInfo();
+        UpdateUserRequest userInfo = new UpdateUserRequest();
 
         mockMvc.perform(patch("/users/{userId}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)

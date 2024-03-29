@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.indigo.min.css"/>
+</head>
+<body class="container">
+<div th:replace="~{fragment/nav :: top}"></div>
+
+<main class="container" style="width: 500px">
+    <h2>회원 정보 수정</h2>
+    <form id="userInfoForm" method="POST" th:action="@{'api/users/' + ${#authentication.principal.userId}}"
+          onsubmit="submitForm(event)">
+        <label for="nickname">닉네임:</label>
+        <input type="text" id="nickname" name="nickname"><br>
+
+        <label for="password">비밀번호:</label>
+        <input type="password" id="password" name="password"><br>
+
+        <label for="region">지역:</label>
+        <input type="text" id="region" name="region"><br>
+
+        <label for="birthDate">생년월일:</label>
+        <input type="date" id="birthDate" name="birthDate"><br>
+        <label for="selfIntroduction">자기 소개:</label><br>
+        <textarea id="selfIntroduction" name="selfIntroduction" rows="4" cols="50"></textarea><br>
+
+        <button type="submit">수정</button>
+    </form>
+
+    <script>
+        function submitForm(event) {
+            event.preventDefault(); // 폼 기본 동작 막기
+
+            const form = document.getElementById('userInfoForm');
+            const formData = new FormData(form);
+
+            const url = form.getAttribute('action');
+
+            fetch(url, {
+                method: 'PATCH',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('회원 정보가 성공적으로 업데이트되었습니다:', data);
+                    alert('회원 정보가 성공적으로 업데이트되었습니다.');
+                    window.location.href = '/';
+                })
+                .catch(error => {
+                    console.error('회원 정보 업데이트 중 오류 발생:', error);
+                    alert('회원 정보 업데이트 중 오류가 발생했습니다.');
+                });
+        }
+    </script>
+</main>
+
+</body>
+</html>

@@ -1,6 +1,5 @@
 package com.example.secondlife.domain.user.controller.view;
 
-import com.example.secondlife.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -11,12 +10,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 public class ProfileController {
 
-    private final UserService userService;
-
     @GetMapping("/profile")
-    public String info() {
-        log.info("info()");
+    public String profile() {
+        log.info("profile()");
 
         return "html/profile";
+    }
+
+    @GetMapping("/profile/update")
+    public String updateProfile() {
+        log.info("updateProfile()");
+
+        return "html/user-update";
     }
 }
