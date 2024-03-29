@@ -78,7 +78,7 @@ public class Post extends BaseEntity {
     public PostResponse postWithCommentToPostResponse(List<CommentResponse> comments) {
 
         PostResponse postResponse = toPostResponse();
-        postResponse.setCommentResponse(comments);
+        postResponse.setCommentResponses(comments);
         return postResponse;
 
     }

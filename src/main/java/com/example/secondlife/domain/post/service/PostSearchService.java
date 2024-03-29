@@ -52,7 +52,7 @@ public class PostSearchService {
     public PostResponse postWithCommentToPostResponse(Post post, List<CommentResponse> comments) {
 
         PostResponse postResponse = postToPostResponse(post);
-        postResponse.setCommentResponse(comments);
+        postResponse.setCommentResponses(comments);
         return postResponse;
 
     }

@@ -21,6 +21,6 @@ public class PostResponse {
     private LocalDateTime lastModifiedDate;
     private String createdBy;
     private String lastModifiedBy;
-    private List<CommentResponse> commentResponse;
+    private List<CommentResponse> commentResponses;
 
 }
