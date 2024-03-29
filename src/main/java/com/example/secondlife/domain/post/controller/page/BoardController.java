@@ -37,6 +37,6 @@ public class BoardController {
         PostResponse postResponse = postSearchService.readWithComments(postId);
         model.addAttribute("post", postResponse);
 
-        return "html/post";
+        return "html/detail";
     }
 }
