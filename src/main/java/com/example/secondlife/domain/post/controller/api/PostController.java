@@ -4,6 +4,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 
 import com.example.secondlife.domain.post.dto.PostRequest;
 import com.example.secondlife.domain.post.dto.PostResponse;
+import com.example.secondlife.domain.post.service.PostSearchService;
 import com.example.secondlife.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostController {
 
     private final PostService postService;
+    private final PostSearchService postSearchService;
 
     //TODO : Spring Security 적용 후 수정
     @PostMapping("/posts")
@@ -45,7 +47,7 @@ public class PostController {
     public ResponseEntity<PostResponse> getPost(@PathVariable Long postId) {
         log.info("getPost()");
 
-        PostResponse postResponse = postService.readWithComments(postId);
+        PostResponse postResponse = postSearchService.readWithComments(postId);
 
         return ResponseEntity.ok(postResponse);
     }
@@ -54,7 +56,7 @@ public class PostController {
     public ResponseEntity<Page<PostResponse>> getPosts(@PageableDefault Pageable pageable) {
         log.info("getPosts()");
 
-        Page<PostResponse> postResponses = postService.getPosts(pageable);
+        Page<PostResponse> postResponses = postSearchService.getPosts(pageable);
 
         return ResponseEntity.ok(postResponses);
     }
