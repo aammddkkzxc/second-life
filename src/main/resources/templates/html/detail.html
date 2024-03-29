@@ -48,9 +48,9 @@
     </div>
     <input type="text" name="text" placeholder="댓글을 입력해 주세요" aria-label="Text"/>
     <ul>
-        <li class="comment">
-            <article>
-                <p>
+        <li class="comment_list" th:unless="${post.commentResponses.isEmpty()}">
+            <article th:each="commentResponse : ${post.commentResponses}">
+                <p th:text="'작성자 닉네임: ' + ${commentResponse.nickName}">
                     댓글 작성자 아이디
                 </p>
                 <p>
