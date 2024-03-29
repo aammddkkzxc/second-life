@@ -92,6 +92,7 @@ public class User extends BaseTimeEntity {
                 .region(introduction.getRegion())
                 .birthDate(introduction.getBirthDate())
                 .selfIntroduction(introduction.getSelfIntroduction())
+                .isDeleted(isDeleted)
                 .build();
     }
 

@@ -77,7 +77,7 @@ class UserServiceTest {
     void deleteUser() {
         JoinResponse joinResponse = saveMember();
 
-        userService.deleteUser(joinResponse.getUserId());
+        userService.delete(joinResponse.getUserId());
 
         User user = userRepository.findById(joinResponse.getUserId()).orElse(null);
 
