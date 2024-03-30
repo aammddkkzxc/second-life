@@ -95,11 +95,49 @@
         }
 
     </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.indigo.min.css"/>
     <link rel="stylesheet" href="https://unpkg.com/open-props">
 </head>
-<body>
+<body class="container">
+
+<div th:replace="~{fragment/nav :: top}"></div>
+<main>
+    <form>
+        <article>
+            <header class="mb0">
+                <div>
+                    <label>
+                        <textarea class="mb0 maxh130 minh60" placeholder="제목"
+                                  maxlength="50"></textarea>
+                    </label>
+                </div>
+            </header>
 
 
+            <label>
+                <textarea placeholder="내용을 입력하세요." class="minh500"></textarea>
+            </label>
+
+            <div class="grid writeb mt30px">
+
+                <div class="taL">
+                    <label>
+                        <input type="radio" th:name="isPublic" th:value="true" checked> 전체공개
+                    </label>
+                    <label>
+                        <input type="radio" th:name="isPublic" th:value="false"> 비공개
+                    </label>
+                </div>
+
+                <button type="button" class="btn btn-secondary mt-3 mx-2" id="writeX">취소</button>
+                <input type="submit" class="btn btn-secondary mt-3 mx-2" id="writeO" value="등록"/>
+            </div>
+
+
+        </article>
+    </form>
+
+
+</main>
 </body>
 </html>

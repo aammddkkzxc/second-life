@@ -33,7 +33,7 @@ public class CommonController {
     public String write() {
         log.info("write()");
 
-        return "html/write";
+        return "html/write2";
     }
 
 
