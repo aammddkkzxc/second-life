@@ -53,4 +53,16 @@ public class BoardController {
 
         return "html/detail";
     }
+
+    //지역모임 게시판 연결(jh)
+    @GetMapping("/board2")
+    public String board2(Model model, @PageableDefault Pageable pageable) {
+        log.info("board2()");
+
+        Page<PostResponse> postResponses = postSearchService.getPosts(pageable);
+        model.addAttribute("posts", postResponses.getContent());
+        model.addAttribute("page", postResponses);
+
+        return "html/board2";
+    }
 }
