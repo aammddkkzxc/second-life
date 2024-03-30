@@ -1,75 +1,379 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
-    />
-    <link rel="stylesheet" href="/css/article-view.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.indigo.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/open-props">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .board td:first-child {
+            width: 60%;
+            text-align: left;
+        }
+
+        .board td:not(:first-child) {
+            text-align: left;
+        }
+
+        .board th {
+            text-align: left;
+
+        }
+
+        .grid-detail-head {
+            grid-template-columns: 5fr 1fr;
+        }
+
+        .grid-detail-head2 {
+            grid-template-columns: 8fr 1fr 1fr 1fr;
+        }
+
+        .date-size {
+            font-size: 16px;
+        }
+
+
+        .border-bottom {
+            border-bottom: 1px solid black;
+        }
+
+        .grid-rec {
+            grid-template-columns: 5fr 1fr 5fr;
+            align-items: center;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+
+
+        .border-bot {
+            border-bottom: 1px solid black;
+        }
+
+        .padding-topbot {
+            padding-bottom: 10px;
+            padding-top: 10px;
+        }
+
+        .comment-name {
+            width: 110px;
+        }
+
+        .comment-date {
+            width: 160px;
+        }
+
+        .comment-grid-nd {
+            grid-template-columns: 1fr 1fr 6fr 0.5fr 0.8fr 0.8fr;
+        }
+
+
+        .grid-comment {
+            margin-top: 20px;
+            grid-template-columns: 8fr 1fr;
+        }
+
+
+        td a {
+            color: rgb(68, 211, 211);
+        }
+
+
+        details.abc summary[role=button]::after {
+            height: calc(1rem * var(--line-height, 1.5));
+            background-image: var(--icon-chevron-button);
+            width: 0;
+        }
+
+        .comment-edit-btn, .comment-delete-btn {
+            padding: 5px 6px; /* 버튼의 안쪽 여백을 줄입니다. */
+            font-size: 18px; /* 글자 크기를 줄입니다. */
+            /* 추가적인 스타일 조정이 필요한 경우 여기에 코드를 추가합니다. */
+        }
+
+
+    </style>
 </head>
+
 <body>
-
 <div th:replace="~{fragment/nav :: top}"></div>
+<header class="container" id="pt20">
+</header>
 
-<div style="height: 100px"></div>
-<main class="container">
+<div class="container">
+    <!--    <div id="memberId" th:data-member-id="${loginMemberId}" style="display: none;"></div>-->
+
     <article>
         <header>
-            <h1 th:text="${post.title}">게시글 제목</h1>
-            <div class="article-info">
-                <span th:text="${post.createdBy}">작성자</span>
-                <span th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')}">작성시간</span>
-
+            <div class="grid grid-detail-head">
+                <div class="bold" th:text="${post.title}">타이틀</div>
+                <div class="date-size" th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')}">
+                    2023-06-25
+                    18:32
+                </div>
             </div>
         </header>
-        <section style="white-space: pre-line;" th:text="${post.contents}">
-            게시글 내용
-        </section>
-        <!-- 기타 정보 (태그, 조회수, 추천수) -->
-        <footer>
-            <div class="article-react">
-                <span th:text="'좋아요: ' + ${post.hits}">좋아요</span>
-                <span th:text="'조회수: ' + ${post.hits}">조회수</span>
+        <header class="border-bottom">
+            <div class="grid grid-detail-head2">
+                <div class="" th:text="${post.createdBy}">JSP</div>
+                <div></div>
+                <div class="" th:text="'추천 '+${post.getHits()}">추천 10</div>
+                <div class="" th:text="'조회수 '+${post.getHits()}">조회수 10</div>
             </div>
-        </footer>
-    </article>
-    <div class="comment-total-info">
-        <p th:text="'댓글 수: ' + ${post.commentResponses.size()}">
-            댓글 수
-        </p>
-        <p>
-            조회 수 순 정렬
-        </p>
-        <p>
-            작성 시간 순 정렬
-        </p>
-    </div>
-    <input type="text" name="text" placeholder="댓글을 입력해 주세요" aria-label="Text"/>
-    <ul>
-        <li class="comment_list" th:unless="${post.commentResponses.isEmpty()}">
-            <article th:each="commentResponse : ${post.commentResponses}">
-                <p th:text="'작성자 닉네임: ' + ${commentResponse.nickName}">
-                    댓글 작성자 아이디
-                </p>
-                <p th:text="'댓글 내용: ' + ${commentResponse.contents}">
-                    댓글 내용
-                </p>
-                <div class="comment-each-info">
-                    <p th:text="'작성: ' + ${#temporals.format(commentResponse.createdDate, 'yyyy-MM-dd HH:mm')}">
-                        작성
-                    </p>
-                    <p th:text="'수정: ' + ${#temporals.format(commentResponse.lastModifiedDate, 'yyyy-MM-dd HH:mm')}">
-                        수정
-                    </p>
-                    <p>
-                        대댓글 달기
-                    </p>
+        </header>
+        <div th:text="${post.contents}">내용
+
+        </div>
+        <br>
+        <br>
+
+        <div class="grid grid-rec">
+            <div class="like">
+                <button style="background-color: rgb(60, 85, 117); border-color: rgb(60, 85, 117);">추천</button>
+            </div>
+        </div>
+
+        <footer>
+            <div class="date-size ">
+                <span th:text="'댓글 '+${commentsCount}+'개'"> 댓글 3개</span>
+            </div>
+            <br>
+
+            <form id="commentForm" th:action="@{/api/posts/{postId}/comments(postId=${post.getPostId()})}"
+                  method="post">
+                <div class="grid grid-comment">
+                    <label>
+                        <input type="text" name="contents" placeholder="댓글" required/>
+                    </label>
+                    <button type="submit">등록</button>
                 </div>
-            </article>
-        </li>
-    </ul>
-</main>
+            </form>
+
+            <div th:each="comment : ${comments}" class="date-size border-bot padding-topbot grid comment-grid-nd">
+                <div class="comment-name" th:text="${comment.getCreatedBy()}">작성자</div>
+                <div class="comment-date" th:text="${#temporals.format(comment.createdDate, 'yyyy-MM-dd HH:mm')}">
+                    2023-06-25 18:57
+                </div>
+                <div class="comment-container" th:id="'comment-container-' + ${comment.commentId}">
+                    <div class="comment-contents" th:text="${comment.contents}">댓글 내용</div>
+                </div>
+                <div>
+                    👍 0 <!-- 추후 동적인 좋아요 기능 구현 예정 -->
+                </div>
+                <div th:if="${comment.getUserId} == ${#authentication.principal.userId}">
+                    <button class="comment-edit-btn" th:data-comment-id="${comment.commentId}">댓글수정</button>
+                </div>
+                <div th:if="${comment.getUserId} == ${#authentication.principal.userId}">
+                    <button class="comment-delete-btn"
+                            style="background-color: rgb(199, 61, 61); border-color: rgb(199, 61, 61);"
+                            th:data-comment-id="${comment.commentId}">댓글삭제
+                    </button>
+                </div>
+            </div>
+
+
+        </footer>
+
+    </article>
+    <div>
+    </div>
+    <div class="grid writeb mt30px">
+        <div></div>
+        <div></div>
+        <button>
+            수정
+        </button>
+        <button style="background-color: rgb(199, 61, 61); border-color: rgb(199, 61, 61);">
+            삭제
+        </button>
+
+    </div>
+
+
+</div>
+
 </body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const editButtons = document.querySelectorAll('.comment-edit-btn');
+
+        editButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const commentId = this.getAttribute('data-comment-id');
+                const commentContainer = document.querySelector('#comment-container-' + commentId);
+                const originalComment = commentContainer.querySelector('.comment-contents').innerText;
+
+                // 원래의 댓글 내용을 저장
+                commentContainer.setAttribute('data-original-comment', originalComment);
+
+                const editForm = `
+                <form class="comment-edit-form" data-comment-id="${commentId}">
+                    <input type="text" name="editedComment" value="${originalComment.replace(/"/g, '&quot;')}"/>
+                    <div class="grid">
+                        <button type="submit" style="border-color: #315d32; background-color: #315d32">저장</button>
+                        <button type="button" class="cancel-edit" style="border-color: #792a22; background-color: #792a22">취소</button>
+                    </div>
+                </form>
+            `;
+
+                commentContainer.innerHTML = editForm;
+            });
+        });
+
+        // 새로 추가된 부분: 폼 제출 처리
+        document.addEventListener('submit', function (e) {
+            if (e.target && e.target.matches('.comment-edit-form')) {
+                e.preventDefault(); // 폼의 기본 제출 동작을 방지합니다.
+
+                const form = e.target;
+                const commentId = form.getAttribute('data-comment-id');
+                const editedComment = form.querySelector('input[name="editedComment"]').value;
+                const commentContainer = document.querySelector('#comment-container-' + commentId);
+
+                fetch(`/api/comments/${commentId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // 필요한 경우 추가적인 인증 헤더를 포함시켜야 합니다.
+                    },
+                    body: JSON.stringify({contents: editedComment})
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // 성공적으로 댓글이 수정되었다면 원래 댓글 표시로 돌아갑니다.
+                        commentContainer.innerHTML = `
+                <div class="comment-contents">${data.contents}</div>
+                `;
+
+                        // '댓글수정' 버튼에 다시 이벤트 리스너 추가
+                        const editButton = commentContainer.querySelector('.comment-edit-btn');
+                        editButton.addEventListener('click', function () {
+                            // 여기에 수정 버튼 클릭 시 실행될 코드를 재활용합니다.
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error updating comment:', error);
+                        // 오류 처리 로직을 추가합니다.
+                    });
+            }
+        });
+
+
+        document.querySelectorAll('.comment-delete-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const commentId = this.getAttribute('data-comment-id');
+
+                if (confirm('댓글을 삭제하시겠습니까?')) { // 사용자에게 삭제 확인 요청
+                    fetch(`/api/comments/${commentId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            // 필요한 경우 인증 헤더 추가
+                        }
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                // 성공적으로 삭제되면 UI에서 댓글 요소 제거
+                                const commentContainer = document.querySelector('#comment-container-' + commentId);
+                                const fullCommentElement = commentContainer.closest('.date-size.border-bot.padding-topbot.grid.comment-grid-nd');
+                                if (fullCommentElement) fullCommentElement.remove();
+                            } else {
+                                throw new Error('댓글 삭제 실패');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error deleting comment:', error);
+                            alert('댓글 삭제 중 오류가 발생했습니다.');
+                        });
+                }
+            });
+        });
+
+
+        // 취소 버튼 이벤트 리스너
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.matches('.cancel-edit')) {
+                const form = e.target.closest('.comment-edit-form');
+                const commentId = form.getAttribute('data-comment-id');
+                const commentContainer = document.querySelector('#comment-container-' + commentId);
+                // 저장해둔 원래의 댓글 내용을 가져옴
+                const originalComment = commentContainer.getAttribute('data-original-comment');
+
+                // 원래의 댓글 내용으로 돌아감
+                const originalCommentHtml = `
+                <div class="comment-contents">${originalComment}</div>
+            `;
+
+                commentContainer.innerHTML = originalCommentHtml;
+            }
+        });
+
+
+    });
+
+
+    document.getElementById('commentForm').addEventListener('submit', function (e) {
+        e.preventDefault(); // 폼의 기본 제출 동작 방지
+
+        const formData = new FormData(this);
+        const content = formData.get('contents'); // 'contents'는 input 태그의 name 속성 값
+
+        // 댓글 데이터를 서버로 전송
+        fetch(this.action, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // 필요한 경우 인증 헤더 추가
+            },
+            body: JSON.stringify({contents: content}) // 서버가 요구하는 형식에 맞추어 JSON 문자열 생성
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json(); // 서버로부터 받은 응답을 JSON으로 변환
+            })
+            .then(data => {
+                // 여기에서 data는 서버로부터 받은 댓글 데이터
+                // 새 댓글을 페이지에 추가하는 로직 구현
+                const commentsContainer = document.querySelector('.grid.comment-grid-nd').parentNode; // 댓글들을 담고 있는 컨테이너
+                const newCommentHtml = `
+            <div class="date-size border-bot padding-topbot grid comment-grid-nd">
+                <div class="comment-name">${data.createdBy}</div>
+                <div class="comment-date">${data.createdDate}</div>
+                <div class="comment-container">
+                    <div class="comment-contents">${data.contents}</div>
+                </div>
+                <div>👍 0</div>
+                <div>
+                    <button class="comment-edit-btn" data-comment-id="${data.commentId}">댓글수정</button>
+                </div>
+                <div>
+                    <button class="comment-delete-btn" style="background-color: rgb(199, 61, 61); border-color: rgb(199, 61, 61);" data-comment-id="${data.commentId}">댓글삭제</button>
+                </div>
+            </div>
+        `;
+
+                commentsContainer.insertAdjacentHTML('beforeend', newCommentHtml); // 새 댓글을 컨테이너의 마지막에 추가
+                this.reset(); // 댓글 등록 폼의 내용을 초기화
+            })
+            .catch(error => {
+                console.error('Error posting comment:', error);
+                alert('댓글 등록 중 오류가 발생했습니다.');
+            });
+    });
+
+</script>
+
+
 </html>
