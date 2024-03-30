@@ -56,10 +56,13 @@ public class BoardController {
         PostResponse postResponse = postSearchService.readWithComments(postId);
         List<CommentResponse> comments = commentSearchService.getComments(postId);
 
+        int commentsCount = comments.size();
+
         model.addAttribute("post", postResponse);
         model.addAttribute("comments", comments);
+        model.addAttribute("commentsCount", commentsCount);
 
-        return "html/detail2";
+        return "html/detail";
     }
 
 }
