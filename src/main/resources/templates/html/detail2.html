@@ -166,7 +166,11 @@
 
                 </div>
                 <div>
-                    <button style="background-color: rgb(199, 61, 61); border-color: rgb(199, 61, 61);">댓글삭제</button>
+                    <button th:class="comment-delete-btn"
+                            style="background-color: rgb(199, 61, 61); border-color: rgb(199, 61, 61);"
+                            th:data-comment-id="${comment.commentId}">댓글삭제
+                    </button>
+
                 </div>
             </div>
 
@@ -261,6 +265,37 @@
             }
         });
 
+
+        document.querySelectorAll('.comment-delete-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const commentId = this.getAttribute('data-comment-id');
+
+                if (confirm('댓글을 삭제하시겠습니까?')) { // 사용자에게 삭제 확인 요청
+                    fetch(`/api/comments/${commentId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            // 필요한 경우 인증 헤더 추가
+                        }
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                // 성공적으로 삭제되면 UI에서 댓글 요소 제거
+                                const commentContainer = document.querySelector('#comment-container-' + commentId);
+                                const fullCommentElement = commentContainer.closest('.date-size.border-bot.padding-topbot.grid.comment-grid-nd');
+                                if (fullCommentElement) fullCommentElement.remove();
+                            } else {
+                                throw new Error('댓글 삭제 실패');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error deleting comment:', error);
+                            alert('댓글 삭제 중 오류가 발생했습니다.');
+                        });
+                }
+            });
+        });
+
+
         document.addEventListener('click', function (e) {
             if (e.target && e.target.matches('.cancel-edit')) {
                 const form = e.target.closest('.comment-edit-form');
@@ -272,7 +307,62 @@
                 commentContainer.innerHTML = `<div class="comment-contents">${originalCommentInput}</div>`;
             }
         });
+
+
     });
+
+    document.getElementById('commentForm').addEventListener('submit', function (e) {
+        e.preventDefault(); // 폼의 기본 제출 동작 방지
+
+        const formData = new FormData(this);
+        const content = formData.get('contents'); // 'contents'는 input 태그의 name 속성 값
+
+        // 댓글 데이터를 서버로 전송
+        fetch(this.action, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // 필요한 경우 인증 헤더 추가
+            },
+            body: JSON.stringify({contents: content}) // 서버가 요구하는 형식에 맞추어 JSON 문자열 생성
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json(); // 서버로부터 받은 응답을 JSON으로 변환
+            })
+            .then(data => {
+                // 여기에서 data는 서버로부터 받은 댓글 데이터
+                // 새 댓글을 페이지에 추가하는 로직 구현
+                const commentsContainer = document.querySelector('.grid.comment-grid-nd').parentNode; // 댓글들을 담고 있는 컨테이너
+                const newCommentHtml = `
+            <div class="date-size border-bot padding-topbot grid comment-grid-nd">
+                <div class="comment-name">${data.createdBy}</div>
+                <div class="comment-date">${data.createdDate}</div>
+                <div class="comment-container">
+                    <div class="comment-contents">${data.contents}</div>
+                </div>
+                <div>👍 0</div>
+                <div>
+                    <button class="comment-edit-btn" data-comment-id="${data.commentId}">댓글수정</button>
+                </div>
+                <div>
+                    <button class="comment-delete-btn" style="background-color: rgb(199, 61, 61); border-color: rgb(199, 61, 61);" data-comment-id="${data.commentId}">댓글삭제</button>
+                </div>
+            </div>
+        `;
+
+                commentsContainer.insertAdjacentHTML('beforeend', newCommentHtml); // 새 댓글을 컨테이너의 마지막에 추가
+                this.reset(); // 댓글 등록 폼의 내용을 초기화
+            })
+            .catch(error => {
+                console.error('Error posting comment:', error);
+                alert('댓글 등록 중 오류가 발생했습니다.');
+            });
+    });
+
 </script>
+
 
 </html>
