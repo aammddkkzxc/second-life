@@ -1,7 +1,10 @@
 package com.example.secondlife.domain.post.controller.page;
 
+import com.example.secondlife.domain.comment.dto.CommentResponse;
+import com.example.secondlife.domain.comment.service.CommentSearchService;
 import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.service.PostSearchService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class BoardController {
 
     private final PostSearchService postSearchService;
+    private final CommentSearchService commentSearchService;
 
     @GetMapping("/board")
     public String board(Model model, @PageableDefault Pageable pageable) {
@@ -45,12 +49,17 @@ public class BoardController {
     }
 
     @GetMapping("/board/{postId}")
-    public String post(@PathVariable("postId") Long postId, Model model) {
+    public String post(@PathVariable("postId") Long postId, Model model,
+                       @AuthenticationPrincipal(expression = "userId") Long userId) {
         log.info("post()");
 
         PostResponse postResponse = postSearchService.readWithComments(postId);
-        model.addAttribute("post", postResponse);
+        List<CommentResponse> comments = commentSearchService.getComments(postId);
 
-        return "html/detail";
+        model.addAttribute("post", postResponse);
+        model.addAttribute("comments", comments);
+
+        return "html/detail2";
     }
+
 }

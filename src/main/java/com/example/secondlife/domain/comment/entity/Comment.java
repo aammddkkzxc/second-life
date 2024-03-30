@@ -19,10 +19,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Slf4j
 public class Comment extends BaseEntity {
 
     @Id
@@ -45,6 +47,7 @@ public class Comment extends BaseEntity {
     private boolean isDeleted;
 
     public void update(CommentRequest request) {
+        log.info("update() -> request: {}", request.getContents());
         this.contents = request.getContents() != null ? request.getContents() : this.contents;
     }
 
