@@ -69,7 +69,7 @@
         }
 
         .comment-grid-nd {
-            grid-template-columns: 1fr 1fr 6fr 1.2fr 1.2fr 1.2fr;
+            grid-template-columns: 1fr 1fr 6fr 0.5fr 0.8fr 0.8fr;
         }
 
 
@@ -88,6 +88,12 @@
             height: calc(1rem * var(--line-height, 1.5));
             background-image: var(--icon-chevron-button);
             width: 0;
+        }
+
+        .comment-edit-btn, .comment-delete-btn {
+            padding: 5px 6px; /* 버튼의 안쪽 여백을 줄입니다. */
+            font-size: 18px; /* 글자 크기를 줄입니다. */
+            /* 추가적인 스타일 조정이 필요한 경우 여기에 코드를 추가합니다. */
         }
 
 
@@ -155,22 +161,18 @@
                 </div>
                 <div class="comment-container" th:id="'comment-container-' + ${comment.commentId}">
                     <div class="comment-contents" th:text="${comment.contents}">댓글 내용</div>
-
-
                 </div>
                 <div>
                     👍 0 <!-- 추후 동적인 좋아요 기능 구현 예정 -->
                 </div>
-                <div>
-                    <button th:class="comment-edit-btn" th:data-comment-id="${comment.commentId}">댓글수정</button>
-
+                <div th:if="${comment.getUserId} == ${#authentication.principal.userId}">
+                    <button class="comment-edit-btn" th:data-comment-id="${comment.commentId}">댓글수정</button>
                 </div>
-                <div>
-                    <button th:class="comment-delete-btn"
+                <div th:if="${comment.getUserId} == ${#authentication.principal.userId}">
+                    <button class="comment-delete-btn"
                             style="background-color: rgb(199, 61, 61); border-color: rgb(199, 61, 61);"
                             th:data-comment-id="${comment.commentId}">댓글삭제
                     </button>
-
                 </div>
             </div>
 
@@ -179,7 +181,6 @@
 
     </article>
     <div>
-        <p>댓글을 등록하려면 로그인하세요.</p>
     </div>
     <div class="grid writeb mt30px">
         <div></div>
@@ -208,14 +209,17 @@
                 const commentContainer = document.querySelector('#comment-container-' + commentId);
                 const originalComment = commentContainer.querySelector('.comment-contents').innerText;
 
+                // 원래의 댓글 내용을 저장
+                commentContainer.setAttribute('data-original-comment', originalComment);
+
                 const editForm = `
-            <form class="comment-edit-form" data-comment-id="${commentId}">
-                <input type="text" name="editedComment" value="${originalComment.replace(/"/g, '&quot;')}"/>
-                <div class="grid">
-                    <button type="submit" style="border-color: #315d32; background-color: #315d32">저장</button>
-                    <button type="button" class="cancel-edit" style="border-color: #792a22; background-color: #792a22">취소</button>
-                </div>
-            </form>
+                <form class="comment-edit-form" data-comment-id="${commentId}">
+                    <input type="text" name="editedComment" value="${originalComment.replace(/"/g, '&quot;')}"/>
+                    <div class="grid">
+                        <button type="submit" style="border-color: #315d32; background-color: #315d32">저장</button>
+                        <button type="button" class="cancel-edit" style="border-color: #792a22; background-color: #792a22">취소</button>
+                    </div>
+                </form>
             `;
 
                 commentContainer.innerHTML = editForm;
@@ -296,20 +300,27 @@
         });
 
 
+        // 취소 버튼 이벤트 리스너
         document.addEventListener('click', function (e) {
             if (e.target && e.target.matches('.cancel-edit')) {
                 const form = e.target.closest('.comment-edit-form');
                 const commentId = form.getAttribute('data-comment-id');
                 const commentContainer = document.querySelector('#comment-container-' + commentId);
-                const originalCommentInput = form.querySelector('input[name="editedComment"]').value;
+                // 저장해둔 원래의 댓글 내용을 가져옴
+                const originalComment = commentContainer.getAttribute('data-original-comment');
 
-                // 수정 취소 시 원래의 댓글 내용으로 돌아감
-                commentContainer.innerHTML = `<div class="comment-contents">${originalCommentInput}</div>`;
+                // 원래의 댓글 내용으로 돌아감
+                const originalCommentHtml = `
+                <div class="comment-contents">${originalComment}</div>
+            `;
+
+                commentContainer.innerHTML = originalCommentHtml;
             }
         });
 
 
     });
+
 
     document.getElementById('commentForm').addEventListener('submit', function (e) {
         e.preventDefault(); // 폼의 기본 제출 동작 방지
