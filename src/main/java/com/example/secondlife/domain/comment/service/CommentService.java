@@ -9,6 +9,7 @@ import com.example.secondlife.domain.post.service.PostSearchService;
 import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class CommentService {
 
     private final CommentRepository commentRepository;
@@ -24,6 +26,8 @@ public class CommentService {
     private final UserService userService;
 
     public CommentResponse save(Long postId, Long userId, CommentRequest request) {
+        log.info("save()");
+
         Post findPost = postSearchService.findById(postId);
         User findUser = userService.findById(userId);
 
@@ -35,6 +39,8 @@ public class CommentService {
     }
 
     public CommentResponse updateComment(Long commentId, Long userId, CommentRequest request) {
+        log.info("updateComment()");
+
         Comment findComment = commentSearchService.findById(commentId);
 
         validUser(userId, findComment);
@@ -45,6 +51,8 @@ public class CommentService {
     }
 
     public void deleteComment(Long commentId, Long userId) {
+        log.info("deleteComment()");
+
         Comment findComment = commentSearchService.findById(commentId);
 
         validUser(userId, findComment);
@@ -53,6 +61,8 @@ public class CommentService {
     }
 
     private void validUser(Long userId, Comment findComment) {
+        log.info("validUser()");
+
         Long postUserId = findComment.getUser().getId();
 
         if (!postUserId.equals(userId)) {
