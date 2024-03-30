@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
     <style>
 
         form {
@@ -94,14 +95,13 @@
         }
 
     </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.indigo.min.css"/>
     <link rel="stylesheet" href="https://unpkg.com/open-props">
 </head>
-
 <body class="container">
-<div th:replace="~{fragment/nav :: top}"></div>
 
-<div class="container">
+<div th:replace="~{fragment/nav :: top}"></div>
+<main>
     <form>
         <article>
             <header class="mb0">
@@ -138,8 +138,6 @@
     </form>
 
 
-</div>
-
+</main>
 </body>
-
 </html>
