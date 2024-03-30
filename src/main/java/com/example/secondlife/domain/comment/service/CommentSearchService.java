@@ -16,7 +16,7 @@ public class CommentSearchService {
     private final CommentRepository commentRepository;
 
     public List<CommentResponse> getComments(Long postId) {
-        List<Comment> comments = commentRepository.findByPostId(postId);
+        List<Comment> comments = commentRepository.findByPostIdAndIsDeletedFalse(postId);
 
         return Comment.toCommentResponseList(comments);
     }

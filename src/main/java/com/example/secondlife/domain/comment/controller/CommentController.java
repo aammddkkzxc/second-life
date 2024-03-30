@@ -27,7 +27,7 @@ public class CommentController {
     @PostMapping("/posts/{postId}/comments")
     public ResponseEntity<CommentResponse> addComment(@PathVariable Long postId,
                                                       @AuthenticationPrincipal(expression = "userId") Long userId,
-                                                      CommentRequest request) {
+                                                      @RequestBody CommentRequest request) {
         log.info("addComment()");
 
         CommentResponse commentResponse = commentService.save(postId, userId, request);
@@ -51,6 +51,7 @@ public class CommentController {
     @DeleteMapping("/comments/{commentId}")
     public ResponseEntity<?> deleteComment(@PathVariable Long commentId,
                                            @AuthenticationPrincipal(expression = "userId") Long userId) {
+        log.info("deleteComment()");
 
         commentService.deleteComment(commentId, userId);
 
