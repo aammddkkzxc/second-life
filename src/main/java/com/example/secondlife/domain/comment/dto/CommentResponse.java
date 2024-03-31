@@ -11,7 +11,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Builder
 public class CommentResponse {
-    
+
     private Long commentId;
     private Long postId;
     private Long userId;

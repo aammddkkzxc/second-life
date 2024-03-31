@@ -36,9 +36,9 @@ public class BoardController {
 
         log.info("unifiedBoard()");
 
-        String requestUri = request.getRequestURI();
+        final String requestUri = request.getRequestURI();
 
-        Page<PostResponse> postResponses;
+        final Page<PostResponse> postResponses;
 
         final boolean regionBoard = requestUri.startsWith("/board2") && region != null;
         final boolean myBoard = requestUri.startsWith("/my/board");
@@ -86,7 +86,7 @@ public class BoardController {
     public String edit(@PathVariable("postId") Long postId, Model model) {
         log.info("edit()");
 
-        PostRequest postRequest = postSearchService.getPostsByPostId(postId);
+        final PostRequest postRequest = postSearchService.getPostsByPostId(postId);
         final String forum = postRequest.getForum().name();
 
         model.addAttribute("post", postRequest);
