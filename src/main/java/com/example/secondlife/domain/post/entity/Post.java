@@ -1,7 +1,6 @@
 package com.example.secondlife.domain.post.entity;
 
 import com.example.secondlife.common.base.BaseEntity;
-import com.example.secondlife.domain.comment.dto.CommentResponse;
 import com.example.secondlife.domain.post.dto.PostRequest;
 import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.enumType.Forum;
@@ -16,7 +15,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,8 +42,6 @@ public class Post extends BaseEntity {
 
     private int hits;
 
-    private boolean isPublic;
-
     @Enumerated(EnumType.STRING)
     private Forum forum;
 
@@ -55,7 +51,6 @@ public class Post extends BaseEntity {
 
         this.title = request.getTitle() != null ? request.getTitle() : this.title;
         this.contents = request.getContents() != null ? request.getContents() : this.contents;
-        this.isPublic = request.isPublic();
         this.forum = request.getForum() != null ? request.getForum() : this.forum;
 
     }
@@ -65,22 +60,12 @@ public class Post extends BaseEntity {
     }
 
     @Builder
-    public Post(User user, String title, String contents, int hits, boolean isPublic, Forum forum) {
+    public Post(User user, String title, String contents, int hits, Forum forum) {
         this.user = user;
         this.title = title;
         this.contents = contents;
         this.hits = hits;
-        this.isPublic = isPublic;
         this.forum = forum;
-    }
-
-
-    public PostResponse postWithCommentToPostResponse(List<CommentResponse> comments) {
-
-        PostResponse postResponse = toPostResponse();
-        postResponse.setCommentResponses(comments);
-        return postResponse;
-
     }
 
     public PostResponse toPostResponse() {

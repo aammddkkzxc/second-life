@@ -4,7 +4,9 @@ import com.example.secondlife.domain.comment.dto.CommentResponse;
 import com.example.secondlife.domain.comment.service.CommentSearchService;
 import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.entity.Post;
+import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.repository.PostRepository;
+import com.example.secondlife.domain.user.enumType.Region;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,22 @@ public class PostSearchService {
     private final PostRepository postRepository;
     private final CommentSearchService commentSearchService;
 
+    public Page<PostResponse> getPostsByForumAndRegion(Forum forum, Region region, Pageable pageable) {
+        log.info("getPostsByForumAndRegion");
+
+        Page<Post> posts = postRepository.findAllByForumAndUserRegion(forum, region, pageable);
+
+        return posts.map(this::postToPostResponse);
+    }
+
+    public Page<PostResponse> getPostsByForum(Forum forum, Pageable pageable) {
+        log.info("getPostsByForum");
+
+        Page<Post> posts = postRepository.findAllByForum(forum, pageable);
+
+        return posts.map(this::postToPostResponse);
+    }
+
     public Page<PostResponse> getPosts(Pageable pageable) {
         log.info("getPosts");
 
@@ -33,7 +51,7 @@ public class PostSearchService {
     public Page<PostResponse> getPostsByUserId(Pageable pageable, Long userId) {
         log.info("getPostsByUserId");
 
-        Page<Post> posts = postRepository.findAllByUserId(pageable, userId);
+        Page<Post> posts = postRepository.findAllByUserId(userId, pageable);
 
         return posts.map(this::postToPostResponse);
     }

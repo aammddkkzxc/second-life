@@ -18,6 +18,31 @@
         </div>
         <br>
         <div th:replace="~{fragment/search :: search}"></div>
+        <div class="grid region">
+            <div>
+                <details open>
+                    <summary role="button" style="background-color:#5b6170; border-color: #5b6170;">지역</summary>
+
+                    <br>
+                    <div class="grid">
+                        <div><a href="/board2/SEOUL">서울</a></div>
+                        <div><a href="/board2/GYEONGGI">경기</a></div>
+                        <div><a href="/board2/CHUNGBUK">충북</a></div>
+                        <div><a href="/board2/CHUNGNAM">충남</a></div>
+                        <div><a href="/board2/GANGWON">강원</a></div>
+                    </div>
+                    <br>
+                    <div class="grid">
+                        <div><a href="/board2/JEONBUK">전북</a></div>
+                        <div><a href="/board2/JEONNAM">전남</a></div>
+                        <div><a href="/board2/GYEONGBUK">경북</a></div>
+                        <div><a href="/board2/GYEONGNAM">경남</a></div>
+                        <div><a href="/board2/JEJU">제주</a></div>
+                    </div>
+                </details>
+            </div>
+        </div>
+
         <br>
         <br>
         <div class="grid" style="display: block">
@@ -31,11 +56,11 @@
                     <span th:text="${post.contents}">1. 우선 엔티티를 DTO로 변환하는 방법을 선택한다. <br></span>
                 </div>
                 <footer class="cardF">
-                    <img class="icon" src="icon/calendar.png">
+                    <img class="icon" src="/img/calendar.png" style="width: 30px">
                     <span class="text post-createdDate" th:text="${post.createdDate}">2023-06-24</span>
 
-                    <img class="icon" src="icon/tag.png">
-                    <span class="text">JAVA Spring JPA</span>
+                    <!--                    <img class="icon" src="icon/tag.png">-->
+                    <!--                    <span class="text">JAVA Spring JPA</span>-->
                     <!-- 이 부분은 post.tags와 같이 게시글 태그 정보가 있다면 동적으로 바꿀 수 있습니다. -->
                 </footer>
             </article>
@@ -136,6 +161,25 @@
         if (currentPage < totalPages - 1) {
             const nextLink = `<a href="?page=${currentPage + 1}">next &raquo;</a>`;
             paginationContainer.insertAdjacentHTML('beforeend', nextLink);
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 현재 URL을 가져옵니다.
+        const currentUrl = window.location.href;
+
+        // '.region' 클래스를 가진 요소를 찾습니다.
+        const regionElement = document.querySelector('.region');
+
+        if (regionElement) {
+            // URL에 'board2'가 포함되어 있으면 보이게 하고, 그렇지 않으면 숨깁니다.
+            if (currentUrl.includes('/board2')) {
+                regionElement.style.display = 'block';
+            } else {
+                regionElement.style.display = 'none';
+            }
         }
     });
 </script>

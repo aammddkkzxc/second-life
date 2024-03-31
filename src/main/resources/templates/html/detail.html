@@ -26,7 +26,7 @@
         }
 
         .grid-detail-head {
-            grid-template-columns: 5fr 1fr;
+            grid-template-columns: 5fr 1fr 1fr;
         }
 
         .grid-detail-head2 {
@@ -112,7 +112,13 @@
         <header>
             <div class="grid grid-detail-head">
                 <div class="bold" th:text="${post.title}">타이틀</div>
-                <div class="date-size" th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')}">
+                <div class="date-size"
+                     th:text="'생성일 '+${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')}">
+                    2023-06-25
+                    18:32
+                </div>
+                <div class="date-size"
+                     th:text="'수정일 '+${#temporals.format(post.lastModifiedDate, 'yyyy-MM-dd HH:mm')}">
                     2023-06-25
                     18:32
                 </div>
@@ -321,6 +327,19 @@
 
     });
 
+    // 날짜 형식을 변환하는 함수
+    function formatDateTime(dateTimeStr) {
+        const date = new Date(dateTimeStr);
+        const options = {
+            year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit', hour12: false,
+            // 아래의 옵션들로 날짜와 시간의 구분자를 조절합니다.
+            timeZone: 'Asia/Seoul', // 시간대 설정
+        };
+        // 로케일을 지정하지 않고 옵션만으로 형식을 지정합니다.
+        return new Intl.DateTimeFormat(undefined, options).format(date).replace(/\./g, '-').replace(/ /g, '').replace(/-/g, ' ').replace(/:/g, ':');
+    }
+
 
     document.getElementById('commentForm').addEventListener('submit', function (e) {
         e.preventDefault(); // 폼의 기본 제출 동작 방지
@@ -344,13 +363,15 @@
                 return response.json(); // 서버로부터 받은 응답을 JSON으로 변환
             })
             .then(data => {
+                // 날짜 형식 변환
+                const formattedDate = formatDateTime(data.createdDate);
                 // 여기에서 data는 서버로부터 받은 댓글 데이터
                 // 새 댓글을 페이지에 추가하는 로직 구현
                 const commentsContainer = document.querySelector('.grid.comment-grid-nd').parentNode; // 댓글들을 담고 있는 컨테이너
                 const newCommentHtml = `
             <div class="date-size border-bot padding-topbot grid comment-grid-nd">
                 <div class="comment-name">${data.createdBy}</div>
-                <div class="comment-date">${data.createdDate}</div>
+                <div class="comment-date">${formattedDate}</div>
                 <div class="comment-container">
                     <div class="comment-contents">${data.contents}</div>
                 </div>

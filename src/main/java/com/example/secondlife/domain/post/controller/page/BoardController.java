@@ -3,12 +3,16 @@ package com.example.secondlife.domain.post.controller.page;
 import com.example.secondlife.domain.comment.dto.CommentResponse;
 import com.example.secondlife.domain.comment.service.CommentSearchService;
 import com.example.secondlife.domain.post.dto.PostResponse;
+import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.service.PostSearchService;
+import com.example.secondlife.domain.user.enumType.Region;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -24,11 +28,27 @@ public class BoardController {
     private final PostSearchService postSearchService;
     private final CommentSearchService commentSearchService;
 
-    @GetMapping("/board")
-    public String board(Model model, @PageableDefault Pageable pageable) {
+    @GetMapping(value = {"/board", "/board2"})
+    public String board(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                        HttpServletRequest request) {
         log.info("board()");
 
-        Page<PostResponse> postResponses = postSearchService.getPosts(pageable);
+        Forum forumType = "/board".equals(request.getRequestURI()) ? Forum.FREE : Forum.REGION;
+        Page<PostResponse> postResponses = postSearchService.getPostsByForum(forumType, pageable);
+
+        model.addAttribute("posts", postResponses.getContent());
+        model.addAttribute("page", postResponses);
+
+        return "html/board";
+    }
+
+    @GetMapping("/board2/{region}")
+    public String board2(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                         @PathVariable("region") Region region) {
+        log.info("board2()");
+
+        Page<PostResponse> postResponses = postSearchService.getPostsByForumAndRegion(Forum.REGION, region, pageable);
+
         model.addAttribute("posts", postResponses.getContent());
         model.addAttribute("page", postResponses);
 
@@ -36,9 +56,10 @@ public class BoardController {
     }
 
     @GetMapping("/my/board")
-    public String myBoard(Model model, @PageableDefault Pageable pageable,
+    public String myBoard(Model model,
+                          @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                           @AuthenticationPrincipal(expression = "userId") Long userId) {
-        log.info("board()");
+        log.info("myBoard()");
 
         Page<PostResponse> postsByUserId = postSearchService.getPostsByUserId(pageable, userId);
 
