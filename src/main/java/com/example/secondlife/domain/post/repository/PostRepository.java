@@ -13,11 +13,11 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     Long countByUserId(Long userId);
 
-    Page<Post> findAllByUserId(Long userId, Pageable pageable);
+    Page<Post> findAllByUserIdAndIsDeletedFalse(Long userId, Pageable pageable);
 
-    Page<Post> findAllByForum(Forum forum, Pageable pageable);
+    Page<Post> findAllByForumAndIsDeletedFalse(Forum forum, Pageable pageable);
 
-    @Query("SELECT p FROM Post p JOIN p.user u WHERE p.forum = :forum AND u.introduction.region = :region")
-    Page<Post> findAllByForumAndUserRegion(@Param("forum") Forum forum, @Param("region") Region region,
-                                           Pageable pageable);
+    @Query("SELECT p FROM Post p JOIN p.user u WHERE p.forum = :forum AND u.introduction.region = :region AND p.isDeleted = false")
+    Page<Post> findAllByForumAndUserRegionAndIsDeletedFalse(@Param("forum") Forum forum, @Param("region") Region region,
+                                                            Pageable pageable);
 }

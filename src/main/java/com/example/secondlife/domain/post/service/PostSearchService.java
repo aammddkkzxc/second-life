@@ -2,6 +2,7 @@ package com.example.secondlife.domain.post.service;
 
 import com.example.secondlife.domain.comment.dto.CommentResponse;
 import com.example.secondlife.domain.comment.service.CommentSearchService;
+import com.example.secondlife.domain.post.dto.PostRequest;
 import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.entity.Post;
 import com.example.secondlife.domain.post.enumType.Forum;
@@ -27,7 +28,7 @@ public class PostSearchService {
     public Page<PostResponse> getPostsByForumAndRegion(Forum forum, Region region, Pageable pageable) {
         log.info("getPostsByForumAndRegion");
 
-        Page<Post> posts = postRepository.findAllByForumAndUserRegion(forum, region, pageable);
+        Page<Post> posts = postRepository.findAllByForumAndUserRegionAndIsDeletedFalse(forum, region, pageable);
 
         return posts.map(this::postToPostResponse);
     }
@@ -35,7 +36,7 @@ public class PostSearchService {
     public Page<PostResponse> getPostsByForum(Forum forum, Pageable pageable) {
         log.info("getPostsByForum");
 
-        Page<Post> posts = postRepository.findAllByForum(forum, pageable);
+        Page<Post> posts = postRepository.findAllByForumAndIsDeletedFalse(forum, pageable);
 
         return posts.map(this::postToPostResponse);
     }
@@ -51,7 +52,7 @@ public class PostSearchService {
     public Page<PostResponse> getPostsByUserId(Pageable pageable, Long userId) {
         log.info("getPostsByUserId");
 
-        Page<Post> posts = postRepository.findAllByUserId(userId, pageable);
+        Page<Post> posts = postRepository.findAllByUserIdAndIsDeletedFalse(userId, pageable);
 
         return posts.map(this::postToPostResponse);
     }
@@ -64,6 +65,18 @@ public class PostSearchService {
         List<CommentResponse> comments = commentSearchService.getComments(postId);
 
         return postWithCommentToPostResponse(post, comments);
+    }
+
+    public PostRequest getPostsByPostId(Long postId) {
+        log.info("getPostsByPostId");
+
+        Post post = findById(postId);
+
+        return PostRequest.builder()
+                .title(post.getTitle())
+                .contents(post.getContents())
+                .forum(post.getForum())
+                .build();
     }
 
     public Post findById(Long postId) {

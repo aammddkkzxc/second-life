@@ -1,6 +1,7 @@
 package com.example.secondlife.domain.post.controller.page;
 
 import com.example.secondlife.domain.comment.dto.CommentResponse;
+import com.example.secondlife.domain.post.dto.PostRequest;
 import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.service.PostSearchService;
@@ -82,4 +83,24 @@ public class BoardController {
         return "html/detail";
     }
 
+    @GetMapping("/write")
+    public String write() {
+        log.info("write()");
+
+        return "html/write";
+    }
+
+    @GetMapping("/board/{postId}/edit")
+    public String edit(@PathVariable("postId") Long postId, Model model) {
+        log.info("edit()");
+
+        PostRequest postRequest = postSearchService.getPostsByPostId(postId);
+        final String forum = postRequest.getForum().name();
+
+        model.addAttribute("post", postRequest);
+        model.addAttribute("postId", postId);
+        model.addAttribute("forum", forum);
+
+        return "html/edit";
+    }
 }
