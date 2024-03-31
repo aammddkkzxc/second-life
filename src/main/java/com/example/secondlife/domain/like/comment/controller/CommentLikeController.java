@@ -20,29 +20,12 @@ public class CommentLikeController {
     private final CommentLikeService commentLikeService;
 
     @PostMapping("/comments/{commentId}/like")
-    public ResponseEntity<CommentLikeResponse> clickLike(@PathVariable Long commentId,
-                                                         @AuthenticationPrincipal(expression = "userId") Long userId) {
-        CommentLikeResponse response = commentLikeService.save(commentId, userId);
+    public ResponseEntity<?> clickLike(@PathVariable Long commentId,
+                                       @AuthenticationPrincipal(expression = "userId") Long userId) {
+        commentLikeService.saveOrDelete(commentId, userId);
 
         return ResponseEntity
-                .ok(response);
+                .noContent().build();
     }
 
-//    @GetMapping("/comments/{commentId}/like")
-//    public ResponseEntity<CommentLikeCountResponse> getLikesCount(@PathVariable Long commentId) {
-//        CommentLikeCountResponse response = commentLikeService.getLikeCount(commentId);
-//
-//        return ResponseEntity
-//                .ok(response);
-//    }
-
-    @DeleteMapping("/comments/{commentId}/like")
-    public ResponseEntity<?> cancelLike(@PathVariable Long commentId,
-                                        @AuthenticationPrincipal(expression = "userId") Long userId) {
-        commentLikeService.delete(commentId, userId);
-
-        return ResponseEntity
-                .noContent()
-                .build();
-    }
 }

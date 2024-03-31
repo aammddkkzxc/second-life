@@ -168,9 +168,16 @@
                 <div class="comment-container" th:id="'comment-container-' + ${comment.commentId}">
                     <div class="comment-contents" th:text="${comment.contents}">댓글 내용</div>
                 </div>
-                <div>
-                    👍 <span th:text="${comment.getLikeCount}"></span> <!-- 추후 동적인 좋아요 기능 구현 예정 -->
-                </div>
+
+                <!-- 좋아요 기능 -->
+                <form id="likeForm" th:action="@{'/api' + '/comments/' + ${comment.commentId} + '/like'}" method="post">
+                    <button type="submit" class="like-button" style="background-color: transparent; border-color: transparent;">
+                        👍
+                    </button>
+                </form>
+                <div th:text="${comment.getLikeCount}"></div>
+                <!-- 좋아요 기능 끝 -->
+
                 <div th:if="${comment.getUserId} == ${#authentication.principal.userId}">
                     <button class="comment-edit-btn" th:data-comment-id="${comment.commentId}">댓글수정</button>
                 </div>
