@@ -27,43 +27,35 @@ public class BoardController {
 
     private final PostSearchService postSearchService;
 
-    @GetMapping(value = {"/board", "/board2"})
-    public String board(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
-                        HttpServletRequest request) {
-        log.info("board()");
+    @GetMapping(value = {"/board", "/board2", "/board2/{region}", "/my/board"})
+    public String unifiedBoard(Model model,
+                               @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                               @AuthenticationPrincipal(expression = "userId") Long userId,
+                               @PathVariable(required = false) Region region,
+                               HttpServletRequest request) {
 
-        Forum forumType = "/board".equals(request.getRequestURI()) ? Forum.FREE : Forum.REGION;
-        Page<PostResponse> postResponses = postSearchService.getPostsByForum(forumType, pageable);
+        log.info("unifiedBoard()");
+
+        String requestUri = request.getRequestURI();
+
+        Page<PostResponse> postResponses;
+
+        final boolean regionBoard = requestUri.startsWith("/board2") && region != null;
+        final boolean myBoard = requestUri.startsWith("/my/board");
+
+        if (regionBoard) {
+            postResponses = postSearchService.getPostsByForumAndRegion(Forum.REGION, region, pageable);
+        } else if (myBoard) {
+            postResponses = postSearchService.getPostsByUserId(pageable, userId);
+        } else {
+            // /board, /board2
+            Forum forumType = requestUri.equals("/board") ? Forum.FREE : Forum.REGION;
+            log.info("forumType = {}", forumType);
+            postResponses = postSearchService.getPostsByForum(forumType, pageable);
+        }
 
         model.addAttribute("posts", postResponses.getContent());
         model.addAttribute("page", postResponses);
-
-        return "html/board";
-    }
-
-    @GetMapping("/board2/{region}")
-    public String board2(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
-                         @PathVariable("region") Region region) {
-        log.info("board2()");
-
-        Page<PostResponse> postResponses = postSearchService.getPostsByForumAndRegion(Forum.REGION, region, pageable);
-
-        model.addAttribute("posts", postResponses.getContent());
-        model.addAttribute("page", postResponses);
-
-        return "html/board";
-    }
-
-    @GetMapping("/my/board")
-    public String myBoard(Model model,
-                          @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
-                          @AuthenticationPrincipal(expression = "userId") Long userId) {
-        log.info("myBoard()");
-
-        Page<PostResponse> postsByUserId = postSearchService.getPostsByUserId(pageable, userId);
-
-        model.addAttribute("posts", postsByUserId.getContent());
-        model.addAttribute("page", postsByUserId);
 
         return "html/board";
     }

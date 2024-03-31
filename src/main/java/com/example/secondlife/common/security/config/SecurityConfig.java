@@ -3,6 +3,7 @@ package com.example.secondlife.common.security.config;
 
 import static com.example.secondlife.domain.user.enumType.Role.ADMIN;
 import static com.example.secondlife.domain.user.enumType.Role.L1;
+import static com.example.secondlife.domain.user.enumType.Role.L2;
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 import com.example.secondlife.common.security.CustomLogoutSuccessHandler;
@@ -49,10 +50,15 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers("/board").hasRole(L1.name())
                         .requestMatchers("/my/**").hasAnyRole(L1.name())
+                        .requestMatchers("/board2/**").hasAnyRole(L2.name())
                         .requestMatchers("/admin/**").hasAnyRole(ADMIN.name())
                         .anyRequest()
                         .authenticated()
                 );
+
+        httpSecurity.exceptionHandling(auth -> auth
+                .accessDeniedPage("/access-denied")
+        );
 
         httpSecurity
                 .formLogin(auth -> auth

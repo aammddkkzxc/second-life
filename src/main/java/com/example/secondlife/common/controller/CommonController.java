@@ -29,4 +29,10 @@ public class CommonController {
         return "html/login";
     }
 
+    @GetMapping("/access-denied")
+    public String accessDenied() {
+        log.info("accessDenied()");
+
+        return "html/access-denied";
+    }
 }
