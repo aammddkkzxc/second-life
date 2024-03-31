@@ -3,7 +3,9 @@ package com.example.secondlife.domain.post.controller.page;
 import com.example.secondlife.domain.comment.dto.CommentResponse;
 import com.example.secondlife.domain.comment.service.CommentSearchService;
 import com.example.secondlife.domain.post.dto.PostResponse;
+import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.service.PostSearchService;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +27,14 @@ public class BoardController {
     private final PostSearchService postSearchService;
     private final CommentSearchService commentSearchService;
 
-    @GetMapping("/board")
-    public String board(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    @GetMapping(value = {"/board", "/board2"})
+    public String board(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                        HttpServletRequest request) {
         log.info("board()");
 
-        Page<PostResponse> postResponses = postSearchService.getPosts(pageable);
+        Forum forumType = "/board".equals(request.getRequestURI()) ? Forum.FREE : Forum.REGION;
+        Page<PostResponse> postResponses = postSearchService.getPosts(forumType, pageable);
+
         model.addAttribute("posts", postResponses.getContent());
         model.addAttribute("page", postResponses);
 
