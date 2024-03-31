@@ -1,7 +1,6 @@
 package com.example.secondlife.domain.post.controller.page;
 
 import com.example.secondlife.domain.comment.dto.CommentResponse;
-import com.example.secondlife.domain.comment.service.CommentSearchService;
 import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.service.PostSearchService;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class BoardController {
 
     private final PostSearchService postSearchService;
-    private final CommentSearchService commentSearchService;
 
     @GetMapping(value = {"/board", "/board2"})
     public String board(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
@@ -70,18 +68,16 @@ public class BoardController {
     }
 
     @GetMapping("/board/{postId}")
-    public String post(@PathVariable("postId") Long postId, Model model,
-                       @AuthenticationPrincipal(expression = "userId") Long userId) {
+    public String post(@PathVariable("postId") Long postId, Model model) {
         log.info("post()");
 
-        PostResponse postResponse = postSearchService.readWithComments(postId);
-        List<CommentResponse> comments = commentSearchService.getComments(postId);
-
-        int commentsCount = comments.size();
+        final PostResponse postResponse = postSearchService.readWithComments(postId);
+        final List<CommentResponse> commentResponses = postResponse.getCommentResponses();
+        final int size = commentResponses.size();
 
         model.addAttribute("post", postResponse);
-        model.addAttribute("comments", comments);
-        model.addAttribute("commentsCount", commentsCount);
+        model.addAttribute("comments", commentResponses);
+        model.addAttribute("commentsCount", size);
 
         return "html/detail";
     }
