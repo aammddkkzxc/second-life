@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+        form {
+            text-align: center;
+        }
+
+
+        .board td:first-child {
+            width: 60%;
+            text-align: left;
+        }
+
+        .board td:not(:first-child) {
+            text-align: left;
+        }
+
+        .board th {
+            text-align: left;
+
+        }
+
+        form .mb0 {
+            margin-bottom: 0px;
+        }
+
+        td a {
+            color: rgb(68, 211, 211);
+        }
+
+
+        details.abc summary[role=button]::after {
+            height: calc(1rem * var(--line-height, 1.5));
+            background-image: var(--icon-chevron-button);
+            width: 0;
+        }
+
+        .mb0 {
+
+            margin-bottom: 0px;
+        }
+
+        .minh500 {
+            min-height: 500px;
+        }
+
+        .minh60 {
+            min-height: 60px;
+            height: 62px;
+        }
+
+        .maxh130 {
+            max-height: 130px;
+        }
+
+
+        .writeb {
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+
+        .taL {
+            text-align: left
+        }
+
+        .mt30px {
+            margin-top: 30px;
+        }
+
+        #writeO {
+            background-color: var(--indigo-6);
+            border-color: var(--gray-6);
+        }
+
+        #writeX {
+            background-color: var(--red-6);
+            background-color: var(--red-6);
+            border-color: var(--gray-6);
+        }
+
+        input[type='radio'],
+        input[type='radio']:checked {
+            appearance: none;
+        }
+
+        input[type='radio'] {
+
+        }
+
+        input[type='radio']:checked {
+
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.indigo.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/open-props">
+</head>
+<body class="container">
+
+<div th:replace="~{fragment/nav :: top}"></div>
+<main>
+    <form id="postForm" th:action="@{/posts/{postId}(postId=${postId})}" th:method="post"
+          th:data-post-id="${postId}">
+
+        <article>
+            <header class="mb0">
+                <div>
+                    <label>
+                        <textarea name="title" class="mb0 maxh130 minh60" placeholder="제목" maxlength="50"
+                                  th:text="${post.title}"></textarea>
+                    </label>
+                </div>
+            </header>
+            <label>
+                <textarea name="contents" placeholder="내용을 입력하세요." class="minh500"
+                          th:text="${post.contents}"></textarea>
+            </label>
+            <div class="grid writeb mt30px">
+                <div class="taL">
+                    <label>
+                        <input type="radio" name="forum" value="FREE"
+                               th:checked="${forum == 'FREE'} ? 'checked' : null">
+                        자유 게시판
+                    </label>
+                    <label>
+                        <input type="radio" name="forum" value="REGION"
+                               th:checked="${forum == 'REGION'} ? 'checked' : null">
+                        지역 게시판
+                    </label>
+                </div>
+
+                <button type="button" class="btn btn-secondary mt-3 mx-2" id="writeX">취소</button>
+                <input type="submit" class="btn btn-secondary mt-3 mx-2" id="writeO" value="수정"/>
+            </div>
+        </article>
+    </form>
+</main>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('postForm');
+        const postId = form.dataset.postId; // 수정된 부분: form의 dataset에서 postId 값을 가져옵니다.
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault(); // 기본 제출 동작 방지
+
+            // 폼 데이터 수집
+            const formData = new FormData(this);
+
+            // 객체로 변환
+            const data = {
+                title: formData.get('title'),
+                contents: formData.get('contents'),
+                forum: formData.get('forum')
+            };
+
+            // AJAX 요청으로 데이터 서버에 전송
+            fetch(`/api/posts/${postId}`, {
+                method: 'PATCH', // PATCH 메소드 사용
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 필요시 인증 토큰 헤더 추가
+                },
+                body: JSON.stringify(data) // 데이터 JSON 문자열로 변환
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.json();
+                })
+                .then(data => {
+                    // 성공 알림 표시
+                    alert('Post updated successfully');
+                    // 수정 완료 후 게시물 상세 페이지로 리다이렉트
+                    window.location.href = `/board/${postId}`;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error updating post');
+                });
+        });
+    });
+
+</script>
+
+</html>
