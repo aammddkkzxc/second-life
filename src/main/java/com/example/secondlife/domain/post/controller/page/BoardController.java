@@ -5,6 +5,7 @@ import com.example.secondlife.domain.comment.service.CommentSearchService;
 import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.service.PostSearchService;
+import com.example.secondlife.domain.user.enumType.Region;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,19 @@ public class BoardController {
 
         Forum forumType = "/board".equals(request.getRequestURI()) ? Forum.FREE : Forum.REGION;
         Page<PostResponse> postResponses = postSearchService.getPostsByForum(forumType, pageable);
+
+        model.addAttribute("posts", postResponses.getContent());
+        model.addAttribute("page", postResponses);
+
+        return "html/board";
+    }
+
+    @GetMapping("/board2/{region}")
+    public String board2(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                         @PathVariable("region") Region region) {
+        log.info("board2()");
+
+        Page<PostResponse> postResponses = postSearchService.getPostsByForumAndRegion(Forum.REGION, region, pageable);
 
         model.addAttribute("posts", postResponses.getContent());
         model.addAttribute("page", postResponses);

@@ -132,13 +132,13 @@
 </body>
 <script>
     document.getElementById('postForm').addEventListener('submit', function (event) {
-        event.preventDefault(); // 폼 기본 제출 막기
+        event.preventDefault(); // 폼 기본 제출 방지
 
         const formData = new FormData(this);
         const data = {
             title: formData.get('title'),
             contents: formData.get('contents'),
-            forum: formData.get('forum') === 'FREE' ? 'FREE' : 'REGION'
+            forum: formData.get('forum')
         };
 
         fetch('/api/posts', {
@@ -156,9 +156,16 @@
                 return response.json();
             })
             .then(postResponse => {
-                console.log(postResponse);
-                // 성공적으로 글이 등록되면 여기에 후속 처리 코드를 작성하세요.
-                // 예: 사용자를 게시글이 등록된 페이지로 리디렉션하기
+                // 글 등록 성공 알림
+                alert('글이 성공적으로 등록되었습니다.');
+
+                // 자유 게시판에 글을 등록했으면 /board로 리디렉션
+                // 지역 게시판에 글을 등록했으면 /board2로 리디렉션
+                if (data.forum === 'FREE') {
+                    window.location.href = '/board';
+                } else if (data.forum === 'REGION') {
+                    window.location.href = '/board2';
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -166,4 +173,5 @@
             });
     });
 </script>
+
 </html>

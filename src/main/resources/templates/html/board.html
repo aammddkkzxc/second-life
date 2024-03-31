@@ -18,6 +18,31 @@
         </div>
         <br>
         <div th:replace="~{fragment/search :: search}"></div>
+        <div class="grid region">
+            <div>
+                <details open>
+                    <summary role="button" style="background-color:#5b6170; border-color: #5b6170;">지역</summary>
+
+                    <br>
+                    <div class="grid">
+                        <div>서울</div>
+                        <div>경기</div>
+                        <div>충북</div>
+                        <div>충남</div>
+                        <div>강원</div>
+                    </div>
+                    <br>
+                    <div class="grid">
+                        <div>전북</div>
+                        <div>전남</div>
+                        <div>경북</div>
+                        <div>경남</div>
+                        <div>제주</div>
+                    </div>
+
+                </details>
+            </div>
+        </div>
         <br>
         <br>
         <div class="grid" style="display: block">
@@ -136,6 +161,25 @@
         if (currentPage < totalPages - 1) {
             const nextLink = `<a href="?page=${currentPage + 1}">next &raquo;</a>`;
             paginationContainer.insertAdjacentHTML('beforeend', nextLink);
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 현재 URL을 가져옵니다.
+        const currentUrl = window.location.href;
+
+        // '.region' 클래스를 가진 요소를 찾습니다.
+        const regionElement = document.querySelector('.region');
+
+        if (regionElement) {
+            // URL에 'board2'가 포함되어 있으면 보이게 하고, 그렇지 않으면 숨깁니다.
+            if (currentUrl.includes('/board2')) {
+                regionElement.style.display = 'block';
+            } else {
+                regionElement.style.display = 'none';
+            }
         }
     });
 </script>
