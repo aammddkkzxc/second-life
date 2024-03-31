@@ -1,6 +1,5 @@
 package com.example.secondlife.domain.like.comment.controller;
 
-import com.example.secondlife.domain.like.comment.dto.CommentLikeCountResponse;
 import com.example.secondlife.domain.like.comment.dto.CommentLikeResponse;
 import com.example.secondlife.domain.like.comment.service.CommentLikeService;
 import lombok.RequiredArgsConstructor;
@@ -29,13 +28,13 @@ public class CommentLikeController {
                 .ok(response);
     }
 
-    @GetMapping("/comments/{commentId}/like")
-    public ResponseEntity<CommentLikeCountResponse> getLikesCount(@PathVariable Long commentId) {
-        CommentLikeCountResponse response = commentLikeService.getLikeCount(commentId);
-
-        return ResponseEntity
-                .ok(response);
-    }
+//    @GetMapping("/comments/{commentId}/like")
+//    public ResponseEntity<CommentLikeCountResponse> getLikesCount(@PathVariable Long commentId) {
+//        CommentLikeCountResponse response = commentLikeService.getLikeCount(commentId);
+//
+//        return ResponseEntity
+//                .ok(response);
+//    }
 
     @DeleteMapping("/comments/{commentId}/like")
     public ResponseEntity<?> cancelLike(@PathVariable Long commentId,

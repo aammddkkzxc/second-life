@@ -56,14 +56,14 @@ public class PostSearchService {
         return posts.map(this::postToPostResponse);
     }
 
-    public PostResponse readWithComments(Long postId) {
+    public PostResponse readWithCommentsAndCommentLikes(Long postId) {
         log.info("readWithComments");
 
         Post post = findById(postId);
 
-        List<CommentResponse> comments = commentSearchService.getComments(postId);
+        List<CommentResponse> commentResponses = commentSearchService.getCommentsWithCommentLikes(postId);
 
-        return postWithCommentToPostResponse(post, comments);
+        return postWithCommentCommentLikesToPostResponse(post, commentResponses);
     }
 
     public Post findById(Long postId) {
@@ -79,7 +79,7 @@ public class PostSearchService {
         return postRepository.countByUserId(userId);
     }
 
-    private PostResponse postWithCommentToPostResponse(Post post, List<CommentResponse> comments) {
+    private PostResponse postWithCommentCommentLikesToPostResponse(Post post, List<CommentResponse> comments) {
 
         PostResponse postResponse = postToPostResponse(post);
         postResponse.setCommentResponses(comments);

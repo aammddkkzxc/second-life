@@ -71,7 +71,7 @@ public class BoardController {
     public String post(@PathVariable("postId") Long postId, Model model) {
         log.info("post()");
 
-        final PostResponse postResponse = postSearchService.readWithComments(postId);
+        final PostResponse postResponse = postSearchService.readWithCommentsAndCommentLikes(postId);
         final List<CommentResponse> commentResponses = postResponse.getCommentResponses();
         final int size = commentResponses.size();
 
