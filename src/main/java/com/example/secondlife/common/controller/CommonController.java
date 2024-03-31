@@ -29,12 +29,4 @@ public class CommonController {
         return "html/login";
     }
 
-    @GetMapping("/write")
-    public String write() {
-        log.info("write()");
-
-        return "html/write";
-    }
-
-
 }
