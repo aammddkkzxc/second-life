@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,7 @@ public class BoardController {
     private final CommentSearchService commentSearchService;
 
     @GetMapping("/board")
-    public String board(Model model, @PageableDefault Pageable pageable) {
+    public String board(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("board()");
 
         Page<PostResponse> postResponses = postSearchService.getPosts(pageable);
@@ -36,9 +37,10 @@ public class BoardController {
     }
 
     @GetMapping("/my/board")
-    public String myBoard(Model model, @PageableDefault Pageable pageable,
+    public String myBoard(Model model,
+                          @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                           @AuthenticationPrincipal(expression = "userId") Long userId) {
-        log.info("board()");
+        log.info("myBoard()");
 
         Page<PostResponse> postsByUserId = postSearchService.getPostsByUserId(pageable, userId);
 

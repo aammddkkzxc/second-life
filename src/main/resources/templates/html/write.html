@@ -102,42 +102,68 @@
 
 <div th:replace="~{fragment/nav :: top}"></div>
 <main>
-    <form>
+    <form id="postForm">
         <article>
             <header class="mb0">
                 <div>
                     <label>
-                        <textarea class="mb0 maxh130 minh60" placeholder="제목"
-                                  maxlength="50"></textarea>
+                        <textarea name="title" class="mb0 maxh130 minh60" placeholder="제목" maxlength="50"></textarea>
                     </label>
                 </div>
             </header>
-
-
             <label>
-                <textarea placeholder="내용을 입력하세요." class="minh500"></textarea>
+                <textarea name="contents" placeholder="내용을 입력하세요." class="minh500"></textarea>
             </label>
-
             <div class="grid writeb mt30px">
-
                 <div class="taL">
                     <label>
-                        <input type="radio" name="boardType" value="freeBoard" checked> 자유 게시판
+                        <input type="radio" name="forum" value="FREE" checked> 자유 게시판
                     </label>
                     <label>
-                        <input type="radio" name="boardType" value="localBoard"> 지역 게시판
+                        <input type="radio" name="forum" value="REGION"> 지역 게시판
                     </label>
                 </div>
-
                 <button type="button" class="btn btn-secondary mt-3 mx-2" id="writeX">취소</button>
                 <input type="submit" class="btn btn-secondary mt-3 mx-2" id="writeO" value="등록"/>
             </div>
-
-
         </article>
     </form>
-
-
 </main>
 </body>
+<script>
+    document.getElementById('postForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // 폼 기본 제출 막기
+
+        const formData = new FormData(this);
+        const data = {
+            title: formData.get('title'),
+            contents: formData.get('contents'),
+            forum: formData.get('forum') === 'FREE' ? 'FREE' : 'REGION'
+        };
+
+        fetch('/api/posts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // 필요하다면 인증 헤더를 추가하세요.
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(postResponse => {
+                console.log(postResponse);
+                // 성공적으로 글이 등록되면 여기에 후속 처리 코드를 작성하세요.
+                // 예: 사용자를 게시글이 등록된 페이지로 리디렉션하기
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('글 등록에 실패했습니다.');
+            });
+    });
+</script>
 </html>
