@@ -1,6 +1,7 @@
 package com.example.secondlife.common.security;
 
 import com.example.secondlife.domain.user.entity.User;
+import com.example.secondlife.domain.user.enumType.Role;
 import java.util.ArrayList;
 import java.util.Collection;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,10 @@ public class CustomUserDetails implements UserDetails {
 
     public Long getUserId() {
         return user.getId();
+    }
+
+    public Role getUserRole() {
+        return user.getRole();
     }
 
     @Override
