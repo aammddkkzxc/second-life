@@ -187,7 +187,8 @@
 
                 <!-- 좋아요 기능 -->
                 <form id="likeForm" th:action="@{'/api' + '/comments/' + ${comment.commentId} + '/like'}" method="post">
-                    <!-- 좋아요 버튼에 data-comment-id 속성 추가 -->
+
+                  
                     <button type="submit" class="like-button"
                             style="background-color: transparent; border-color: transparent;">
                         👍
@@ -195,6 +196,7 @@
 
                 </form>
                 <div th:id="like-count-+${comment.commentId}" th:text="${comment.getLikeCount}"></div>
+
 
                 <!-- 좋아요 기능 끝 -->
 

@@ -1,6 +1,8 @@
 package com.example.secondlife.domain.comment.dto;
 
+import com.example.secondlife.domain.like.comment.dto.CommentLikeResponse;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
