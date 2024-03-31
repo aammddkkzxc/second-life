@@ -23,10 +23,18 @@ public class PostSearchService {
     private final PostRepository postRepository;
     private final CommentSearchService commentSearchService;
 
-    public Page<PostResponse> getPosts(Forum forum, Pageable pageable) {
+    public Page<PostResponse> getPostsByForum(Forum forum, Pageable pageable) {
         log.info("getPosts");
 
         Page<Post> posts = postRepository.findAllByForum(forum, pageable);
+
+        return posts.map(this::postToPostResponse);
+    }
+
+    public Page<PostResponse> getPosts(Pageable pageable) {
+        log.info("getPosts");
+
+        Page<Post> posts = postRepository.findAll(pageable);
 
         return posts.map(this::postToPostResponse);
     }

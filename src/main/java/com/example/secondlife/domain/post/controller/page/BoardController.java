@@ -33,7 +33,7 @@ public class BoardController {
         log.info("board()");
 
         Forum forumType = "/board".equals(request.getRequestURI()) ? Forum.FREE : Forum.REGION;
-        Page<PostResponse> postResponses = postSearchService.getPosts(forumType, pageable);
+        Page<PostResponse> postResponses = postSearchService.getPostsByForum(forumType, pageable);
 
         model.addAttribute("posts", postResponses.getContent());
         model.addAttribute("page", postResponses);
