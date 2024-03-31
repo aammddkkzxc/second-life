@@ -68,7 +68,6 @@ public class PostService {
                 .user(findUser)
                 .title(request.getTitle())
                 .contents(request.getContents())
-                .isPublic(request.isPublic())
                 .forum(request.getForum())
                 .build();
 

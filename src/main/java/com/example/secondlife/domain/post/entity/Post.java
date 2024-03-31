@@ -1,7 +1,6 @@
 package com.example.secondlife.domain.post.entity;
 
 import com.example.secondlife.common.base.BaseEntity;
-import com.example.secondlife.domain.comment.dto.CommentResponse;
 import com.example.secondlife.domain.post.dto.PostRequest;
 import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.enumType.Forum;
@@ -16,7 +15,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -68,15 +66,6 @@ public class Post extends BaseEntity {
         this.contents = contents;
         this.hits = hits;
         this.forum = forum;
-    }
-
-
-    public PostResponse postWithCommentToPostResponse(List<CommentResponse> comments) {
-
-        PostResponse postResponse = toPostResponse();
-        postResponse.setCommentResponses(comments);
-        return postResponse;
-
     }
 
     public PostResponse toPostResponse() {
