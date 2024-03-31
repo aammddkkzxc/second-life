@@ -9,7 +9,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Builder
 public class CommentResponse {
-    
+
     private Long commentId;
     private Long postId;
     private Long userId;
@@ -19,5 +19,6 @@ public class CommentResponse {
     private LocalDateTime lastModifiedDate;
     private String createdBy;
     private String lastModifiedBy;
+    private Long likeCount;
 
 }

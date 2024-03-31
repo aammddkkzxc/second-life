@@ -39,6 +39,10 @@ public class CustomUserDetails implements UserDetails {
         return user.getRole();
     }
 
+    public String getUserRoleStringVer() {
+        return user.getRole().name();
+    }
+
     @Override
     public String getUsername() {
         log.info("getUsername() -> nickName = {}", user.getNickname());

@@ -69,20 +69,17 @@
         }
 
         .comment-grid-nd {
-            grid-template-columns: 1fr 1fr 6fr 0.5fr 0.8fr 0.8fr;
+            grid-template-columns: 1fr 1fr 5fr 0.4fr 0.4fr 1fr 1fr;
         }
-
 
         .grid-comment {
             margin-top: 20px;
             grid-template-columns: 8fr 1fr;
         }
 
-
         td a {
             color: rgb(68, 211, 211);
         }
-
 
         details.abc summary[role=button]::after {
             height: calc(1rem * var(--line-height, 1.5));
@@ -91,9 +88,28 @@
         }
 
         .comment-edit-btn, .comment-delete-btn {
-            padding: 5px 6px; /* 버튼의 안쪽 여백을 줄입니다. */
-            font-size: 18px; /* 글자 크기를 줄입니다. */
+            padding: 6px 8px; /* 버튼의 안쪽 여백을 줄입니다. */
+            font-size: 16px; /* 글자 크기를 줄입니다. */
             /* 추가적인 스타일 조정이 필요한 경우 여기에 코드를 추가합니다. */
+        }
+
+        .like-button {
+            padding: 3px 5px; /* 버튼 내부 여백을 조정합니다. */
+            font-size: 18px; /* 아이콘의 크기를 줄입니다. */
+            line-height: 1; /* 텍스트 높이를 조절하여 버튼 높이를 줄입니다. */
+            border: none; /* 테두리를 제거합니다. */
+            background-color: transparent; /* 배경색을 투명하게 설정합니다. */
+            cursor: pointer; /* 마우스 오버 시 커서 모양을 손가락 모양으로 변경합니다. */
+        }
+
+        /* 버튼 포커스 시 외곽선 제거 */
+        .like-button:focus {
+            outline: none;
+        }
+
+        /* 추가적으로, 버튼 호버 시 스타일을 추가할 수 있습니다. */
+        .like-button:hover {
+            color: #007bff; /* 호버 시 색상 변경 */
         }
 
 
@@ -168,9 +184,20 @@
                 <div class="comment-container" th:id="'comment-container-' + ${comment.commentId}">
                     <div class="comment-contents" th:text="${comment.contents}">댓글 내용</div>
                 </div>
-                <div>
-                    👍 0 <!-- 추후 동적인 좋아요 기능 구현 예정 -->
-                </div>
+
+                <!-- 좋아요 기능 -->
+                <form id="likeForm" th:action="@{'/api' + '/comments/' + ${comment.commentId} + '/like'}" method="post">
+                    <!-- 좋아요 버튼에 data-comment-id 속성 추가 -->
+                    <button type="submit" class="like-button"
+                            style="background-color: transparent; border-color: transparent;">
+                        👍
+                    </button>
+
+                </form>
+                <div th:id="like-count-+${comment.commentId}" th:text="${comment.getLikeCount}"></div>
+
+                <!-- 좋아요 기능 끝 -->
+
                 <div th:if="${comment.getUserId} == ${#authentication.principal.userId}">
                     <button class="comment-edit-btn" th:data-comment-id="${comment.commentId}">댓글수정</button>
                 </div>
@@ -346,37 +373,44 @@
         e.preventDefault(); // 폼의 기본 제출 동작 방지
 
         const formData = new FormData(this);
-        const content = formData.get('contents'); // 'contents'는 input 태그의 name 속성 값
+        const content = formData.get('contents');
 
-        // 댓글 데이터를 서버로 전송
         fetch(this.action, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                // 필요한 경우 인증 헤더 추가
             },
-            body: JSON.stringify({contents: content}) // 서버가 요구하는 형식에 맞추어 JSON 문자열 생성
+            body: JSON.stringify({contents: content})
         })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.json(); // 서버로부터 받은 응답을 JSON으로 변환
+                return response.json();
             })
             .then(data => {
-                // 날짜 형식 변환
                 const formattedDate = formatDateTime(data.createdDate);
-                // 여기에서 data는 서버로부터 받은 댓글 데이터
-                // 새 댓글을 페이지에 추가하는 로직 구현
-                const commentsContainer = document.querySelector('.grid.comment-grid-nd').parentNode; // 댓글들을 담고 있는 컨테이너
+
+                // 첫 댓글이 추가될 때 적절한 컨테이너를 찾거나 생성
+                let commentsContainer = document.querySelector('.comments-container'); // 가정: 댓글들을 감싸는 컨테이너의 클래스
+                if (!commentsContainer) {
+                    commentsContainer = document.createElement('div');
+                    commentsContainer.classList.add('comments-container');
+                    document.querySelector('footer').appendChild(commentsContainer); // 가정: footer 요소가 댓글 컨테이너를 담을 위치
+                }
+
                 const newCommentHtml = `
             <div class="date-size border-bot padding-topbot grid comment-grid-nd">
                 <div class="comment-name">${data.createdBy}</div>
                 <div class="comment-date">${formattedDate}</div>
                 <div class="comment-container">
-                    <div class="comment-contents">${data.contents}</div>
+                <div class="comment-contents">${data.contents}</div>
                 </div>
-                <div>👍 0</div>
+                <button type="submit" class="like-button"
+                            style="background-color: transparent; border-color: transparent;">
+                        👍
+                </button>
+                <div>0</div>
                 <div>
                     <button class="comment-edit-btn" data-comment-id="${data.commentId}">댓글수정</button>
                 </div>
@@ -386,14 +420,15 @@
             </div>
         `;
 
-                commentsContainer.insertAdjacentHTML('beforeend', newCommentHtml); // 새 댓글을 컨테이너의 마지막에 추가
-                this.reset(); // 댓글 등록 폼의 내용을 초기화
+                commentsContainer.insertAdjacentHTML('beforeend', newCommentHtml);
+                this.reset();
             })
             .catch(error => {
                 console.error('Error posting comment:', error);
                 alert('댓글 등록 중 오류가 발생했습니다.');
             });
     });
+
 
 </script>
 

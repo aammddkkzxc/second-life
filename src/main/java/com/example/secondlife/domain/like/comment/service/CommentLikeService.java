@@ -2,12 +2,12 @@ package com.example.secondlife.domain.like.comment.service;
 
 import com.example.secondlife.domain.comment.entity.Comment;
 import com.example.secondlife.domain.comment.service.CommentSearchService;
-import com.example.secondlife.domain.like.comment.dto.CommentLikeCountResponse;
 import com.example.secondlife.domain.like.comment.dto.CommentLikeResponse;
 import com.example.secondlife.domain.like.comment.entity.CommentLike;
 import com.example.secondlife.domain.like.comment.repository.CommentLikeRepository;
 import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.service.UserService;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,37 +21,28 @@ public class CommentLikeService {
     private final CommentSearchService commentSearchService;
     private final UserService userService;
 
-    public CommentLikeResponse save(Long commentId, Long userId) {
-        Comment findComment = commentSearchService.findById(commentId);
-        User findUser = userService.findById(userId);
+    public void saveOrDelete(Long commentId, Long userId) {
+        Optional<CommentLike> findCommentLike = commentLikeRepository.findByCommentIdAndUserId(commentId, userId);
 
-        CommentLike commentLike = CommentLike.builder()
-                .comment(findComment)
-                .user(findUser)
-                .build();
+        if (findCommentLike.isEmpty()) {
+            Comment findComment = commentSearchService.findById(commentId);
+            User findUser = userService.findById(userId);
 
-        CommentLike savedCommentLike = commentLikeRepository.save(commentLike);
+            CommentLike commentLike = CommentLike.builder()
+                    .comment(findComment)
+                    .user(findUser)
+                    .build();
 
-        return CommentLikeResponse.builder()
-                .commentId(savedCommentLike.getComment().getId())
-                .userId(savedCommentLike.getUser().getId())
-                .commentLikeId(savedCommentLike.getId())
-                .build();
+            commentLikeRepository.save(commentLike);
+        } else {
+            commentLikeRepository.delete(findCommentLike.get());
+        }
     }
 
-    @Transactional(readOnly = true)
-    public CommentLikeCountResponse getLikeCount(Long commentId) {
+//    @Transactional(readOnly = true)
+//    public Long getLikeCount(Long commentId) {
+//
+//        return commentLikeRepository.countByCommentId(commentId);
+//    }
 
-        Long likeCount = commentLikeRepository.countByCommentId(commentId);
-
-        return CommentLikeCountResponse.builder()
-                .count(likeCount)
-                .commentId(commentId)
-                .build();
-    }
-
-    public void delete(Long commentId, Long userId) {
-        commentLikeRepository.findByCommentIdAndUserId(commentId, userId)
-                .ifPresent(commentLikeRepository::delete);
-    }
 }
