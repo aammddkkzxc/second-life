@@ -44,8 +44,6 @@ public class Post extends BaseEntity {
 
     private int hits;
 
-    private boolean isPublic;
-
     @Enumerated(EnumType.STRING)
     private Forum forum;
 
@@ -55,7 +53,6 @@ public class Post extends BaseEntity {
 
         this.title = request.getTitle() != null ? request.getTitle() : this.title;
         this.contents = request.getContents() != null ? request.getContents() : this.contents;
-        this.isPublic = request.isPublic();
         this.forum = request.getForum() != null ? request.getForum() : this.forum;
 
     }
@@ -65,12 +62,11 @@ public class Post extends BaseEntity {
     }
 
     @Builder
-    public Post(User user, String title, String contents, int hits, boolean isPublic, Forum forum) {
+    public Post(User user, String title, String contents, int hits, Forum forum) {
         this.user = user;
         this.title = title;
         this.contents = contents;
         this.hits = hits;
-        this.isPublic = isPublic;
         this.forum = forum;
     }
 

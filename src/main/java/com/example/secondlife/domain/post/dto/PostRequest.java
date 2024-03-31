@@ -12,7 +12,6 @@ public class PostRequest {
 
     private String title;
     private String contents;
-    private boolean isPublic;
     private Forum forum;
 
 }
