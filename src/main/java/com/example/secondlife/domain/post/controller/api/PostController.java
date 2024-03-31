@@ -47,7 +47,7 @@ public class PostController {
     public ResponseEntity<PostResponse> getPost(@PathVariable Long postId) {
         log.info("getPost()");
 
-        PostResponse postResponse = postSearchService.readWithComments(postId);
+        PostResponse postResponse = postSearchService.readWithCommentsAndCommentLikes(postId);
 
         return ResponseEntity.ok(postResponse);
     }
