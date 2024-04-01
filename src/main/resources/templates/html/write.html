@@ -115,13 +115,25 @@
                 <textarea name="contents" placeholder="내용을 입력하세요." class="minh500"></textarea>
             </label>
             <div class="grid writeb mt30px">
-                <div class="taL">
-                    <label>
-                        <input type="radio" name="forum" value="FREE" checked> 자유 게시판
-                    </label>
-                    <label>
-                        <input type="radio" name="forum" value="REGION"> 지역 게시판
-                    </label>
+                <div th:if="${!#authorization.expression('hasRole(''ROLE_L2'')')}">
+                    <!-- L1 권한을 가진 사용자에게만 보이는 내용 -->
+                    <div class="taL">
+                        <label>
+                            <input type="radio" name="forum" value="FREE" checked> 자유 게시판
+                        </label>
+                    </div>
+                </div>
+
+                <div th:if="${#authorization.expression('hasRole(''ROLE_L2'')')}">
+                    <!-- L2 권한을 가진 사용자에게만 보이는 내용 -->
+                    <div class="taL">
+                        <label>
+                            <input type="radio" name="forum" value="FREE" checked> 자유 게시판
+                        </label>
+                        <label>
+                            <input type="radio" name="forum" value="REGION"> 지역 게시판
+                        </label>
+                    </div>
                 </div>
                 <button type="button" class="btn btn-secondary mt-3 mx-2" id="writeX">취소</button>
                 <input type="submit" class="btn btn-secondary mt-3 mx-2" id="writeO" value="등록"/>
