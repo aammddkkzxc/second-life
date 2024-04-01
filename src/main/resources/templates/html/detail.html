@@ -5,115 +5,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.indigo.min.css"/>
     <link rel="stylesheet" href="https://unpkg.com/open-props">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <style>
+    <link rel="stylesheet" href="/css/detail.css">
 
-        .bold {
-            font-weight: bold;
-        }
-
-        .board td:first-child {
-            width: 60%;
-            text-align: left;
-        }
-
-        .board td:not(:first-child) {
-            text-align: left;
-        }
-
-        .board th {
-            text-align: left;
-
-        }
-
-        .grid-detail-head {
-            grid-template-columns: 5fr 1fr 1fr;
-        }
-
-        .grid-detail-head2 {
-            grid-template-columns: 8fr 1fr 1fr 1fr;
-        }
-
-        .date-size {
-            font-size: 16px;
-        }
-
-
-        .border-bottom {
-            border-bottom: 1px solid black;
-        }
-
-        .grid-rec {
-            grid-template-columns: 5fr 1fr 5fr;
-            align-items: center;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-        }
-
-
-        .border-bot {
-            border-bottom: 1px solid black;
-        }
-
-        .padding-topbot {
-            padding-bottom: 10px;
-            padding-top: 10px;
-        }
-
-        .comment-name {
-            width: 110px;
-        }
-
-        .comment-date {
-            width: 160px;
-        }
-
-        .comment-grid-nd {
-            grid-template-columns: 1fr 1fr 5fr 0.4fr 0.4fr 1fr 1fr;
-        }
-
-        .grid-comment {
-            margin-top: 20px;
-            grid-template-columns: 8fr 1fr;
-        }
-
-        td a {
-            color: rgb(68, 211, 211);
-        }
-
-        details.abc summary[role=button]::after {
-            height: calc(1rem * var(--line-height, 1.5));
-            background-image: var(--icon-chevron-button);
-            width: 0;
-        }
-
-        .comment-edit-btn, .comment-delete-btn {
-            padding: 6px 8px; /* 버튼의 안쪽 여백을 줄입니다. */
-            font-size: 16px; /* 글자 크기를 줄입니다. */
-            /* 추가적인 스타일 조정이 필요한 경우 여기에 코드를 추가합니다. */
-        }
-
-        .like-button {
-            padding: 3px 5px; /* 버튼 내부 여백을 조정합니다. */
-            font-size: 18px; /* 아이콘의 크기를 줄입니다. */
-            line-height: 1; /* 텍스트 높이를 조절하여 버튼 높이를 줄입니다. */
-            border: none; /* 테두리를 제거합니다. */
-            background-color: transparent; /* 배경색을 투명하게 설정합니다. */
-            cursor: pointer; /* 마우스 오버 시 커서 모양을 손가락 모양으로 변경합니다. */
-        }
-
-        /* 버튼 포커스 시 외곽선 제거 */
-        .like-button:focus {
-            outline: none;
-        }
-
-        /* 추가적으로, 버튼 호버 시 스타일을 추가할 수 있습니다. */
-        .like-button:hover {
-            color: #007bff; /* 호버 시 색상 변경 */
-        }
-
-
-    </style>
 </head>
 
 <body>
@@ -188,7 +81,7 @@
                 <!-- 좋아요 기능 -->
                 <form id="likeForm" th:action="@{'/api' + '/comments/' + ${comment.commentId} + '/like'}" method="post">
 
-                  
+
                     <button type="submit" class="like-button"
                             style="background-color: transparent; border-color: transparent;">
                         👍
@@ -391,46 +284,44 @@
                 return response.json();
             })
             .then(data => {
-                const formattedDate = formatDateTime(data.createdDate);
-
-                // 첫 댓글이 추가될 때 적절한 컨테이너를 찾거나 생성
-                let commentsContainer = document.querySelector('.comments-container'); // 가정: 댓글들을 감싸는 컨테이너의 클래스
-                if (!commentsContainer) {
-                    commentsContainer = document.createElement('div');
-                    commentsContainer.classList.add('comments-container');
-                    document.querySelector('footer').appendChild(commentsContainer); // 가정: footer 요소가 댓글 컨테이너를 담을 위치
-                }
-
-                const newCommentHtml = `
-            <div class="date-size border-bot padding-topbot grid comment-grid-nd">
-                <div class="comment-name">${data.createdBy}</div>
-                <div class="comment-date">${formattedDate}</div>
-                <div class="comment-container">
-                <div class="comment-contents">${data.contents}</div>
-                </div>
-                <button type="submit" class="like-button"
-                            style="background-color: transparent; border-color: transparent;">
-                        👍
-                </button>
-                <div>0</div>
-                <div>
-                    <button class="comment-edit-btn" data-comment-id="${data.commentId}">댓글수정</button>
-                </div>
-                <div>
-                    <button class="comment-delete-btn" style="background-color: rgb(199, 61, 61); border-color: rgb(199, 61, 61);" data-comment-id="${data.commentId}">댓글삭제</button>
-                </div>
-            </div>
-        `;
-
-                commentsContainer.insertAdjacentHTML('beforeend', newCommentHtml);
-                this.reset();
+                // 댓글 등록 성공 후 페이지 새로고침
+                window.location.reload();
             })
             .catch(error => {
                 console.error('Error posting comment:', error);
                 alert('댓글 등록 중 오류가 발생했습니다.');
             });
     });
+    document.body.addEventListener('click', function (e) {
+        if (e.target.classList.contains('like-button')) {
+            e.preventDefault(); // 폼의 기본 제출 동작 방지
 
+            // 좋아요 버튼이 속한 폼을 찾습니다.
+            const likeForm = e.target.closest('form');
+            // 폼의 action 속성에서 URL을 가져옵니다. 실제 구현에서는 해당 데이터를 기반으로 URL을 구성해야 합니다.
+            const actionURL = likeForm.getAttribute('action');
+
+            fetch(actionURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 추가적인 인증 헤더가 필요한 경우 여기에 포함시킵니다.
+                },
+                body: JSON.stringify({liked: true}) // 실제 API 요구사항에 따라 바디를 구성합니다.
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    // 요청이 성공적으로 처리되면, 여기서 UI를 업데이트하거나 페이지를 새로고침할 수 있습니다.
+                    window.location.reload(); // 예시로 페이지를 새로고침합니다.
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('좋아요 처리 중 오류가 발생했습니다.');
+                });
+        }
+    });
 
 </script>
 
