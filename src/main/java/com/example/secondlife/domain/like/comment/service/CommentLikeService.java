@@ -20,7 +20,7 @@ public class CommentLikeService {
     private final CommentSearchService commentSearchService;
     private final UserService userService;
 
-    public void saveOrDelete(Long commentId, Long userId) {
+    public Optional<CommentLikeResponse> saveOrDelete(Long commentId, Long userId) {
         Optional<CommentLike> findCommentLike = commentLikeRepository.findByCommentIdAndUserId(commentId, userId);
 
         if (findCommentLike.isEmpty()) {
@@ -32,9 +32,15 @@ public class CommentLikeService {
                     .user(findUser)
                     .build();
 
-            commentLikeRepository.save(commentLike);
+            CommentLike savedCommentLike = commentLikeRepository.save(commentLike);
+
+            CommentLikeResponse commentLikeResponse = savedCommentLike.toCommentLikeResponse();
+
+            return Optional.of(commentLikeResponse);
         } else {
             commentLikeRepository.delete(findCommentLike.get());
+
+            return Optional.empty();
         }
     }
 
