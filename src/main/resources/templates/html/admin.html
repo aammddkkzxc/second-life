@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
+    <title>관리자페이지</title>
+    <style>
+        .header_box {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .Level_box {
+            width: 200px;
+            margin-bottom: 0
+        }
+
+        th, td {
+            text-align: center;
+        }
+
+        #col_name {
+            width: 200px
+        }
+
+        #col_level {
+            width: 250px
+        }
+
+        #col_down {
+            width: 150px
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragment/nav :: top}"></div>
+<main class="container">
+    <h2>ADMIN</h2>
+    <hr>
+    <form action="/admin/search" method="get">
+        <div class="header_box">
+            <select name="category" aria-label="Category" required style="width:200px; margin-right:50px">
+                <option disabled value="">선택</option> <!-- 여기서 selected 제거 -->
+                <option value="nickname" selected>닉네임</option> <!-- 여기서 selected 추가 -->
+                <!-- 기타 검색 범주 옵션 -->
+            </select>
+            <input type="search" name="keyword" placeholder="검색">
+        </div>
+
+    </form>
+    <table style="table-layout: fixed">
+        <thead>
+        <tr>
+            <th scope="col" id="col_name">ID</th>
+            <th scope="col" id="col_title">닉네임</th>
+            <th scope="col" id="col_level">등급</th>
+            <th scope="col" id="col_down">변경</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row" th:text="${user.userId}">108</th>
+            <td th:text="${user.nickname}">Venus</td>
+            <td><select name="Level" class="Level_box" aria-label="Level" required>
+                <option selected disabled value="">
+                    등급
+                </option>
+                <option>일반회원</option>
+                <option>인증회원</option>
+            </select>
+            <td>
+                <button>확인</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 검색 입력 필드에 이벤트 리스너 추가
+        document.querySelector('input[type="search"]').addEventListener('keypress', function (event) {
+            // 엔터 키가 눌렸는지 확인
+            if (event.keyCode === 13) {
+                // 엔터 키 이벤트가 발생하면 폼 제출 방지
+                event.preventDefault();
+                // 폼 제출
+                this.form.submit();
+            }
+        });
+    });
+</script>
+
+</html>

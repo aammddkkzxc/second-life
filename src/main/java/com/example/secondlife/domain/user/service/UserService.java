@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserSearchService userSearchService;
     private final BCryptPasswordEncoder passwordEncoder;
 
     public JoinResponse save(JoinRequest request) {
@@ -29,15 +30,6 @@ public class UserService {
         User savedUser = userRepository.save(joinRequestToUser(request));
 
         return savedUser.toJoinResponse();
-    }
-
-    @Transactional(readOnly = true)
-    public UserResponse getUserProfile(Long userId) {
-        log.info("getUserInfo()");
-
-        User user = findById(userId);
-
-        return user.UserResponse();
     }
 
     public UserResponse updateUserProfile(Long userId, UpdateUserRequest request) {
@@ -50,27 +42,19 @@ public class UserService {
             request.setPassword(passwordEncoder.encode(password));
         }
 
-        User user = findById(userId);
+        User user = userSearchService.findById(userId);
 
         user.updateUserProfile(request);
 
-        return user.UserResponse();
+        return user.userResponse();
     }
 
     public void delete(Long userId) {
         log.info("delete()");
 
-        User findUser = findById(userId);
+        User findUser = userSearchService.findById(userId);
 
         findUser.delete();
-    }
-
-    @Transactional(readOnly = true)
-    public User findById(Long userId) {
-        log.info("findById()");
-
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다. userId = " + userId));
     }
 
     private User joinRequestToUser(JoinRequest request) {

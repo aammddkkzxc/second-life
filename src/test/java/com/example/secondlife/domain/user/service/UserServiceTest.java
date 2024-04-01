@@ -23,13 +23,16 @@ class UserServiceTest {
     private UserService userService;
 
     @Autowired
+    private UserSearchService userSearchService;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Test
     void saveAndFind() {
         JoinResponse joinResponse = saveMember();
 
-        User byId = userService.findById(1L);
+        User byId = userSearchService.findById(1L);
 
         assertEquals(joinResponse.getUserId(), byId.getId());
         assertEquals(joinResponse.getLoginId(), byId.getLoginId());
@@ -44,8 +47,8 @@ class UserServiceTest {
     void getUserInfo() {
         JoinResponse joinResponse = saveMember();
 
-        userService.getUserProfile(joinResponse.getUserId());
-        User byId = userService.findById(joinResponse.getUserId());
+        userSearchService.getUserProfile(joinResponse.getUserId());
+        User byId = userSearchService.findById(joinResponse.getUserId());
 
         assertEquals(joinResponse.getNickname(), byId.getNickname());
         assertEquals(joinResponse.getRegion(), byId.getIntroduction().getRegion());
@@ -65,7 +68,7 @@ class UserServiceTest {
                 .build();
 
         userService.updateUserProfile(joinResponse.getUserId(), userInfo);
-        User byId = userService.findById(joinResponse.getUserId());
+        User byId = userSearchService.findById(joinResponse.getUserId());
 
         assertEquals(userInfo.getNickname(), byId.getNickname());
         assertEquals(userInfo.getRegion(), byId.getIntroduction().getRegion());

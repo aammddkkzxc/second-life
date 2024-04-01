@@ -5,7 +5,7 @@ import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.entity.Post;
 import com.example.secondlife.domain.post.repository.PostRepository;
 import com.example.secondlife.domain.user.entity.User;
-import com.example.secondlife.domain.user.service.UserService;
+import com.example.secondlife.domain.user.service.UserSearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostService {
 
     private final PostRepository postRepository;
-    private final UserService userService;
+    private final UserSearchService userSearchService;
     private final PostSearchService postSearchService;
 
     public PostResponse save(Long userId, PostRequest request) {
@@ -62,7 +62,7 @@ public class PostService {
 
     private Post postRequestToPost(Long userId, PostRequest request) {
 
-        User findUser = userService.findById(userId);
+        User findUser = userSearchService.findById(userId);
 
         return Post.builder()
                 .user(findUser)

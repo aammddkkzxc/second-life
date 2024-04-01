@@ -102,9 +102,10 @@ public class User extends BaseTimeEntity {
         isDeleted = true;
     }
 
-    public UserResponse UserResponse() {
+    public UserResponse userResponse() {
 
         return UserResponse.builder()
+                .userId(id)
                 .nickname(nickname)
                 .region(introduction.getRegion())
                 .birthDate(introduction.getBirthDate())

@@ -5,6 +5,7 @@ import com.example.secondlife.domain.comment.service.CommentSearchService;
 import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.service.PostSearchService;
 import com.example.secondlife.domain.user.dto.UserResponse;
+import com.example.secondlife.domain.user.service.UserSearchService;
 import com.example.secondlife.domain.user.service.UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class ProfileController {
 
 
     private final UserService userService;
+    private final UserSearchService userSearchService;
     private final PostSearchService postSearchService;
     private final CommentSearchService commentSearchService;
 
@@ -33,7 +35,7 @@ public class ProfileController {
                           @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("profile()");
 
-        final UserResponse userProfile = userService.getUserProfile(userId);
+        final UserResponse userProfile = userSearchService.getUserProfile(userId);
         final Long postCount = postSearchService.getPostCount(userId);
         final Page<PostResponse> page = postSearchService.getPostsByUserId(pageable, userId);
         final List<PostResponse> posts = page.getContent();

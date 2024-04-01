@@ -6,7 +6,7 @@ import com.example.secondlife.domain.like.comment.dto.CommentLikeResponse;
 import com.example.secondlife.domain.like.comment.entity.CommentLike;
 import com.example.secondlife.domain.like.comment.repository.CommentLikeRepository;
 import com.example.secondlife.domain.user.entity.User;
-import com.example.secondlife.domain.user.service.UserService;
+import com.example.secondlife.domain.user.service.UserSearchService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,14 +19,14 @@ public class CommentLikeService {
 
     private final CommentLikeRepository commentLikeRepository;
     private final CommentSearchService commentSearchService;
-    private final UserService userService;
+    private final UserSearchService userSearchService;
 
     public Optional<CommentLikeResponse> saveOrDelete(Long commentId, Long userId) {
         Optional<CommentLike> findCommentLike = commentLikeRepository.findByCommentIdAndUserId(commentId, userId);
 
         if (findCommentLike.isEmpty()) {
             Comment findComment = commentSearchService.findById(commentId);
-            User findUser = userService.findById(userId);
+            User findUser = userSearchService.findById(userId);
 
             CommentLike commentLike = CommentLike.builder()
                     .comment(findComment)
@@ -47,7 +47,7 @@ public class CommentLikeService {
 
     public CommentLikeResponse save(Long commentId, Long userId) {
         Comment findComment = commentSearchService.findById(commentId);
-        User findUser = userService.findById(userId);
+        User findUser = userSearchService.findById(userId);
 
         CommentLike commentLike = CommentLike.builder()
                 .comment(findComment)

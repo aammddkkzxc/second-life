@@ -2,7 +2,6 @@ package com.example.secondlife.domain.user.dto;
 
 import com.example.secondlife.domain.user.enumType.Region;
 import com.example.secondlife.domain.user.enumType.Role;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -16,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserResponse {
 
+    private Long userId;
     private String nickname;
     private Region region;
     private LocalDate birthDate;

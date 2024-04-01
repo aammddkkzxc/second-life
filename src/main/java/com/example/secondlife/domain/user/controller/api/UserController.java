@@ -6,6 +6,7 @@ import com.example.secondlife.domain.user.dto.JoinRequest;
 import com.example.secondlife.domain.user.dto.JoinResponse;
 import com.example.secondlife.domain.user.dto.UpdateUserRequest;
 import com.example.secondlife.domain.user.dto.UserResponse;
+import com.example.secondlife.domain.user.service.UserSearchService;
 import com.example.secondlife.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+    private final UserSearchService userSearchService;
 
     @PostMapping("/users")
     public ResponseEntity<JoinResponse> join(@RequestBody JoinRequest request) {
@@ -44,7 +46,7 @@ public class UserController {
     public ResponseEntity<UserResponse> getUserProfile(@PathVariable Long userId) {
         log.info("getUserInfo()");
 
-        UserResponse userInfo = userService.getUserProfile(userId);
+        UserResponse userInfo = userSearchService.getUserProfile(userId);
 
         return ResponseEntity.ok(userInfo);
     }
