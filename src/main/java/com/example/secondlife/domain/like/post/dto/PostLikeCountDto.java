@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-public class PostLikeCountResponse {
+public class PostLikeCountDto {
 
     private Long postId;
     private Long count;

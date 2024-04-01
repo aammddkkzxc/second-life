@@ -1,6 +1,6 @@
 package com.example.secondlife.domain.like.post.controller;
 
-import com.example.secondlife.domain.like.post.dto.PostLikeCountResponse;
+import com.example.secondlife.domain.like.post.dto.PostLikeCountDto;
 import com.example.secondlife.domain.like.post.dto.PostLikeResponse;
 import com.example.secondlife.domain.like.post.service.PostLikeService;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +30,8 @@ public class PostLikeController {
     }
 
     @GetMapping("/posts/{postId}/like")
-    public ResponseEntity<PostLikeCountResponse> getLikesCount(@PathVariable Long postId) {
-        PostLikeCountResponse response = postLikeService.getLikeCount(postId);
+    public ResponseEntity<PostLikeCountDto> getLikesCount(@PathVariable Long postId) {
+        PostLikeCountDto response = postLikeService.getLikeCount(postId);
 
         return ResponseEntity
                 .ok(response);

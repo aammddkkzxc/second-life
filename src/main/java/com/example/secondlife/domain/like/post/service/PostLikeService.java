@@ -1,6 +1,6 @@
 package com.example.secondlife.domain.like.post.service;
 
-import com.example.secondlife.domain.like.post.dto.PostLikeCountResponse;
+import com.example.secondlife.domain.like.post.dto.PostLikeCountDto;
 import com.example.secondlife.domain.like.post.dto.PostLikeResponse;
 import com.example.secondlife.domain.like.post.entity.PostLike;
 import com.example.secondlife.domain.like.post.repository.PostLikeRepository;
@@ -45,11 +45,11 @@ public class PostLikeService {
     }
 
     @Transactional(readOnly = true)
-    public PostLikeCountResponse getLikeCount(Long postId) {
+    public PostLikeCountDto getLikeCount(Long postId) {
 
         Long likeCount = postLikeRepository.countByPostId(postId);
 
-        return PostLikeCountResponse.builder()
+        return PostLikeCountDto.builder()
                 .count(likeCount)
                 .postId(postId)
                 .build();
