@@ -58,18 +58,19 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row" th:text="${user.userId}">108</th>
-            <td th:text="${user.nickname}">Venus</td>
-            <td><select name="Level" class="Level_box" aria-label="Level" required>
-                <option selected disabled value="">
-                    등급
-                </option>
-                <option>일반회원</option>
-                <option>인증회원</option>
-            </select>
+        <tr th:data-user-id="${user.userId}"> <!-- 사용자 ID를 data-user-id 속성에 저장 -->
+            <th scope="row" th:text="${user.userId}">Venus</th>
+            <td th:text="${user.nickname}">12,104</td>
             <td>
-                <button>확인</button>
+                <select name="Level" class="Level_box" aria-label="Level" required>
+                    <option disabled value="">등급 선택</option>
+                    <option value="L1">일반회원(L1)</option> <!-- 실제 역할 값으로 설정 -->
+                    <option value="L2">인증회원(L2)</option> <!-- 실제 역할 값으로 설정 -->
+                    <option value="ADMIN">관리자(ADMIN)</option> <!-- 실제 역할 값으로 설정 -->
+                </select>
+            </td>
+            <td>
+                <button type="button">확인</button> <!-- type="button" 명시 -->
             </td>
         </tr>
         </tbody>
@@ -91,5 +92,47 @@
         });
     });
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // "확인" 버튼에 대한 클릭 이벤트 리스너 등록
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', function () {
+                // 선택된 등급(역할)을 가져오기
+                const selectedRole = this.closest('tr').querySelector('select[name="Level"]').value;
+                // 사용자 ID 가져오기 (행에 userId 값을 저장하는 방식에 따라 다를 수 있음)
+                const userId = this.closest('tr').querySelector('th[scope="row"]').textContent;
+
+                // 역할 값과 사용자 ID 확인 (디버깅 용도)
+                console.log('Selected Role:', selectedRole, 'User ID:', userId);
+
+                // Fetch API를 사용하여 서버에 PATCH 요청 보내기
+                fetch(`/api/users/role/${userId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // 인증 헤더 등 필요한 경우 여기에 추가
+                    },
+                    body: JSON.stringify({role: selectedRole})
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // 요청 성공 처리, 예: 성공 메시지 표시
+                        alert('사용자 등급이 성공적으로 업데이트되었습니다.');
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('등급 업데이트 중 오류가 발생했습니다.');
+                    });
+            });
+        });
+    });
+</script>
+
 
 </html>

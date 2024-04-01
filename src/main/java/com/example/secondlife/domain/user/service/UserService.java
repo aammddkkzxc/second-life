@@ -3,6 +3,7 @@ package com.example.secondlife.domain.user.service;
 import com.example.secondlife.domain.user.dto.JoinRequest;
 import com.example.secondlife.domain.user.dto.JoinResponse;
 import com.example.secondlife.domain.user.dto.UpdateUserRequest;
+import com.example.secondlife.domain.user.dto.UpdateUserRole;
 import com.example.secondlife.domain.user.dto.UserResponse;
 import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.enumType.Role;
@@ -45,6 +46,16 @@ public class UserService {
         User user = userSearchService.findById(userId);
 
         user.updateUserProfile(request);
+
+        return user.userResponse();
+    }
+
+    public UserResponse updateUserRole(Long userId, UpdateUserRole request) {
+        log.info("updateUserRole()");
+
+        User user = userSearchService.findById(userId);
+
+        user.updateUserRole(request);
 
         return user.userResponse();
     }

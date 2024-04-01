@@ -5,6 +5,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 import com.example.secondlife.domain.user.dto.JoinRequest;
 import com.example.secondlife.domain.user.dto.JoinResponse;
 import com.example.secondlife.domain.user.dto.UpdateUserRequest;
+import com.example.secondlife.domain.user.dto.UpdateUserRole;
 import com.example.secondlife.domain.user.dto.UserResponse;
 import com.example.secondlife.domain.user.service.UserSearchService;
 import com.example.secondlife.domain.user.service.UserService;
@@ -56,6 +57,17 @@ public class UserController {
         log.info("updateUserInfo()");
 
         UserResponse userInfo = userService.updateUserProfile(userId, request);
+
+        return ResponseEntity.ok(userInfo);
+    }
+
+    @PatchMapping("/users/role/{userId}")
+    public ResponseEntity<UserResponse> updateUserRole(@PathVariable Long userId, @RequestBody UpdateUserRole request) {
+        log.info("updateUserRole()");
+
+        log.info("updateUserRoleRequest: {}", request.getRole());
+
+        UserResponse userInfo = userService.updateUserRole(userId, request);
 
         return ResponseEntity.ok(userInfo);
     }
