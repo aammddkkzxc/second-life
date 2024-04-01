@@ -45,4 +45,23 @@ public class CommentLikeService {
         }
     }
 
+    public CommentLikeResponse save(Long commentId, Long userId) {
+        Comment findComment = commentSearchService.findById(commentId);
+        User findUser = userService.findById(userId);
+
+        CommentLike commentLike = CommentLike.builder()
+                .comment(findComment)
+                .user(findUser)
+                .build();
+
+        CommentLike savedCommentLike = commentLikeRepository.save(commentLike);
+
+        return savedCommentLike.toCommentLikeResponse();
+    }
+
+    public void delete(Long commentId, Long userId) {
+        commentLikeRepository.findByCommentIdAndUserId(commentId, userId)
+                .ifPresent(commentLikeRepository::delete);
+    }
+
 }
