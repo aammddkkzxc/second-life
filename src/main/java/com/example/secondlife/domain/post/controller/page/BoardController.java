@@ -1,12 +1,12 @@
 package com.example.secondlife.domain.post.controller.page;
 
+import com.example.secondlife.common.security.CustomUserDetails;
 import com.example.secondlife.domain.comment.dto.CommentResponse;
 import com.example.secondlife.domain.post.dto.PostRequest;
 import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.service.PostSearchService;
 import com.example.secondlife.domain.user.enumType.Region;
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,38 +28,62 @@ public class BoardController {
 
     private final PostSearchService postSearchService;
 
-    @GetMapping(value = {"/board", "/board2", "/board2/{region}", "/my/board"})
-    public String unifiedBoard(Model model,
-                               @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
-                               @AuthenticationPrincipal(expression = "userId") Long userId,
-                               @PathVariable(required = false) Region region,
-                               HttpServletRequest request) {
+    @GetMapping("/board")
+    public String freeBoard(Model model,
+                            @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        log.info("freeBoard()");
 
-        log.info("unifiedBoard()");
-
-        final String requestUri = request.getRequestURI();
-
-        final Page<PostResponse> postResponses;
-
-        final boolean regionBoard = requestUri.startsWith("/board2") && region != null;
-        final boolean myBoard = requestUri.startsWith("/my/board");
-
-        if (regionBoard) {
-            postResponses = postSearchService.getPostsByForumAndRegion(Forum.REGION, region, pageable);
-        } else if (myBoard) {
-            postResponses = postSearchService.getPostsByUserId(pageable, userId);
-        } else {
-            // /board, /board2
-            Forum forumType = requestUri.equals("/board") ? Forum.FREE : Forum.REGION;
-            log.info("forumType = {}", forumType);
-            postResponses = postSearchService.getPostsByForum(forumType, pageable);
-        }
+        final Page<PostResponse> postResponses = postSearchService.getPostsByForum(Forum.FREE, pageable);
 
         model.addAttribute("posts", postResponses.getContent());
         model.addAttribute("page", postResponses);
 
         return "html/board";
     }
+
+    @GetMapping("/board2")
+    @PreAuthorize("hasAnyRole('L2', 'ADMIN')")
+    public String regionBoard(Model model,
+                              @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        log.info("regionBoard()");
+
+        final Page<PostResponse> postResponses = postSearchService.getPostsByForum(Forum.REGION, pageable);
+
+        model.addAttribute("posts", postResponses.getContent());
+        model.addAttribute("page", postResponses);
+
+        return "html/board";
+    }
+
+    @GetMapping("/board2/{region}")
+    @PreAuthorize("hasAnyRole('L2', 'ADMIN')")
+    public String specificRegionBoard(Model model, @PathVariable Region region,
+                                      @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        log.info("specificRegionBoard(), region: {}", region);
+
+        final Page<PostResponse> postResponses = postSearchService.getPostsByForumAndRegion(Forum.REGION, region,
+                pageable);
+
+        model.addAttribute("posts", postResponses.getContent());
+        model.addAttribute("page", postResponses);
+
+        return "html/board";
+    }
+
+
+    @GetMapping("/my/board")
+    public String myBoard(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                          @AuthenticationPrincipal CustomUserDetails userDetails) {
+        log.info("myBoard()");
+
+        final Page<PostResponse> postResponses = postSearchService.getPostsByUserId(pageable, userDetails.getUserId());
+
+        model.addAttribute("posts", postResponses.getContent());
+        model.addAttribute("page", postResponses);
+
+        return "html/board";
+    }
+
 
     @GetMapping("/board/{postId}")
     public String post(@PathVariable("postId") Long postId, Model model) {

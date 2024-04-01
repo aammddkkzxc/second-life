@@ -2,6 +2,7 @@ package com.example.secondlife.domain.like.comment.service;
 
 import com.example.secondlife.domain.comment.entity.Comment;
 import com.example.secondlife.domain.comment.service.CommentSearchService;
+import com.example.secondlife.domain.like.comment.dto.CommentLikeResponse;
 import com.example.secondlife.domain.like.comment.entity.CommentLike;
 import com.example.secondlife.domain.like.comment.repository.CommentLikeRepository;
 import com.example.secondlife.domain.user.entity.User;
