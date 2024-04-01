@@ -13,6 +13,7 @@ import com.example.secondlife.domain.user.dto.JoinRequest;
 import com.example.secondlife.domain.user.dto.JoinResponse;
 import com.example.secondlife.domain.user.dto.UpdateUserRequest;
 import com.example.secondlife.domain.user.dto.UserResponse;
+import com.example.secondlife.domain.user.service.UserSearchService;
 import com.example.secondlife.domain.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,13 +38,16 @@ class UserControllerTest {
     @MockBean
     private UserService userService;
 
+    @MockBean
+    private UserSearchService userSearchService;
+
     @BeforeEach
     void setUp() {
         JoinResponse joinResponse = new JoinResponse();
         UserResponse response = new UserResponse();
 
         when(userService.save(any(JoinRequest.class))).thenReturn(joinResponse);
-        when(userService.getUserProfile(anyLong())).thenReturn(response);
+        when(userSearchService.getUserProfile(anyLong())).thenReturn(response);
         when(userService.updateUserProfile(anyLong(), any(UpdateUserRequest.class))).thenReturn(response);
     }
 

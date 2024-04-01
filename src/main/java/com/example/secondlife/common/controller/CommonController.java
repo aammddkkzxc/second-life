@@ -35,4 +35,5 @@ public class CommonController {
 
         return "html/access-denied";
     }
+
 }
