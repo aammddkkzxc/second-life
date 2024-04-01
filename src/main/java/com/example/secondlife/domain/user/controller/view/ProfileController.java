@@ -1,6 +1,7 @@
 package com.example.secondlife.domain.user.controller.view;
 
 
+import com.example.secondlife.domain.comment.service.CommentSearchService;
 import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.service.PostSearchService;
 import com.example.secondlife.domain.user.dto.UserResponse;
@@ -25,6 +26,7 @@ public class ProfileController {
 
     private final UserService userService;
     private final PostSearchService postSearchService;
+    private final CommentSearchService commentSearchService;
 
     @GetMapping("/profile")
     public String profile(@AuthenticationPrincipal(expression = "userId") Long userId, Model model,
@@ -32,14 +34,15 @@ public class ProfileController {
         log.info("profile()");
 
         final UserResponse userProfile = userService.getUserProfile(userId);
-
         final Long postCount = postSearchService.getPostCount(userId);
         final Page<PostResponse> page = postSearchService.getPostsByUserId(pageable, userId);
         final List<PostResponse> posts = page.getContent();
+        final Long commentCount = commentSearchService.getCommentCount(userId);
 
         model.addAttribute("user", userProfile);
         model.addAttribute("postCount", postCount);
         model.addAttribute("posts", posts);
+        model.addAttribute("commentCount", commentCount);
 
         return "html/profile";
     }

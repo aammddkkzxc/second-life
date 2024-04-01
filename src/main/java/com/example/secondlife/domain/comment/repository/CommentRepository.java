@@ -8,4 +8,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findByPostIdAndIsDeletedFalse(Long postId);
 
+    Long countByUserId(Long userId);
 }
