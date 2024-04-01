@@ -79,7 +79,8 @@
                 </div>
 
                 <!-- 좋아요 기능 -->
-                <form id="likeForm" th:action="@{'/api' + '/comments/' + ${comment.commentId} + '/like'}" method="post">
+                <form id="likeForm" th:action="@{'/api' + '/comments/' + ${comment.commentId} + '/likeToggle'}"
+                      method="post">
 
 
                     <button type="submit" class="like-button"
