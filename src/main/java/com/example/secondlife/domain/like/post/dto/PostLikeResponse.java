@@ -9,8 +9,8 @@ import lombok.Data;
 @Builder
 public class PostLikeResponse {
 
+    private Long postLikeId;
     private Long postId;
     private Long userId;
-    private Long postLikeId;
 
 }

@@ -3,7 +3,9 @@ package com.example.secondlife.domain.like.post.controller;
 import com.example.secondlife.domain.like.post.dto.PostLikeCountDto;
 import com.example.secondlife.domain.like.post.dto.PostLikeResponse;
 import com.example.secondlife.domain.like.post.service.PostLikeService;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -16,17 +18,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api")
+@Slf4j
 public class PostLikeController {
 
     private final PostLikeService postLikeService;
 
-    @PostMapping("/posts/{postId}/like")
-    public ResponseEntity<PostLikeResponse> clickLike(@PathVariable Long postId,
+    @PostMapping("/posts/{postId}/likeToggle")
+    public ResponseEntity<?> clickLike(@PathVariable Long postId,
                                                       @AuthenticationPrincipal(expression = "userId") Long userId) {
-        PostLikeResponse response = postLikeService.save(postId, userId);
+        log.info("clickLike()");
 
-        return ResponseEntity
-                .ok(response);
+        Optional<PostLikeResponse> postLikeResponse  = postLikeService.saveOrDelete(postId, userId);
+
+        if (postLikeResponse.isPresent()) {
+            return ResponseEntity.ok(postLikeResponse.get());
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 
     @GetMapping("/posts/{postId}/like")

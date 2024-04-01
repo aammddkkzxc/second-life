@@ -48,9 +48,10 @@
         <br>
 
         <div class="grid grid-rec">
-            <div class="like">
-                <button style="background-color: rgb(60, 85, 117); border-color: rgb(60, 85, 117);">추천</button>
-            </div>
+            <form class="postLikeForm" th:action="@{'/api' + '/posts/' + ${post.postId} + '/likeToggle'}"
+                  method="post">
+                <button type="submit" class="like-button" style="background-color: rgb(60, 85, 117); border-color: rgb(60, 85, 117);">추천</button>
+            </form>
         </div>
 
         <footer>
@@ -79,7 +80,7 @@
                 </div>
 
                 <!-- 좋아요 기능 -->
-                <form id="likeForm" th:action="@{'/api' + '/comments/' + ${comment.commentId} + '/likeToggle'}"
+                <form id="commentLikeForm" th:action="@{'/api' + '/comments/' + ${comment.commentId} + '/likeToggle'}"
                       method="post">
 
 
