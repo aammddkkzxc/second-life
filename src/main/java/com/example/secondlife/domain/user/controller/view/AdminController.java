@@ -20,25 +20,19 @@ public class AdminController {
     private final UserSearchService userSearchService;
 
     @GetMapping("/admin")
-    public String admin(Model model) {
+    public String admin(@RequestParam(value = "category", required = false) String category,
+                        @RequestParam(value = "keyword", required = false) String keyword,
+                        Model model) {
         log.info("admin()");
 
-        model.addAttribute("user", new UserResponse());
-
-        return "html/admin";
-    }
-
-    @GetMapping("/admin/search")
-    public String search(@RequestParam("category") String category,
-                         @RequestParam("keyword") String keyword,
-                         Model model) {
-
-        if (category.equals(NICKNAME)) {
-            User user = userSearchService.findByNickname(keyword);
-
-            final UserResponse userResponse = user.userResponse();
-
-            model.addAttribute("user", userResponse);
+        if (category == null || category.isEmpty() || keyword == null || keyword.isEmpty()) {
+            model.addAttribute("user", new UserResponse());
+        } else {
+            if (category.equals(NICKNAME)) {
+                User user = userSearchService.findByNickname(keyword);
+                final UserResponse userResponse = user.userResponse();
+                model.addAttribute("user", userResponse);
+            }
         }
 
         return "html/admin";
