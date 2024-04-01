@@ -1,0 +1,104 @@
+.bold {
+    font-weight: bold;
+}
+
+.board td:first-child {
+    width: 60%;
+    text-align: left;
+}
+
+.board td:not(:first-child) {
+    text-align: left;
+}
+
+.board th {
+    text-align: left;
+
+}
+
+.grid-detail-head {
+    grid-template-columns: 5fr 1fr 1fr;
+}
+
+.grid-detail-head2 {
+    grid-template-columns: 8fr 1fr 1fr 1fr;
+}
+
+.date-size {
+    font-size: 16px;
+}
+
+
+.border-bottom {
+    border-bottom: 1px solid black;
+}
+
+.grid-rec {
+    grid-template-columns: 5fr 1fr 5fr;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+
+.border-bot {
+    border-bottom: 1px solid black;
+}
+
+.padding-topbot {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.comment-name {
+    width: 110px;
+}
+
+.comment-date {
+    width: 160px;
+}
+
+.comment-grid-nd {
+    grid-template-columns: 1fr 1fr 5fr 0.4fr 0.4fr 1fr 1fr;
+}
+
+.grid-comment {
+    margin-top: 20px;
+    grid-template-columns: 8fr 1fr;
+}
+
+td a {
+    color: rgb(68, 211, 211);
+}
+
+details.abc summary[role=button]::after {
+    height: calc(1rem * var(--line-height, 1.5));
+    background-image: var(--icon-chevron-button);
+    width: 0;
+}
+
+.comment-edit-btn, .comment-delete-btn {
+    padding: 6px 8px; /* 버튼의 안쪽 여백을 줄입니다. */
+    font-size: 16px; /* 글자 크기를 줄입니다. */
+    /* 추가적인 스타일 조정이 필요한 경우 여기에 코드를 추가합니다. */
+}
+
+.like-button {
+    padding: 3px 5px; /* 버튼 내부 여백을 조정합니다. */
+    font-size: 18px; /* 아이콘의 크기를 줄입니다. */
+    line-height: 1; /* 텍스트 높이를 조절하여 버튼 높이를 줄입니다. */
+    border: none; /* 테두리를 제거합니다. */
+    background-color: transparent; /* 배경색을 투명하게 설정합니다. */
+    cursor: pointer; /* 마우스 오버 시 커서 모양을 손가락 모양으로 변경합니다. */
+}
+
+/* 버튼 포커스 시 외곽선 제거 */
+.like-button:focus {
+    outline: none;
+}
+
+/* 추가적으로, 버튼 호버 시 스타일을 추가할 수 있습니다. */
+.like-button:hover {
+    color: #007bff; /* 호버 시 색상 변경 */
+}
