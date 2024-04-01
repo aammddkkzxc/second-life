@@ -69,14 +69,14 @@ public class PostLikeService {
                 .ifPresent(postLikeRepository::delete);
     }
 
-    @Transactional(readOnly = true)
-    public PostLikeCountDto getLikeCount(Long postId) {
-
-        Long likeCount = postLikeRepository.countByPostId(postId);
-
-        return PostLikeCountDto.builder()
-                .count(likeCount)
-                .postId(postId)
-                .build();
-    }
+//    @Transactional(readOnly = true)
+//    public PostLikeCountDto getLikeCount(Long postId) {
+//
+//        Long likeCount = postLikeRepository.countByPostId(postId);
+//
+//        return PostLikeCountDto.builder()
+//                .count(likeCount)
+//                .postId(postId)
+//                .build();
+//    }
 }

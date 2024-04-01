@@ -10,6 +10,6 @@ import lombok.Data;
 public class PostLikeCountDto {
 
     private Long postId;
-    private Long count;
+    private Long likeCount;
 
 }

@@ -2,6 +2,8 @@ package com.example.secondlife.domain.post.service;
 
 import com.example.secondlife.domain.comment.dto.CommentResponse;
 import com.example.secondlife.domain.comment.service.CommentSearchService;
+import com.example.secondlife.domain.like.post.dto.PostLikeCountDto;
+import com.example.secondlife.domain.like.post.repository.PostLikeRepository;
 import com.example.secondlife.domain.post.dto.PostRequest;
 import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.entity.Post;
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostSearchService {
 
     private final PostRepository postRepository;
+    private final PostLikeRepository postLikeRepository;
     private final CommentSearchService commentSearchService;
 
     public Page<PostResponse> getPostsByForumAndRegion(Forum forum, Region region, Pageable pageable) {
@@ -96,8 +99,8 @@ public class PostSearchService {
 
         PostResponse postResponse = postToPostResponse(post);
         postResponse.setCommentResponses(comments);
-        return postResponse;
 
+        return postResponse;
     }
 
     private PostResponse postToPostResponse(Post post) {
@@ -112,7 +115,20 @@ public class PostSearchService {
                 .lastModifiedDate(post.getLastModifiedDate())
                 .createdBy(post.getCreatedBy())
                 .lastModifiedBy(post.getLastModifiedBy())
+                .likeCount(getPostWithPostLikes(post))
                 .build();
 
     }
+
+    private Long getPostWithPostLikes(Post post) {
+        Long postId = post.getId();
+        PostLikeCountDto postLikeCountDto = postLikeRepository.countLikesByPostId(postId);
+
+        if (postLikeCountDto != null) {
+            return postLikeCountDto.getLikeCount();
+        } else {
+            return 0L; // 좋아요가 없는 경우 0을 반환하거나 다른 기본값을 반환할 수 있습니다.
+        }
+    }
+
 }

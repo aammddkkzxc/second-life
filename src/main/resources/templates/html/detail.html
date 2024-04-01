@@ -37,7 +37,7 @@
             <div class="grid grid-detail-head2">
                 <div class="" th:text="${post.createdBy}">JSP</div>
                 <div></div>
-                <div class="" th:text="'추천 '+${post.getHits()}">추천 10</div>
+                <div class="" th:text="'추천 '+${post.getLikeCount()}">추천 10</div>
                 <div class="" th:text="'조회수 '+${post.getHits()}">조회수 10</div>
             </div>
         </header>
@@ -84,7 +84,7 @@
                       method="post">
 
 
-                    <button type="submit" class="like-button"
+                    <button type="submit" class="comment-like-button like-button"
                             style="background-color: transparent; border-color: transparent;">
                         👍
                     </button>

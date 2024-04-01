@@ -37,13 +37,13 @@ public class PostLikeController {
         }
     }
 
-    @GetMapping("/posts/{postId}/like")
-    public ResponseEntity<PostLikeCountDto> getLikesCount(@PathVariable Long postId) {
-        PostLikeCountDto response = postLikeService.getLikeCount(postId);
-
-        return ResponseEntity
-                .ok(response);
-    }
+//    @GetMapping("/posts/{postId}/like")
+//    public ResponseEntity<PostLikeCountDto> getLikesCount(@PathVariable Long postId) {
+//        PostLikeCountDto response = postLikeService.getLikeCount(postId);
+//
+//        return ResponseEntity
+//                .ok(response);
+//    }
 
     @DeleteMapping("/posts/{postId}/like")
     public ResponseEntity<?> cancelLike(@PathVariable Long postId,
