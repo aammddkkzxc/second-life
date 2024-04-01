@@ -20,7 +20,7 @@ public class CommentLikeController {
 
     private final CommentLikeService commentLikeService;
 
-    @PostMapping("/comments/{commentId}/like")
+    @PostMapping("/comments/{commentId}/likeToggle")
     public ResponseEntity<?> clickLike(@PathVariable Long commentId,
                                        @AuthenticationPrincipal(expression = "userId") Long userId) {
         Optional<CommentLikeResponse> commentLikeResponse = commentLikeService.saveOrDelete(commentId, userId);
@@ -32,7 +32,7 @@ public class CommentLikeController {
         }
     }
 
-    @PostMapping("/comments/{commentId}/addLike")
+    @PostMapping("/comments/{commentId}/like")
     public ResponseEntity<CommentLikeResponse> addLike(@PathVariable Long commentId,
                                                        @AuthenticationPrincipal(expression = "userId") Long userId) {
         CommentLikeResponse commentLikeResponse = commentLikeService.save(commentId, userId);
@@ -40,7 +40,7 @@ public class CommentLikeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(commentLikeResponse);
     }
 
-    @DeleteMapping("/comments/{commentId}/cancelLike")
+    @DeleteMapping("/comments/{commentId}/like")
     public ResponseEntity<?> cancelLike(@PathVariable Long commentId,
                                         @AuthenticationPrincipal(expression = "userId") Long userId) {
         commentLikeService.delete(commentId, userId);
