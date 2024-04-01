@@ -37,4 +37,10 @@ public class UserSearchService {
         return userRepository.findByNickname(nickname)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다. nickname = " + nickname));
     }
+
+    public boolean existByEmail(String email) {
+        log.info("existByEmail()");
+
+        return userRepository.existsByEmail(email);
+    }
 }

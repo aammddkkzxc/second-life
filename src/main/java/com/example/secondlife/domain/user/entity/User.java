@@ -52,6 +52,8 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    private boolean isVerified;
+
     private boolean isDeleted;
 
     @Builder
@@ -112,13 +114,23 @@ public class User extends BaseTimeEntity {
         return UserResponse.builder()
                 .userId(id)
                 .nickname(nickname)
+                .email(email)
                 .region(introduction.getRegion())
                 .birthDate(introduction.getBirthDate())
                 .selfIntroduction(introduction.getSelfIntroduction())
                 .role(role)
                 .isDeleted(isDeleted)
+                .verified(isVerified)
                 .lastModifiedDate(getLastModifiedDate())
                 .build();
 
+    }
+
+    public void updateVerify(String email) {
+        isVerified = true;
+        this.email = email;
+        if (this.role == Role.L1) {
+            this.role = Role.L2;
+        }
     }
 }

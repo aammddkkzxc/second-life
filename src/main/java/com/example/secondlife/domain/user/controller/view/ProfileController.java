@@ -6,7 +6,6 @@ import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.service.PostSearchService;
 import com.example.secondlife.domain.user.dto.UserResponse;
 import com.example.secondlife.domain.user.service.UserSearchService;
-import com.example.secondlife.domain.user.service.UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,8 +23,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 public class ProfileController {
 
-
-    private final UserService userService;
     private final UserSearchService userSearchService;
     private final PostSearchService postSearchService;
     private final CommentSearchService commentSearchService;

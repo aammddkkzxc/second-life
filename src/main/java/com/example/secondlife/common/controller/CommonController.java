@@ -36,4 +36,10 @@ public class CommonController {
         return "html/access-denied";
     }
 
+    @GetMapping("/mail")
+    public String mail() {
+        log.info("mail()");
+
+        return "html/mail";
+    }
 }
