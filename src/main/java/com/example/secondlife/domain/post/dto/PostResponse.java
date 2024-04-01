@@ -22,5 +22,6 @@ public class PostResponse {
     private String createdBy;
     private String lastModifiedBy;
     private List<CommentResponse> commentResponses;
+    private Long likeCount;
 
 }

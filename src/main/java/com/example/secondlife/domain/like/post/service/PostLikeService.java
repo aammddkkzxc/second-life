@@ -1,6 +1,6 @@
 package com.example.secondlife.domain.like.post.service;
 
-import com.example.secondlife.domain.like.post.dto.PostLikeCountResponse;
+import com.example.secondlife.domain.like.post.dto.PostLikeCountDto;
 import com.example.secondlife.domain.like.post.dto.PostLikeResponse;
 import com.example.secondlife.domain.like.post.entity.PostLike;
 import com.example.secondlife.domain.like.post.repository.PostLikeRepository;
@@ -20,6 +20,30 @@ public class PostLikeService {
     private final PostLikeRepository postLikeRepository;
     private final PostSearchService postSearchService;
     private final UserSearchService userSearchService;
+
+    public Optional<PostLikeResponse> saveOrDelete(Long postId, Long userId) {
+        Optional<PostLike> findPostLike = postLikeRepository.findByPostIdAndUserId(postId, userId);
+
+        if (findPostLike.isEmpty()) {
+            Post findPost = postSearchService.findById(postId);
+            User findUser = userService.findById(userId);
+
+            PostLike postLike = PostLike.builder()
+                    .user(findUser)
+                    .post(findPost)
+                    .build();
+
+            PostLike savedPostLike = postLikeRepository.save(postLike);
+
+            PostLikeResponse postLikeResponse = savedPostLike.toPostLikeResponse();
+
+            return Optional.of(postLikeResponse);
+        } else {
+            postLikeRepository.delete(findPostLike.get());
+
+            return Optional.empty();
+        }
+    }
 
     public PostLikeResponse save(Long postId, Long userId) {
         Post findPost = postSearchService.findById(postId);
@@ -44,14 +68,14 @@ public class PostLikeService {
                 .ifPresent(postLikeRepository::delete);
     }
 
-    @Transactional(readOnly = true)
-    public PostLikeCountResponse getLikeCount(Long postId) {
-
-        Long likeCount = postLikeRepository.countByPostId(postId);
-
-        return PostLikeCountResponse.builder()
-                .count(likeCount)
-                .postId(postId)
-                .build();
-    }
+//    @Transactional(readOnly = true)
+//    public PostLikeCountDto getLikeCount(Long postId) {
+//
+//        Long likeCount = postLikeRepository.countByPostId(postId);
+//
+//        return PostLikeCountDto.builder()
+//                .count(likeCount)
+//                .postId(postId)
+//                .build();
+//    }
 }

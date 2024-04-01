@@ -37,7 +37,7 @@
             <div class="grid grid-detail-head2">
                 <div class="" th:text="${post.createdBy}">JSP</div>
                 <div></div>
-                <div class="" th:text="'추천 '+${post.getHits()}">추천 10</div>
+                <div class="" th:text="'추천 '+${post.getLikeCount()}">추천 10</div>
                 <div class="" th:text="'조회수 '+${post.getHits()}">조회수 10</div>
             </div>
         </header>
@@ -48,9 +48,10 @@
         <br>
 
         <div class="grid grid-rec">
-            <div class="like">
-                <button style="background-color: rgb(60, 85, 117); border-color: rgb(60, 85, 117);">추천</button>
-            </div>
+            <form class="postLikeForm" th:action="@{'/api' + '/posts/' + ${post.postId} + '/likeToggle'}"
+                  method="post">
+                <button type="submit" class="like-button" style="background-color: rgb(60, 85, 117); border-color: rgb(60, 85, 117);">추천</button>
+            </form>
         </div>
 
         <footer>
@@ -79,11 +80,11 @@
                 </div>
 
                 <!-- 좋아요 기능 -->
-                <form id="likeForm" th:action="@{'/api' + '/comments/' + ${comment.commentId} + '/likeToggle'}"
+                <form id="commentLikeForm" th:action="@{'/api' + '/comments/' + ${comment.commentId} + '/likeToggle'}"
                       method="post">
 
 
-                    <button type="submit" class="like-button"
+                    <button type="submit" class="comment-like-button like-button"
                             style="background-color: transparent; border-color: transparent;">
                         👍
                     </button>

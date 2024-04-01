@@ -2,6 +2,8 @@ package com.example.secondlife.domain.post.service;
 
 import com.example.secondlife.domain.comment.dto.CommentResponse;
 import com.example.secondlife.domain.comment.service.CommentSearchService;
+import com.example.secondlife.domain.like.post.dto.PostLikeCountDto;
+import com.example.secondlife.domain.like.post.repository.PostLikeRepository;
 import com.example.secondlife.domain.post.dto.PostRequest;
 import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.entity.Post;
@@ -9,6 +11,7 @@ import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.repository.PostRepository;
 import com.example.secondlife.domain.user.enumType.Region;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -23,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostSearchService {
 
     private final PostRepository postRepository;
+    private final PostLikeRepository postLikeRepository;
     private final CommentSearchService commentSearchService;
 
     public Page<PostResponse> getPostsByForumAndRegion(Forum forum, Region region, Pageable pageable) {
@@ -96,8 +100,8 @@ public class PostSearchService {
 
         PostResponse postResponse = postToPostResponse(post);
         postResponse.setCommentResponses(comments);
-        return postResponse;
 
+        return postResponse;
     }
 
     private PostResponse postToPostResponse(Post post) {
@@ -112,7 +116,17 @@ public class PostSearchService {
                 .lastModifiedDate(post.getLastModifiedDate())
                 .createdBy(post.getCreatedBy())
                 .lastModifiedBy(post.getLastModifiedBy())
+                .likeCount(getPostWithPostLikes(post))
                 .build();
 
     }
+
+    private Long getPostWithPostLikes(Post post) {
+        Long postId = post.getId();
+        Optional<PostLikeCountDto> postLikeCountDtoOptional = Optional.ofNullable(
+                postLikeRepository.countLikesByPostId(postId));
+
+        return postLikeCountDtoOptional.map(PostLikeCountDto::getLikeCount).orElse(0L);
+    }
+
 }
