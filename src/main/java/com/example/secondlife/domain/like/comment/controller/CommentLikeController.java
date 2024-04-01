@@ -37,7 +37,9 @@ public class CommentLikeController {
                                                        @AuthenticationPrincipal(expression = "userId") Long userId) {
         CommentLikeResponse commentLikeResponse = commentLikeService.save(commentId, userId);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(commentLikeResponse);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(commentLikeResponse);
     }
 
     @DeleteMapping("/comments/{commentId}/like")
