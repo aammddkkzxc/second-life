@@ -1,6 +1,8 @@
 package com.example.secondlife.domain.like.comment.controller;
 
+import com.example.secondlife.domain.like.comment.dto.CommentLikeResponse;
 import com.example.secondlife.domain.like.comment.service.CommentLikeService;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,10 +21,13 @@ public class CommentLikeController {
     @PostMapping("/comments/{commentId}/like")
     public ResponseEntity<?> clickLike(@PathVariable Long commentId,
                                        @AuthenticationPrincipal(expression = "userId") Long userId) {
-        commentLikeService.saveOrDelete(commentId, userId);
+        Optional<CommentLikeResponse> commentLikeResponse = commentLikeService.saveOrDelete(commentId, userId);
 
-        return ResponseEntity
-                .noContent().build();
+        if (commentLikeResponse.isPresent()) {
+            return ResponseEntity.ok(commentLikeResponse.get());
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 
 }
