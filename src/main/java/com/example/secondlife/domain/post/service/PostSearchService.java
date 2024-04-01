@@ -11,6 +11,7 @@ import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.repository.PostRepository;
 import com.example.secondlife.domain.user.enumType.Region;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -122,13 +123,10 @@ public class PostSearchService {
 
     private Long getPostWithPostLikes(Post post) {
         Long postId = post.getId();
-        PostLikeCountDto postLikeCountDto = postLikeRepository.countLikesByPostId(postId);
+        Optional<PostLikeCountDto> postLikeCountDtoOptional = Optional.ofNullable(
+                postLikeRepository.countLikesByPostId(postId));
 
-        if (postLikeCountDto != null) {
-            return postLikeCountDto.getLikeCount();
-        } else {
-            return 0L; // 좋아요가 없는 경우 0을 반환하거나 다른 기본값을 반환할 수 있습니다.
-        }
+        return postLikeCountDtoOptional.map(PostLikeCountDto::getLikeCount).orElse(0L);
     }
 
 }
