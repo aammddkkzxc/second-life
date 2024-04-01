@@ -50,4 +50,10 @@ public class CommentSearchService {
         return commentResponseList;
     }
 
+    public Long getCommentCount(Long userId) {
+        log.info("getPostCount");
+
+        return commentRepository.countByUserId(userId);
+    }
+
 }

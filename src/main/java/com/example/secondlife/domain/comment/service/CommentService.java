@@ -7,7 +7,7 @@ import com.example.secondlife.domain.comment.repository.CommentRepository;
 import com.example.secondlife.domain.post.entity.Post;
 import com.example.secondlife.domain.post.service.PostSearchService;
 import com.example.secondlife.domain.user.entity.User;
-import com.example.secondlife.domain.user.service.UserService;
+import com.example.secondlife.domain.user.service.UserSearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
@@ -23,13 +23,13 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final PostSearchService postSearchService;
     private final CommentSearchService commentSearchService;
-    private final UserService userService;
+    private final UserSearchService userSearchService;
 
     public CommentResponse save(Long postId, Long userId, CommentRequest request) {
         log.info("save()");
 
         Post findPost = postSearchService.findById(postId);
-        User findUser = userService.findById(userId);
+        User findUser = userSearchService.findById(userId);
 
         Comment comment = request.toEntity(findPost, findUser);
 

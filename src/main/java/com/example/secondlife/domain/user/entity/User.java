@@ -3,6 +3,7 @@ package com.example.secondlife.domain.user.entity;
 import com.example.secondlife.common.base.BaseTimeEntity;
 import com.example.secondlife.domain.user.dto.JoinResponse;
 import com.example.secondlife.domain.user.dto.UpdateUserRequest;
+import com.example.secondlife.domain.user.dto.UpdateUserRole;
 import com.example.secondlife.domain.user.dto.UserResponse;
 import com.example.secondlife.domain.user.enumType.Role;
 import com.example.secondlife.domain.user.valueType.Introduction;
@@ -98,13 +99,18 @@ public class User extends BaseTimeEntity {
         );
     }
 
+    public void updateUserRole(UpdateUserRole request) {
+        role = request.getRole() != null ? request.getRole() : role;
+    }
+
     public void delete() {
         isDeleted = true;
     }
 
-    public UserResponse UserResponse() {
+    public UserResponse userResponse() {
 
         return UserResponse.builder()
+                .userId(id)
                 .nickname(nickname)
                 .region(introduction.getRegion())
                 .birthDate(introduction.getBirthDate())
