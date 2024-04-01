@@ -60,6 +60,14 @@ public class UserService {
         return user.userResponse();
     }
 
+    public void updateVerify(Long userId, String email) {
+        log.info("updateVerify()");
+
+        User user = userSearchService.findById(userId);
+
+        user.updateVerify(email);
+    }
+
     public void delete(Long userId) {
         log.info("delete()");
 
@@ -84,5 +92,4 @@ public class UserService {
                 .build();
 
     }
-
 }

@@ -17,11 +17,13 @@ public class UserResponse {
 
     private Long userId;
     private String nickname;
+    private String email;
     private Region region;
     private LocalDate birthDate;
     private String selfIntroduction;
     private Role role;
     private boolean isDeleted;
+    private boolean verified;
     private LocalDateTime lastModifiedDate;
 
 }

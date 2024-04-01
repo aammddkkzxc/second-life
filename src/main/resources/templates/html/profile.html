@@ -113,10 +113,11 @@
                                               style="width:1100px; height:300px; border-radius:50% "></a>
             <div class="container">
                 <ul id="info1">
-                    <li><h2>닉네임 : <span th:text="${user.nickname}">Orumi</span></h2></li>
+                    <li><h4>닉네임 : <span th:text="${user.nickname}">Orumi</span></h4></li>
                     <li>지역 : <span th:text="${user.region}">Busan</span></li>
                     <li>등급 : <span th:text="${user.role}">인증회원</span></li>
                     <li>생일 : <span th:text="${user.birthDate}">생일</span></li>
+                    <li>이메일 인증 : <span th:text="${user.isVerified() ? '인증된 사용자' : '미인증 사용자'}"></span></li>
                 </ul>
             </div>
             <div class="vline" style="line{border-left: thick solid #EE402E;height:100px;left: 1000px;}"></div>
@@ -166,7 +167,8 @@
 </main>
 <footer class="grid" style="display:flex; justify-content: center">
     <button onclick="window.location.href = '/profile/update'">회원정보수정</button>
-    <button style="background-color: #5d2d28; border-color: #5d2d28">이메일 인증</button>
+    <button style="background-color: #5d2d28; border-color: #5d2d28"
+            onclick="window.location.href = '/mail'">이메일 인증</button>
     <button id="deleteUserBtn"
             th:attr="data-user-id=${#authentication.principal.userId}"
             style="background-color: #EE402E; border-color: #EE402E">회원탈퇴</button>
