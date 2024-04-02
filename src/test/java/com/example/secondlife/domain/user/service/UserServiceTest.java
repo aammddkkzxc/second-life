@@ -37,7 +37,6 @@ class UserServiceTest {
         assertEquals(joinResponse.getUserId(), byId.getId());
         assertEquals(joinResponse.getLoginId(), byId.getLoginId());
         assertEquals(joinResponse.getNickname(), byId.getNickname());
-        assertEquals(joinResponse.getEmail(), byId.getEmail());
         assertEquals(joinResponse.getRegion(), byId.getIntroduction().getRegion());
         assertEquals(joinResponse.getBirthDate(), byId.getIntroduction().getBirthDate());
         assertEquals(joinResponse.getSelfIntroduction(), byId.getIntroduction().getSelfIntroduction());
@@ -47,7 +46,7 @@ class UserServiceTest {
     void getUserInfo() {
         JoinResponse joinResponse = saveMember();
 
-        userSearchService.getUserProfile(joinResponse.getUserId());
+        userSearchService.getProfile(joinResponse.getUserId());
         User byId = userSearchService.findById(joinResponse.getUserId());
 
         assertEquals(joinResponse.getNickname(), byId.getNickname());
@@ -67,7 +66,7 @@ class UserServiceTest {
                 .selfIntroduction("Hello, I'm a new user.")
                 .build();
 
-        userService.updateUserProfile(joinResponse.getUserId(), userInfo);
+        userService.updateProfile(joinResponse.getUserId(), userInfo);
         User byId = userSearchService.findById(joinResponse.getUserId());
 
         assertEquals(userInfo.getNickname(), byId.getNickname());
@@ -93,7 +92,6 @@ class UserServiceTest {
                 .loginId("testLoginId")
                 .password("testPassword")
                 .nickname("testName")
-                .email("testEmail@test.com")
                 .region(Region.SEOUL)
                 .birthDate(LocalDate.of(1990, 1, 1))
                 .selfIntroduction("Hello, I'm a test user.")

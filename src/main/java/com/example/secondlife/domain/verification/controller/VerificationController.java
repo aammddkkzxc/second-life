@@ -1,6 +1,6 @@
 package com.example.secondlife.domain.verification.controller;
 
-import com.example.secondlife.domain.verification.dto.VerifyEmail;
+import com.example.secondlife.domain.verification.dto.VerifyRequest;
 import com.example.secondlife.domain.verification.service.VerificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +25,6 @@ public class VerificationController {
     @PostMapping("/verification")
     public ResponseEntity<?> mailConfirm(@RequestParam("email") String email,
                                          @AuthenticationPrincipal(expression = "userId") Long userId) throws Exception {
-        log.info("mailConfirm()");
-
         String code = verificationService.sendSimpleMessage(userId, email);
 
         log.info("인증코드 : " + code);
@@ -35,12 +33,11 @@ public class VerificationController {
     }
 
     @PatchMapping("/verification/{userId}")
-    public ResponseEntity<?> verifyEmail(@PathVariable Long userId,
-                                         @RequestBody VerifyEmail verifyEmail) {
-        log.info("verifyEmail()");
-
-        verificationService.verifyEmailAndCode(userId, verifyEmail);
+    public ResponseEntity<?> verifyEmailAndCode(@PathVariable Long userId,
+                                                @RequestBody VerifyRequest verifyRequest) {
+        verificationService.verifyEmailAndCode(userId, verifyRequest);
 
         return ResponseEntity.ok().build();
     }
+
 }

@@ -1,8 +1,7 @@
 package com.example.secondlife.domain.post.entity;
 
-import com.example.secondlife.common.base.BaseEntity;
-import com.example.secondlife.domain.post.dto.PostRequest;
-import com.example.secondlife.domain.post.dto.PostResponse;
+import com.example.secondlife.common.base.BaseTimeEntity;
+import com.example.secondlife.domain.post.dto.PostDto;
 import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.user.entity.User;
 import jakarta.persistence.Column;
@@ -25,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Slf4j
-public class Post extends BaseEntity {
+public class Post extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,7 +48,7 @@ public class Post extends BaseEntity {
 
     private boolean isDeleted;
 
-    public void update(PostRequest request) {
+    public void update(PostDto request) {
 
         this.title = request.getTitle() != null ? request.getTitle() : this.title;
         this.contents = request.getContents() != null ? request.getContents() : this.contents;
@@ -68,22 +67,6 @@ public class Post extends BaseEntity {
         this.contents = contents;
         this.hits = hits;
         this.forum = forum;
-    }
-
-    public PostResponse toPostResponse() {
-
-        return PostResponse.builder()
-                .userId(user.getId())
-                .postId(id)
-                .title(title)
-                .contents(contents)
-                .hits(hits)
-                .createdDate(getCreatedDate())
-                .lastModifiedDate(getLastModifiedDate())
-                .createdBy(getCreatedBy())
-                .lastModifiedBy(getLastModifiedBy())
-                .build();
-
     }
 
 }

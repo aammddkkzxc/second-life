@@ -12,8 +12,8 @@ public class VerificationCleanupTask {
 
     private final VerificationRepository verificationRepository;
 
-    // 매 5분마다 실행
-    @Scheduled(fixedRate = 300000)
+
+    @Scheduled(fixedRate = 300000) // 매 5분마다 실행
     public void deleteExpiredVerifications() {
         Date now = new Date();
         verificationRepository.deleteAllByExpiryDateBefore(now);

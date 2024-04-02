@@ -41,4 +41,5 @@ public class Verification {
         this.verificationCode = verificationCode;
         this.expiryDate = expiryDate;
     }
+
 }

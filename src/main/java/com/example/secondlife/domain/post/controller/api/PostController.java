@@ -3,7 +3,7 @@ package com.example.secondlife.domain.post.controller.api;
 import static org.springframework.http.HttpStatus.CREATED;
 
 import com.example.secondlife.common.security.CustomUserDetails;
-import com.example.secondlife.domain.post.dto.PostRequest;
+import com.example.secondlife.domain.post.dto.PostDto;
 import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.service.PostSearchService;
@@ -36,7 +36,7 @@ public class PostController {
 
     @PostMapping("/posts")
     public ResponseEntity<PostResponse> writePost(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                                  @RequestBody PostRequest request) {
+                                                  @RequestBody PostDto request) {
         log.info("writePost()");
 
         final Long userId = userDetails.getUserId();
@@ -73,10 +73,10 @@ public class PostController {
     @PatchMapping("/posts/{postId}")
     public ResponseEntity<PostResponse> updatePost(@AuthenticationPrincipal(expression = "userId") Long userId,
                                                    @PathVariable Long postId,
-                                                   @RequestBody PostRequest request) {
+                                                   @RequestBody PostDto request) {
         log.info("updatePost()");
 
-        final PostResponse postResponse = postService.updatePost(userId, postId, request);
+        final PostResponse postResponse = postService.update(userId, postId, request);
 
         return ResponseEntity.ok(postResponse);
     }
@@ -86,7 +86,7 @@ public class PostController {
                                         @PathVariable Long postId) {
         log.info("deletePost()");
 
-        postService.deletePost(userId, postId);
+        postService.delete(userId, postId);
 
         return ResponseEntity
                 .noContent()

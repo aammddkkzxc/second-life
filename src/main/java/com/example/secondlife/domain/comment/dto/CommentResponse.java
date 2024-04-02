@@ -1,8 +1,6 @@
 package com.example.secondlife.domain.comment.dto;
 
-import com.example.secondlife.domain.like.comment.dto.CommentLikeResponse;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,8 +17,6 @@ public class CommentResponse {
     private String contents;
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
-    private String createdBy;
-    private String lastModifiedBy;
     private Long likeCount;
 
 }

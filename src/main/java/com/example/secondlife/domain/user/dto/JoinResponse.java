@@ -18,7 +18,6 @@ public class JoinResponse {
     private Long userId;
     private String loginId;
     private String nickname;
-    private String email;
     private Region region;
     private LocalDate birthDate;
     private String selfIntroduction;

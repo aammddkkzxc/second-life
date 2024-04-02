@@ -1,5 +1,6 @@
 package com.example.secondlife.domain.user.controller.view;
 
+import com.example.secondlife.domain.user.dto.UserDtoUtil;
 import com.example.secondlife.domain.user.dto.UserResponse;
 import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.service.UserSearchService;
@@ -29,8 +30,10 @@ public class AdminController {
             model.addAttribute("user", new UserResponse());
         } else {
             if (category.equals(NICKNAME)) {
-                User user = userSearchService.findByNickname(keyword);
-                final UserResponse userResponse = user.userResponse();
+                final User findUser = userSearchService.findByNickname(keyword);
+
+                final UserResponse userResponse = UserDtoUtil.userToUserResponse(findUser);
+
                 model.addAttribute("user", userResponse);
             }
         }
