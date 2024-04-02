@@ -8,13 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 public class CommonController {
 
-    @GetMapping("/")
-    public String mainPage() {
-        log.info("mainPage()");
-
-        return "html/main";
-    }
-
     @GetMapping("/join")
     public String join() {
         log.info("join()");

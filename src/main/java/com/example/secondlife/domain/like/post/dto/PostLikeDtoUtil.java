@@ -4,7 +4,7 @@ import com.example.secondlife.domain.like.post.entity.PostLike;
 
 public class PostLikeDtoUtil {
 
-    public static PostLikeResponse postLiketoPostLikeResponse(PostLike postLike) {
+    public static PostLikeResponse postLikeToPostLikeResponse(PostLike postLike) {
         return PostLikeResponse.builder()
                 .postLikeId(postLike.getId())
                 .userId(postLike.getUser().getId())

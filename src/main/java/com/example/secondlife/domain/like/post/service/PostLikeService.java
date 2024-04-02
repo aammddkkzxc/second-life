@@ -47,7 +47,7 @@ public class PostLikeService {
 
         PostLike savedPostLike = postLikeRepository.save(postLike);
 
-        return PostLikeDtoUtil.postLiketoPostLikeResponse(savedPostLike);
+        return PostLikeDtoUtil.postLikeToPostLikeResponse(savedPostLike);
     }
 
     public void delete(Long postId, Long userId) {
