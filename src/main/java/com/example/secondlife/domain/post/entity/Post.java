@@ -41,6 +41,7 @@ public class Post extends BaseTimeEntity {
     @Column(nullable = false)
     private String contents;
 
+    @Column(columnDefinition = "integer default 0", nullable = false)
     private int hits;
 
     @Enumerated(EnumType.STRING)
@@ -69,4 +70,7 @@ public class Post extends BaseTimeEntity {
         this.forum = forum;
     }
 
+    public void increaseViewCount() {
+        ++hits;
+    }
 }

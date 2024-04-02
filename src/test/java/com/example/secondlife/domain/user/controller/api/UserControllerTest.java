@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.secondlife.domain.user.dto.JoinRequest;
 import com.example.secondlife.domain.user.dto.JoinResponse;
+import com.example.secondlife.domain.user.dto.ProfileResponse;
 import com.example.secondlife.domain.user.dto.UpdateUserRequest;
 import com.example.secondlife.domain.user.dto.UserResponse;
 import com.example.secondlife.domain.user.service.UserSearchService;
@@ -44,11 +45,12 @@ class UserControllerTest {
     @BeforeEach
     void setUp() {
         JoinResponse joinResponse = new JoinResponse();
-        UserResponse response = new UserResponse();
+        ProfileResponse profile = new ProfileResponse();
+        UserResponse userResponse = new UserResponse();
 
         when(userService.save(any(JoinRequest.class))).thenReturn(joinResponse);
-        when(userSearchService.getProfile(anyLong())).thenReturn(response);
-        when(userService.updateProfile(anyLong(), any(UpdateUserRequest.class))).thenReturn(response);
+        when(userSearchService.getProfile(anyLong())).thenReturn(profile);
+        when(userService.updateProfile(anyLong(), any(UpdateUserRequest.class))).thenReturn(userResponse);
     }
 
     @Test

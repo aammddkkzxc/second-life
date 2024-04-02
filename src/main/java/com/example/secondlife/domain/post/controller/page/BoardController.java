@@ -7,7 +7,10 @@ import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.dto.hotPostDto;
 import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.service.PostSearchService;
+import com.example.secondlife.domain.post.service.PostService;
 import com.example.secondlife.domain.user.enumType.Region;
+import jakarta.servlet.http.HttpSession;
+import java.util.HashSet;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +31,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class BoardController {
 
     private final PostSearchService postSearchService;
+    private final PostService postService;
 
     @GetMapping("/")
     public String mainPage(Model model) {
@@ -97,8 +101,10 @@ public class BoardController {
     }
 
     @GetMapping("/board/{postId}")
-    public String post(@PathVariable("postId") Long postId, Model model) {
-        log.info("post()");
+    public String viewPost(@PathVariable("postId") Long postId, Model model, HttpSession session) {
+        log.info("viewPost() - postId: " + postId);
+
+        updateViewCountIfNotViewed(postId, session);
 
         final PostResponse postResponse = postSearchService.readWithCommentsAndCommentLikes(postId);
         final List<CommentResponse> commentResponses = postResponse.getCommentResponses();
@@ -130,5 +136,21 @@ public class BoardController {
         model.addAttribute("forum", forum);
 
         return "html/edit";
+    }
+
+    private void updateViewCountIfNotViewed(Long postId, HttpSession session) {
+        HashSet<Long> viewedPosts;
+        Object viewedPostsObj = session.getAttribute("viewedPosts");
+        if (viewedPostsObj instanceof HashSet) {
+            viewedPosts = (HashSet<Long>) viewedPostsObj;
+        } else {
+            viewedPosts = new HashSet<>();
+        }
+
+        if (!viewedPosts.contains(postId)) {
+            postService.incrementViewCount(postId);
+            viewedPosts.add(postId);
+            session.setAttribute("viewedPosts", viewedPosts);
+        }
     }
 }

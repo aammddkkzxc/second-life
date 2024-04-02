@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserResponse {
+public class ProfileResponse {
 
     private Long userId;
     private String nickname;
@@ -21,7 +21,8 @@ public class UserResponse {
     private LocalDate birthDate;
     private String selfIntroduction;
     private Role role;
-    private boolean isDeleted;
     private boolean verified;
+    private Long postCount;
+    private Long commentCount;
 
 }

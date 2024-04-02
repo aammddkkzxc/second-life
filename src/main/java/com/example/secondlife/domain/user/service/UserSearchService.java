@@ -1,8 +1,8 @@
 package com.example.secondlife.domain.user.service;
 
-import com.example.secondlife.domain.user.dto.UserDtoUtil;
-import com.example.secondlife.domain.user.dto.UserResponse;
+import com.example.secondlife.domain.user.dto.ProfileResponse;
 import com.example.secondlife.domain.user.entity.User;
+import com.example.secondlife.domain.user.repository.UserQRepository;
 import com.example.secondlife.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,13 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserSearchService {
 
     private final UserRepository userRepository;
+    private final UserQRepository userQRepository;
 
-    public UserResponse getProfile(Long userId) {
+    public ProfileResponse getProfile(Long userId) {
         log.info("getUserInfo()");
 
-        User findUser = findById(userId);
-
-        return UserDtoUtil.userToUserResponse(findUser);
+        return userQRepository.findProfile(userId);
     }
 
     public User findById(Long userId) {

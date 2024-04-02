@@ -18,9 +18,9 @@ public class PostDtoUtil {
                 .build();
     }
 
-    public static PostResponse postWithCommentLikesToPostResponse(Post post, List<CommentResponse> comments) {
+    public static PostResponse postWithCommentResponseToPostResponse(Post post, List<CommentResponse> comments) {
 
-        PostResponse postResponse = PostDtoUtil.postToPostResponse(post);
+        PostResponse postResponse = postToPostResponse(post);
         postResponse.setCommentResponses(comments);
 
         return postResponse;

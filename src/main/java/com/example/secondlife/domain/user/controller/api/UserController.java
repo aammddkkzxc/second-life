@@ -4,6 +4,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 
 import com.example.secondlife.domain.user.dto.JoinRequest;
 import com.example.secondlife.domain.user.dto.JoinResponse;
+import com.example.secondlife.domain.user.dto.ProfileResponse;
 import com.example.secondlife.domain.user.dto.UpdateUserRequest;
 import com.example.secondlife.domain.user.dto.UpdateUserRole;
 import com.example.secondlife.domain.user.dto.UserResponse;
@@ -44,12 +45,12 @@ public class UserController {
     }
 
     @GetMapping("/users/{userId}")
-    public ResponseEntity<UserResponse> getUserProfile(@PathVariable Long userId) {
+    public ResponseEntity<ProfileResponse> getUserProfile(@PathVariable Long userId) {
         log.info("getUserInfo()");
 
-        UserResponse userInfo = userSearchService.getProfile(userId);
+        final ProfileResponse profile = userSearchService.getProfile(userId);
 
-        return ResponseEntity.ok(userInfo);
+        return ResponseEntity.ok(profile);
     }
 
     @PatchMapping("/users/{userId}")

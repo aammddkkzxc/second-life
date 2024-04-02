@@ -77,7 +77,8 @@ public class PostSearchService {
 
         List<CommentResponse> commentResponses = commentSearchService.getCommentsWithCommentLikes(postId);
 
-        PostResponse postResponse = PostDtoUtil.postWithCommentLikesToPostResponse(findPost, commentResponses);
+        PostResponse postResponse = PostDtoUtil.postWithCommentResponseToPostResponse(findPost, commentResponses);
+
         postResponse.setLikeCount(getLikeCount(findPost));
 
         return postResponse;
@@ -100,12 +101,6 @@ public class PostSearchService {
 
         return postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. postId = " + postId));
-    }
-
-    public Long getPostCount(Long userId) {
-        log.info("getPostCount");
-
-        return postRepository.countByUserId(userId);
     }
 
     public Long getLikeCount(Post post) {

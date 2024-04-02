@@ -13,8 +13,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    Long countByUserId(Long userId);
-
     Page<Post> findAllByUserIdAndIsDeletedFalse(Long userId, Pageable pageable);
 
     Page<Post> findAllByForumAndIsDeletedFalse(Forum forum, Pageable pageable);
