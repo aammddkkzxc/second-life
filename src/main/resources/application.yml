@@ -39,3 +39,8 @@ logging.level:
   root: INFO
   org.hibernate.SQL: debug
   org.springframework.transaction.interceptor: TRACE
+
+server:
+  servlet:
+    session:
+      timeout: 30m

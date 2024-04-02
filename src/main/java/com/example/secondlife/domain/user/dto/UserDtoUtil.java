@@ -28,7 +28,6 @@ public class UserDtoUtil {
                 .role(user.getRole())
                 .isDeleted(user.isDeleted())
                 .verified(user.isVerified())
-                .lastModifiedDate(user.getLastModifiedDate())
                 .build();
     }
 }

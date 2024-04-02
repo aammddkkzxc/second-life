@@ -7,8 +7,18 @@ import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.dto.hotPostDto;
 import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.service.PostSearchService;
+import com.example.secondlife.domain.post.service.PostService;
 import com.example.secondlife.domain.user.enumType.Region;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -28,6 +38,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class BoardController {
 
     private final PostSearchService postSearchService;
+    private final PostService postService;
 
     @GetMapping("/")
     public String mainPage(Model model) {
@@ -97,8 +108,11 @@ public class BoardController {
     }
 
     @GetMapping("/board/{postId}")
-    public String post(@PathVariable("postId") Long postId, Model model) {
-        log.info("post()");
+    public String viewPost(@PathVariable("postId") Long postId, Model model,
+                           HttpServletRequest request, HttpServletResponse response) {
+        log.info("viewPost() - postId: " + postId);
+
+        updateViewCountIfNotViewed(postId, request, response);
 
         final PostResponse postResponse = postSearchService.readWithCommentsAndCommentLikes(postId);
         final List<CommentResponse> commentResponses = postResponse.getCommentResponses();
@@ -131,4 +145,34 @@ public class BoardController {
 
         return "html/edit";
     }
+
+    public void updateViewCountIfNotViewed(Long postId, HttpServletRequest request, HttpServletResponse response) {
+        Cookie[] cookies = Optional.ofNullable(
+                request.getCookies()
+        ).orElseGet(() -> new Cookie[0]);
+
+        // 쿠키가 있다면 cookie에 넣고, 없다면 조회수 증가 및 쿠키 생성
+        Cookie cookie = Arrays.stream(cookies)
+                .filter(c -> c.getName().equals("postView"))
+                .findFirst()
+                .orElseGet(() -> {
+                    postService.incrementViewCount(postId);
+                    return new Cookie("postView", "[" + postId + "]");
+                });
+
+        // 쿠키가 없다면 조회수 증가 및 쿠키 생성
+        if (!cookie.getValue().contains("[" + postId + "]")) {
+            postService.incrementViewCount(postId);
+            cookie.setValue(cookie.getValue() + "[" + postId + "]");
+        }
+
+        long todayEndSecond = LocalDate.now().atTime(LocalTime.MAX).toEpochSecond(ZoneOffset.UTC);
+        long currentSecond = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
+
+        cookie.setPath("/"); // 모든 경로에서 접근 가능
+        cookie.setMaxAge((int) (todayEndSecond - currentSecond)); // 오늘 하루 자정까지 남은 시간초 설정
+
+        response.addCookie(cookie);
+    }
+
 }

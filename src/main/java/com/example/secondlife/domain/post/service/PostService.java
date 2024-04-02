@@ -31,6 +31,14 @@ public class PostService {
         return PostDtoUtil.postToPostResponse(savedPost);
     }
 
+    public void incrementViewCount(Long postId) {
+        log.info("incrementViewCount");
+
+        Post findPost = postSearchService.findById(postId);
+
+        findPost.increaseViewCount();
+    }
+
     public PostResponse update(Long userId, Long postId, PostDto request) {
         log.info("update");
 
@@ -71,5 +79,4 @@ public class PostService {
                 .forum(request.getForum())
                 .build();
     }
-
 }
