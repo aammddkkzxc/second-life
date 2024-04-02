@@ -6,12 +6,13 @@ import com.example.secondlife.domain.like.post.repository.PostLikeRepository;
 import com.example.secondlife.domain.post.dto.PostDto;
 import com.example.secondlife.domain.post.dto.PostDtoUtil;
 import com.example.secondlife.domain.post.dto.PostResponse;
+import com.example.secondlife.domain.post.dto.hotPostDto;
 import com.example.secondlife.domain.post.entity.Post;
 import com.example.secondlife.domain.post.enumType.Forum;
+import com.example.secondlife.domain.post.repository.PostQRepository;
 import com.example.secondlife.domain.post.repository.PostRepository;
 import com.example.secondlife.domain.user.enumType.Region;
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostSearchService {
 
     private final PostRepository postRepository;
+    private final PostQRepository postQRepository;
     private final PostLikeRepository postLikeRepository;
     private final CommentSearchService commentSearchService;
 
@@ -54,28 +56,18 @@ public class PostSearchService {
         return posts.map(PostDtoUtil::postToPostResponse);
     }
 
+    public List<hotPostDto> getHotPosts() {
+        LocalDateTime lastSevenDays = LocalDateTime.now().minusDays(7);
+
+        return postQRepository.findHotPosts(lastSevenDays);
+    }
+
     public Page<PostResponse> getPostsByUserId(Pageable pageable, Long userId) {
         log.info("getPostsByUserId");
 
         Page<Post> posts = postRepository.findAllByUserIdAndIsDeletedFalse(userId, pageable);
 
         return posts.map(PostDtoUtil::postToPostResponse);
-    }
-
-    // 최근 7일의 게시글 중 총 10개의 인기 게시글 뽑음
-    // 게시글 추천 수 비교 => 동률 시 조회 수 비교 => 동률 시 포스트 아이디 비교
-    public List<PostResponse> getHotPosts() {
-        LocalDateTime sevenDaysAgo = LocalDateTime.now().minusDays(7);
-        List<Post> lastSevenDaysPosts = postRepository.findPostsLastSevenDays(sevenDaysAgo);
-
-        return lastSevenDaysPosts.stream()
-                .map(post -> readWithCommentsAndCommentLikes(post.getId()))
-                .sorted(
-                        Comparator.comparing(PostResponse::getLikeCount).reversed()
-                                .thenComparingInt(PostResponse::getHits).reversed()
-                                .thenComparingLong(PostResponse::getPostId).reversed()
-                )
-                .limit(10).toList();
     }
 
     public PostResponse readWithCommentsAndCommentLikes(Long postId) {

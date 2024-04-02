@@ -4,6 +4,7 @@ import com.example.secondlife.common.security.CustomUserDetails;
 import com.example.secondlife.domain.comment.dto.CommentResponse;
 import com.example.secondlife.domain.post.dto.PostDto;
 import com.example.secondlife.domain.post.dto.PostResponse;
+import com.example.secondlife.domain.post.dto.hotPostDto;
 import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.service.PostSearchService;
 import com.example.secondlife.domain.user.enumType.Region;
@@ -32,9 +33,9 @@ public class BoardController {
     public String mainPage(Model model) {
         log.info("mainPage()");
 
-        final List<PostResponse> hotPostResponses = postSearchService.getHotPosts();
+        final List<hotPostDto> hotPosts = postSearchService.getHotPosts();
 
-        model.addAttribute("posts", hotPostResponses);
+        model.addAttribute("posts", hotPosts);
 
         return "html/main";
     }

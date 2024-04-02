@@ -67,10 +67,12 @@
             </thead>
             <tbody th:each="post : ${posts}">
             <tr>
-                <th scope="row">Venus</th>
-                <td th:text="${post.title}" th:onclick="'window.location.href=\'/board/' + ${post.postId} + '\''" >12,104</td>
+                <th scope="row" th:text="${post.region}">Venus</th>
+                <td th:text="${post.title}" th:onclick="'window.location.href=\'/board/' + ${post.postId} + '\''">
+                    12,104
+                </td>
                 <td th:text="${post.likeCount}">5</td>
-                <td th:text="${post.commentResponses.size()}">225</td>
+                <td th:text="${post.commentCount}">225</td>
                 <td th:text="${post.hits}">225</td>
             </tr>
 
