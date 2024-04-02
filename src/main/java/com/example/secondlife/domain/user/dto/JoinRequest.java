@@ -16,7 +16,6 @@ public class JoinRequest {
     private String loginId;
     private String password;
     private String nickname;
-    private String email;
     private Region region;
     private LocalDate birthDate;
     private String selfIntroduction;

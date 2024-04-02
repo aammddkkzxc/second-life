@@ -1,5 +1,6 @@
 package com.example.secondlife.domain.user.service;
 
+import com.example.secondlife.domain.user.dto.UserDtoUtil;
 import com.example.secondlife.domain.user.dto.UserResponse;
 import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.repository.UserRepository;
@@ -16,12 +17,12 @@ public class UserSearchService {
 
     private final UserRepository userRepository;
 
-    public UserResponse getUserProfile(Long userId) {
+    public UserResponse getProfile(Long userId) {
         log.info("getUserInfo()");
 
-        User user = findById(userId);
+        User findUser = findById(userId);
 
-        return user.userResponse();
+        return UserDtoUtil.userToUserResponse(findUser);
     }
 
     public User findById(Long userId) {

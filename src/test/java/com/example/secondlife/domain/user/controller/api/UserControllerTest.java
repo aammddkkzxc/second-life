@@ -47,8 +47,8 @@ class UserControllerTest {
         UserResponse response = new UserResponse();
 
         when(userService.save(any(JoinRequest.class))).thenReturn(joinResponse);
-        when(userSearchService.getUserProfile(anyLong())).thenReturn(response);
-        when(userService.updateUserProfile(anyLong(), any(UpdateUserRequest.class))).thenReturn(response);
+        when(userSearchService.getProfile(anyLong())).thenReturn(response);
+        when(userService.updateProfile(anyLong(), any(UpdateUserRequest.class))).thenReturn(response);
     }
 
     @Test

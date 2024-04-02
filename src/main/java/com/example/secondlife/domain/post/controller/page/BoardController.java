@@ -2,7 +2,7 @@ package com.example.secondlife.domain.post.controller.page;
 
 import com.example.secondlife.common.security.CustomUserDetails;
 import com.example.secondlife.domain.comment.dto.CommentResponse;
-import com.example.secondlife.domain.post.dto.PostRequest;
+import com.example.secondlife.domain.post.dto.PostDto;
 import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.service.PostSearchService;
@@ -95,7 +95,6 @@ public class BoardController {
         return "html/board";
     }
 
-
     @GetMapping("/board/{postId}")
     public String post(@PathVariable("postId") Long postId, Model model) {
         log.info("post()");
@@ -122,10 +121,10 @@ public class BoardController {
     public String edit(@PathVariable("postId") Long postId, Model model) {
         log.info("edit()");
 
-        final PostRequest postRequest = postSearchService.getPostsByPostId(postId);
-        final String forum = postRequest.getForum().name();
+        final PostDto postDto = postSearchService.getPostDtoByPostId(postId);
+        final String forum = postDto.getForum().name();
 
-        model.addAttribute("post", postRequest);
+        model.addAttribute("post", postDto);
         model.addAttribute("postId", postId);
         model.addAttribute("forum", forum);
 

@@ -1,5 +1,6 @@
 package com.example.secondlife.domain.comment.service;
 
+import com.example.secondlife.domain.comment.dto.CommentDtoUtil;
 import com.example.secondlife.domain.comment.dto.CommentRequest;
 import com.example.secondlife.domain.comment.dto.CommentResponse;
 import com.example.secondlife.domain.comment.entity.Comment;
@@ -21,8 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final PostSearchService postSearchService;
     private final CommentSearchService commentSearchService;
+    private final PostSearchService postSearchService;
     private final UserSearchService userSearchService;
 
     public CommentResponse save(Long postId, Long userId, CommentRequest request) {
@@ -35,10 +36,10 @@ public class CommentService {
 
         Comment savedComment = commentRepository.save(comment);
 
-        return savedComment.toCommentResponse();
+        return CommentDtoUtil.commentToCommentResponse(savedComment);
     }
 
-    public CommentResponse updateComment(Long commentId, Long userId, CommentRequest request) {
+    public CommentResponse update(Long commentId, Long userId, CommentRequest request) {
         log.info("updateComment()");
 
         Comment findComment = commentSearchService.findById(commentId);
@@ -47,10 +48,10 @@ public class CommentService {
 
         findComment.update(request);
 
-        return findComment.toCommentResponse();
+        return CommentDtoUtil.commentToCommentResponse(findComment);
     }
 
-    public void deleteComment(Long commentId, Long userId) {
+    public void delete(Long commentId, Long userId) {
         log.info("deleteComment()");
 
         Comment findComment = commentSearchService.findById(commentId);

@@ -2,11 +2,10 @@ package com.example.secondlife.common.test;
 
 import com.example.secondlife.domain.comment.dto.CommentRequest;
 import com.example.secondlife.domain.comment.service.CommentService;
-import com.example.secondlife.domain.post.dto.PostRequest;
+import com.example.secondlife.domain.post.dto.PostDto;
 import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.service.PostService;
 import com.example.secondlife.domain.user.dto.JoinRequest;
-import com.example.secondlife.domain.user.dto.JoinResponse;
 import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.enumType.Region;
 import com.example.secondlife.domain.user.enumType.Role;
@@ -39,7 +38,6 @@ public class InitData {
                 "test",
                 "test",
                 "nickname1",
-                null,
                 Region.GANGWON,
                 LocalDate.now(),
                 "일반 회원입니다."
@@ -48,7 +46,6 @@ public class InitData {
                 "test2",
                 "test2",
                 "nickname2",
-                null,
                 Region.SEOUL,
                 LocalDate.now(),
                 "인증된 회원입니다."
@@ -57,23 +54,22 @@ public class InitData {
                 "admin",
                 "admin",
                 "admin",
-                null,
                 Region.GYEONGGI,
                 LocalDate.now(),
                 "ADMIN 입니다."
         );
 
-        JoinResponse joinResponse = userService.save(joinRequestL1);
-        final User save = userRepository.save(joinRequestToL2User(joinRequestL2));
+        userService.save(joinRequestL1);
+        userRepository.save(joinRequestToL2User(joinRequestL2));
         userRepository.save(joinRequestToAdminUser(joinRequestAdmin));
 
         for (int i = 0; i < 110; i++) {
-            PostRequest postRequest = new PostRequest("title" + i + i, "content" + i + i, Forum.FREE);
-            postService.save(2L, postRequest);
+            PostDto postDto = new PostDto("title" + i + i, "content" + i + i, Forum.FREE);
+            postService.save(2L, postDto);
         }
         for (int i = 0; i < 110; i++) {
-            PostRequest postRequest = new PostRequest("반갑습니다" + i, "안녕하세요" + i, Forum.FREE);
-            postService.save(1L, postRequest);
+            PostDto postDto = new PostDto("반갑습니다" + i, "안녕하세요" + i, Forum.FREE);
+            postService.save(1L, postDto);
         }
 
         CommentRequest commentRequest1 = new CommentRequest("comment1");
@@ -104,7 +100,6 @@ public class InitData {
                 .loginId(request.getLoginId())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .nickname(request.getNickname())
-                .email(request.getEmail())
                 .introduction(introduction)
                 .role(Role.L2)
                 .build();
@@ -121,7 +116,6 @@ public class InitData {
                 .loginId(request.getLoginId())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .nickname(request.getNickname())
-                .email(request.getEmail())
                 .introduction(introduction)
                 .role(Role.ADMIN)
                 .build();

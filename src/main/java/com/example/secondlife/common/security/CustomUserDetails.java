@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Slf4j
 public class CustomUserDetails implements UserDetails {
+
     private final User user;
 
     public CustomUserDetails(User user) {
@@ -17,18 +18,12 @@ public class CustomUserDetails implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() { // 사용자의 특정한 권한 return
+    public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
 
         authorities.add((GrantedAuthority) () -> "ROLE_" + user.getRole());
 
         return authorities;
-    }
-
-    @Override
-    public String getPassword() {
-        log.info("getPassword()");
-        return user.getPassword();
     }
 
     public Long getUserId() {
@@ -37,6 +32,12 @@ public class CustomUserDetails implements UserDetails {
 
     public Role getUserRole() {
         return user.getRole();
+    }
+
+    @Override
+    public String getPassword() {
+        log.info("getPassword()");
+        return user.getPassword();
     }
 
     @Override

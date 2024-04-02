@@ -32,7 +32,7 @@ public class ProfileController {
                           @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("profile()");
 
-        final UserResponse userProfile = userSearchService.getUserProfile(userId);
+        final UserResponse userProfile = userSearchService.getProfile(userId);
         final Long postCount = postSearchService.getPostCount(userId);
         final Page<PostResponse> page = postSearchService.getPostsByUserId(pageable, userId);
         final List<PostResponse> posts = page.getContent();

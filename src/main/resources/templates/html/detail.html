@@ -50,7 +50,9 @@
         <div class="grid grid-rec">
             <form class="postLikeForm" th:action="@{'/api' + '/posts/' + ${post.postId} + '/likeToggle'}"
                   method="post">
-                <button type="submit" class="like-button" style="background-color: rgb(60, 85, 117); border-color: rgb(60, 85, 117);">추천</button>
+                <button type="submit" class="like-button"
+                        style="background-color: rgb(60, 85, 117); border-color: rgb(60, 85, 117);">추천
+                </button>
             </form>
         </div>
 
@@ -71,7 +73,7 @@
             </form>
 
             <div th:each="comment : ${comments}" class="date-size border-bot padding-topbot grid comment-grid-nd">
-                <div class="comment-name" th:text="${comment.getCreatedBy()}">작성자</div>
+                <div class="comment-name" th:text="${comment.getNickName()}">작성자</div>
                 <div class="comment-date" th:text="${#temporals.format(comment.createdDate, 'yyyy-MM-dd HH:mm')}">
                     2023-06-25 18:57
                 </div>

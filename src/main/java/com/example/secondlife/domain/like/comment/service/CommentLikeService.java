@@ -2,6 +2,7 @@ package com.example.secondlife.domain.like.comment.service;
 
 import com.example.secondlife.domain.comment.entity.Comment;
 import com.example.secondlife.domain.comment.service.CommentSearchService;
+import com.example.secondlife.domain.like.comment.dto.CommentLikeDtoUtil;
 import com.example.secondlife.domain.like.comment.dto.CommentLikeResponse;
 import com.example.secondlife.domain.like.comment.entity.CommentLike;
 import com.example.secondlife.domain.like.comment.repository.CommentLikeRepository;
@@ -25,21 +26,11 @@ public class CommentLikeService {
         Optional<CommentLike> findCommentLike = commentLikeRepository.findByCommentIdAndUserId(commentId, userId);
 
         if (findCommentLike.isEmpty()) {
-            Comment findComment = commentSearchService.findById(commentId);
-            User findUser = userSearchService.findById(userId);
-
-            CommentLike commentLike = CommentLike.builder()
-                    .comment(findComment)
-                    .user(findUser)
-                    .build();
-
-            CommentLike savedCommentLike = commentLikeRepository.save(commentLike);
-
-            CommentLikeResponse commentLikeResponse = savedCommentLike.toCommentLikeResponse();
+            CommentLikeResponse commentLikeResponse = save(commentId, userId);
 
             return Optional.of(commentLikeResponse);
         } else {
-            commentLikeRepository.delete(findCommentLike.get());
+            delete(commentId, userId);
 
             return Optional.empty();
         }
@@ -56,7 +47,7 @@ public class CommentLikeService {
 
         CommentLike savedCommentLike = commentLikeRepository.save(commentLike);
 
-        return savedCommentLike.toCommentLikeResponse();
+        return CommentLikeDtoUtil.commentLiketoCommentLikeResponse(savedCommentLike);
     }
 
     public void delete(Long commentId, Long userId) {

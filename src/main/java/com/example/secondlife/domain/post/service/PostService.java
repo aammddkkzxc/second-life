@@ -1,6 +1,7 @@
 package com.example.secondlife.domain.post.service;
 
-import com.example.secondlife.domain.post.dto.PostRequest;
+import com.example.secondlife.domain.post.dto.PostDto;
+import com.example.secondlife.domain.post.dto.PostDtoUtil;
 import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.entity.Post;
 import com.example.secondlife.domain.post.repository.PostRepository;
@@ -22,16 +23,16 @@ public class PostService {
     private final UserSearchService userSearchService;
     private final PostSearchService postSearchService;
 
-    public PostResponse save(Long userId, PostRequest request) {
+    public PostResponse save(Long userId, PostDto request) {
         log.info("save");
 
         Post savedPost = postRepository.save(postRequestToPost(userId, request));
 
-        return savedPost.toPostResponse();
+        return PostDtoUtil.postToPostResponse(savedPost);
     }
 
-    public PostResponse updatePost(Long userId, Long postId, PostRequest request) {
-        log.info("updatePost");
+    public PostResponse update(Long userId, Long postId, PostDto request) {
+        log.info("update");
 
         Post findPost = postSearchService.findById(postId);
 
@@ -39,11 +40,11 @@ public class PostService {
 
         findPost.update(request);
 
-        return findPost.toPostResponse();
+        return PostDtoUtil.postToPostResponse(findPost);
     }
 
-    public void deletePost(Long userId, Long postId) {
-        log.info("deletePost");
+    public void delete(Long userId, Long postId) {
+        log.info("delete");
 
         Post findPost = postSearchService.findById(postId);
 
@@ -60,8 +61,7 @@ public class PostService {
         }
     }
 
-    private Post postRequestToPost(Long userId, PostRequest request) {
-
+    private Post postRequestToPost(Long userId, PostDto request) {
         User findUser = userSearchService.findById(userId);
 
         return Post.builder()
@@ -70,7 +70,6 @@ public class PostService {
                 .contents(request.getContents())
                 .forum(request.getForum())
                 .build();
-
     }
 
 }
