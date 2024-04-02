@@ -28,6 +28,17 @@ public class BoardController {
 
     private final PostSearchService postSearchService;
 
+    @GetMapping("/")
+    public String mainPage(Model model) {
+        log.info("mainPage()");
+
+        final List<PostResponse> hotPostResponses = postSearchService.getHotPosts();
+
+        model.addAttribute("posts", hotPostResponses);
+
+        return "html/main";
+    }
+
     @GetMapping("/board")
     public String freeBoard(Model model,
                             @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {

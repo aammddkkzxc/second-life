@@ -72,10 +72,9 @@ public class PostSearchService {
         return lastSevenDaysPosts.stream()
                 .map(post -> readWithCommentsAndCommentLikes(post.getId()))
                 .sorted(
-                        Comparator.comparing(PostResponse::getLikeCount)
-                                .reversed()
-                                .thenComparingInt(PostResponse::getHits)
-                                .thenComparingLong(PostResponse::getPostId)
+                        Comparator.comparing(PostResponse::getLikeCount).reversed()
+                                .thenComparingInt(PostResponse::getHits).reversed()
+                                .thenComparingLong(PostResponse::getPostId).reversed()
                 )
                 .limit(10).toList();
     }
