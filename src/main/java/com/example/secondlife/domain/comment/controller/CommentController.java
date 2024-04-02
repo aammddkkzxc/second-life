@@ -43,7 +43,7 @@ public class CommentController {
                                                          @RequestBody CommentRequest request) {
         log.info("updateComment()");
 
-        CommentResponse response = commentService.updateComment(commentId, userId, request);
+        CommentResponse response = commentService.update(commentId, userId, request);
 
         return ResponseEntity.ok().body(response);
     }
@@ -53,7 +53,7 @@ public class CommentController {
                                            @AuthenticationPrincipal(expression = "userId") Long userId) {
         log.info("deleteComment()");
 
-        commentService.deleteComment(commentId, userId);
+        commentService.delete(commentId, userId);
 
         return ResponseEntity
                 .noContent()

@@ -3,7 +3,7 @@ package com.example.secondlife.domain.verification.service;
 import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.service.UserSearchService;
 import com.example.secondlife.domain.user.service.UserService;
-import com.example.secondlife.domain.verification.dto.VerifyEmail;
+import com.example.secondlife.domain.verification.dto.VerifyRequest;
 import com.example.secondlife.domain.verification.entity.Verification;
 import com.example.secondlife.domain.verification.repository.VerificationRepository;
 import jakarta.mail.MessagingException;
@@ -42,8 +42,8 @@ public class VerificationService {
         return code;
     }
 
-    public void verifyEmailAndCode(Long userId, VerifyEmail verifyEmail) {
-        Verification verification = verificationRepository.findByVerificationCodeAndUserId(verifyEmail.getCode(),
+    public void verifyEmailAndCode(Long userId, VerifyRequest verifyRequest) {
+        Verification verification = verificationRepository.findByVerificationCodeAndUserId(verifyRequest.getCode(),
                         userId)
                 .orElseThrow(() -> new IllegalArgumentException("인증코드가 일치하지 않습니다."));
 
@@ -51,7 +51,7 @@ public class VerificationService {
             throw new IllegalArgumentException("인증코드가 만료되었습니다.");
         }
 
-        String email = verifyEmail.getEmail();
+        String email = verifyRequest.getEmail();
 
         if (userSearchService.existByEmail(email)) {
             throw new IllegalArgumentException("이미 가입된 이메일입니다.");
@@ -59,7 +59,7 @@ public class VerificationService {
 
         verificationRepository.delete(verification);
 
-        userService.updateVerify(userId, verifyEmail.getEmail());
+        userService.updateVerify(userId, verifyRequest.getEmail());
     }
 
     private Verification toVerification(String code, User findUser) {
@@ -73,9 +73,11 @@ public class VerificationService {
     }
 
     private Date generateExpiryDate() {
+        final int EXPIRY_DURATION_MINUTES = 1;
+
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        calendar.add(Calendar.MINUTE, 1); // 1분
+        calendar.add(Calendar.MINUTE, EXPIRY_DURATION_MINUTES);
 
         return calendar.getTime();
     }
@@ -83,8 +85,8 @@ public class VerificationService {
     private MimeMessage createMessage(String to, String code) throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = emailSender.createMimeMessage();
 
-        message.addRecipients(RecipientType.TO, to);// 보내는 대상
-        message.setSubject("Second-Life 회원가입 이메일 인증");// 제목
+        message.addRecipients(RecipientType.TO, to);
+        message.setSubject("Second-Life 회원가입 이메일 인증");
 
         String msgg = "";
         msgg += "<div style='margin:100px;'>";
@@ -99,11 +101,11 @@ public class VerificationService {
         msgg += "<h3 style='color:blue;'>회원가입 인증 코드입니다.</h3>";
         msgg += "<div style='font-size:130%'>";
         msgg += "CODE : <strong>";
-        msgg += code + "</strong><div><br/> "; // 메일에 인증번호 넣기
+        msgg += code + "</strong><div><br/> ";
         msgg += "</div>";
         message.setText(msgg, "utf-8", "html");
-        // 보내는 사람의 이메일 주소, 보내는 사람 이름
-        message.setFrom(new InternetAddress("tltltlsl11@naver.com", "Second-Life"));// 보내는 사람
+
+        message.setFrom(new InternetAddress("tltltlsl11@naver.com", "Second-Life"));
 
         return message;
     }

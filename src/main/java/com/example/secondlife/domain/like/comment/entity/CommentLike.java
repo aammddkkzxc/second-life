@@ -1,7 +1,6 @@
 package com.example.secondlife.domain.like.comment.entity;
 
 import com.example.secondlife.domain.comment.entity.Comment;
-import com.example.secondlife.domain.like.comment.dto.CommentLikeResponse;
 import com.example.secondlife.domain.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,12 +39,5 @@ public class CommentLike {
         this.comment = comment;
     }
 
-    public CommentLikeResponse toCommentLikeResponse() {
-        return CommentLikeResponse.builder()
-                .commentLikeId(id)
-                .userId(user.getId())
-                .commentId(comment.getId())
-                .build();
-    }
 
 }

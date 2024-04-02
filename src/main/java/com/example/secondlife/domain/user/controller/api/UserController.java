@@ -34,7 +34,6 @@ public class UserController {
     @PostMapping("/users")
     public ResponseEntity<JoinResponse> join(@RequestBody JoinRequest request) {
         log.info("join()");
-
         log.info("joinRequest: {}", request);
 
         JoinResponse joinResponse = userService.save(request);
@@ -48,7 +47,7 @@ public class UserController {
     public ResponseEntity<UserResponse> getUserProfile(@PathVariable Long userId) {
         log.info("getUserInfo()");
 
-        UserResponse userInfo = userSearchService.getUserProfile(userId);
+        UserResponse userInfo = userSearchService.getProfile(userId);
 
         return ResponseEntity.ok(userInfo);
     }
@@ -57,7 +56,7 @@ public class UserController {
     public ResponseEntity<UserResponse> updateUserInfo(@PathVariable Long userId, UpdateUserRequest request) {
         log.info("updateUserInfo()");
 
-        UserResponse userInfo = userService.updateUserProfile(userId, request);
+        UserResponse userInfo = userService.updateProfile(userId, request);
 
         return ResponseEntity.ok(userInfo);
     }
@@ -69,7 +68,7 @@ public class UserController {
 
         log.info("updateUserRoleRequest: {}", request.getRole());
 
-        UserResponse userInfo = userService.updateUserRole(userId, request);
+        UserResponse userInfo = userService.updateRole(userId, request);
 
         return ResponseEntity.ok(userInfo);
     }

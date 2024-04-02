@@ -1,5 +1,6 @@
 package com.example.secondlife.domain.like.post.service;
 
+import com.example.secondlife.domain.like.post.dto.PostLikeDtoUtil;
 import com.example.secondlife.domain.like.post.dto.PostLikeResponse;
 import com.example.secondlife.domain.like.post.entity.PostLike;
 import com.example.secondlife.domain.like.post.repository.PostLikeRepository;
@@ -25,17 +26,7 @@ public class PostLikeService {
         Optional<PostLike> findPostLike = postLikeRepository.findByPostIdAndUserId(postId, userId);
 
         if (findPostLike.isEmpty()) {
-            Post findPost = postSearchService.findById(postId);
-            User findUser = userSearchService.findById(userId);
-
-            PostLike postLike = PostLike.builder()
-                    .user(findUser)
-                    .post(findPost)
-                    .build();
-
-            PostLike savedPostLike = postLikeRepository.save(postLike);
-
-            PostLikeResponse postLikeResponse = savedPostLike.toPostLikeResponse();
+            final PostLikeResponse postLikeResponse = save(postId, userId);
 
             return Optional.of(postLikeResponse);
         } else {
@@ -56,11 +47,7 @@ public class PostLikeService {
 
         PostLike savedPostLike = postLikeRepository.save(postLike);
 
-        return PostLikeResponse.builder()
-                .postId(savedPostLike.getPost().getId())
-                .userId(savedPostLike.getUser().getId())
-                .postLikeId(savedPostLike.getId())
-                .build();
+        return PostLikeDtoUtil.postLiketoPostLikeResponse(savedPostLike);
     }
 
     public void delete(Long postId, Long userId) {
@@ -68,14 +55,4 @@ public class PostLikeService {
                 .ifPresent(postLikeRepository::delete);
     }
 
-//    @Transactional(readOnly = true)
-//    public PostLikeCountDto getLikeCount(Long postId) {
-//
-//        Long likeCount = postLikeRepository.countByPostId(postId);
-//
-//        return PostLikeCountDto.builder()
-//                .count(likeCount)
-//                .postId(postId)
-//                .build();
-//    }
 }

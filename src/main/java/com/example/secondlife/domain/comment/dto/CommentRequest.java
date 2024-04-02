@@ -17,12 +17,10 @@ public class CommentRequest {
     private String contents;
 
     public Comment toEntity(Post post, User user) {
-
         return Comment.builder()
                 .post(post)
                 .user(user)
                 .contents(contents)
                 .build();
-
     }
 }

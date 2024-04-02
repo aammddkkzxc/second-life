@@ -1,5 +1,6 @@
 package com.example.secondlife.domain.comment.service;
 
+import com.example.secondlife.domain.comment.dto.CommentDtoUtil;
 import com.example.secondlife.domain.comment.dto.CommentResponse;
 import com.example.secondlife.domain.comment.entity.Comment;
 import com.example.secondlife.domain.comment.repository.CommentRepository;
@@ -34,7 +35,7 @@ public class CommentSearchService {
 
         List<Comment> comments = commentRepository.findByPostIdAndIsDeletedFalse(postId);
 
-        List<CommentResponse> commentResponseList = Comment.toCommentResponseList(comments);
+        List<CommentResponse> commentResponseList = CommentDtoUtil.commentsToCommentResponses(comments);
 
         List<CommentLikeCountDto> commentLikeCountDtos = commentLikeRepository.countLikesByPostIdGroupByCommentId(
                 postId);
