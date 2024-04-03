@@ -1,4 +1,9 @@
 spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://second-life.chkgusieka1x.ap-northeast-2.rds.amazonaws.com:3306/second?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: admin
+    password: secondlife
 
   profiles:
     active: local
@@ -10,7 +15,7 @@ spring:
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
     #        show-sql: true
@@ -27,13 +32,6 @@ spring:
   h2:
     console:
       enabled: true
-
-  # H2 인메모리 데이터베이스
-  datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
 
   servlet:
     multipart:

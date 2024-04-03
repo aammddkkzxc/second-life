@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 public class PostLike {
 
     @Id
-    @Column(name = "postLike_id")
+    @Column(name = "post_like_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

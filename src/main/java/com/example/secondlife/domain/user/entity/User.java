@@ -34,18 +34,17 @@ public class User extends BaseTimeEntity {
     @Column(length = 16, nullable = false)
     private String loginId;
 
-    @Column(nullable = false)
+    @Column(length = 30, nullable = false)
     private String password;
 
     @Column(length = 10, nullable = false)
     private String nickname;
 
+    @Column(length = 50)
     private String email;
 
     @Embedded
     private Introduction introduction;
-
-    private boolean isIntroPublic;
 
     @Enumerated(EnumType.STRING)
     private Role role;

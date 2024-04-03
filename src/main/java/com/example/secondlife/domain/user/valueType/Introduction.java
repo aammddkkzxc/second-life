@@ -1,6 +1,7 @@
 package com.example.secondlife.domain.user.valueType;
 
 import com.example.secondlife.domain.user.enumType.Region;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -16,8 +17,12 @@ import lombok.NoArgsConstructor;
 public class Introduction {
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Region region;
+
+    @Column(nullable = false)
     private LocalDate birthDate;
+
     private String selfIntroduction;
 
 }
