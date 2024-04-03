@@ -31,13 +31,13 @@ public class User extends BaseTimeEntity {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(length = 16, nullable = false)
+    @Column(length = 20, nullable = false)
     private String loginId;
 
-    @Column(length = 30, nullable = false)
+    @Column(nullable = false)
     private String password;
 
-    @Column(length = 10, nullable = false)
+    @Column(length = 20, nullable = false)
     private String nickname;
 
     @Column(length = 50)
@@ -64,8 +64,13 @@ public class User extends BaseTimeEntity {
     }
 
     public void updateUserProfile(UpdateUserRequest request) {
-        nickname = request.getNickname().isEmpty() ? nickname : request.getNickname();
-        password = request.getPassword().isEmpty() ? password : request.getPassword();
+        if (request.getNickname() != null && !request.getNickname().isEmpty()) {
+            nickname = request.getNickname();
+        }
+        if (request.getPassword() != null && !request.getPassword().isEmpty()) {
+            password = request.getPassword();
+        }
+        
         introduction = new Introduction(
                 request.getRegion() != null ? request.getRegion() : introduction.getRegion(),
                 request.getBirthDate() != null ? request.getBirthDate() : introduction.getBirthDate(),
