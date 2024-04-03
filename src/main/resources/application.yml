@@ -10,7 +10,7 @@ spring:
 
   thymeleaf:
     cache: false
-    prefix: file:src/main/resources/templates/
+    prefix: classpath:/templates/
 
   jpa:
     open-in-view: true
