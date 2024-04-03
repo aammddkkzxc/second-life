@@ -57,7 +57,7 @@ class UserControllerTest {
     void join() throws Exception {
         JoinRequest joinRequest = new JoinRequest();
 
-        mockMvc.perform(post("/users")
+        mockMvc.perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(joinRequest)))
                 .andExpect(status().isCreated());
@@ -65,7 +65,7 @@ class UserControllerTest {
 
     @Test
     void getUserInfo() throws Exception {
-        mockMvc.perform(get("/users/{userId}", 1L)
+        mockMvc.perform(get("/api/users/{userId}", 1L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
@@ -74,7 +74,7 @@ class UserControllerTest {
     void updateUserInfo() throws Exception {
         UpdateUserRequest userInfo = new UpdateUserRequest();
 
-        mockMvc.perform(patch("/users/{userId}", 1L)
+        mockMvc.perform(patch("/api/users/{userId}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userInfo)))
                 .andExpect(status().isOk());
@@ -82,7 +82,7 @@ class UserControllerTest {
 
     @Test
     void deleteUser() throws Exception {
-        mockMvc.perform(delete("/users/{userId}", 1L)
+        mockMvc.perform(delete("/api/users/{userId}", 1L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
