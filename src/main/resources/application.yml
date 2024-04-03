@@ -35,6 +35,11 @@ spring:
     username: sa
     password:
 
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 50MB
+
 logging.level:
   root: INFO
   org.hibernate.SQL: debug

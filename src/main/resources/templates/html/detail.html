@@ -35,7 +35,7 @@
         </header>
         <header class="border-bottom">
             <div class="grid grid-detail-head2">
-                <div class="" th:text="${post.createdBy}">JSP</div>
+                <div class="" th:text="${post.getPostUserNickname}">JSP</div>
                 <div></div>
                 <div class="" th:text="'추천 '+${post.getLikeCount()}">추천 10</div>
                 <div class="" th:text="'조회수 '+${post.getHits()}">조회수 10</div>
