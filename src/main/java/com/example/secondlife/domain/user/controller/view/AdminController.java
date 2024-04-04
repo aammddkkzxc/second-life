@@ -1,8 +1,6 @@
 package com.example.secondlife.domain.user.controller.view;
 
-import com.example.secondlife.domain.user.dto.UserDtoUtil;
 import com.example.secondlife.domain.user.dto.UserResponse;
-import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.service.UserSearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Slf4j
 public class AdminController {
 
-    public static final String NICKNAME = "nickname";
-
     private final UserSearchService userSearchService;
 
     @GetMapping("/admin")
@@ -25,19 +21,23 @@ public class AdminController {
                         @RequestParam(value = "keyword", required = false) String keyword,
                         Model model) {
         log.info("admin()");
+        UserResponse userResponse = new UserResponse();
 
-        if (category == null || category.isEmpty() || keyword == null || keyword.isEmpty()) {
-            model.addAttribute("user", new UserResponse());
-        } else {
-            if (category.equals(NICKNAME)) {
-                final User findUser = userSearchService.findByNickname(keyword);
+        if (isValidSearchCriteria(category, keyword)) {
+            UserResponse searchedUser = userSearchService.searchByNickName(keyword);
 
-                final UserResponse userResponse = UserDtoUtil.userToUserResponse(findUser);
-
-                model.addAttribute("user", userResponse);
+            if (searchedUser != null) {
+                userResponse = searchedUser;
             }
         }
 
+        model.addAttribute("user", userResponse);
+
         return "html/admin";
+    }
+
+    private boolean isValidSearchCriteria(String category, String keyword) {
+        return category != null && !category.isEmpty() && keyword != null && !keyword.isEmpty() && category.equals(
+                "nickname");
     }
 }
