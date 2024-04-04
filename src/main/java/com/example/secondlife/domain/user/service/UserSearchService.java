@@ -2,9 +2,12 @@ package com.example.secondlife.domain.user.service;
 
 import com.example.secondlife.common.exception.NotFoundException;
 import com.example.secondlife.domain.user.dto.ProfileResponse;
+import com.example.secondlife.domain.user.dto.UserDtoUtil;
+import com.example.secondlife.domain.user.dto.UserResponse;
 import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.repository.UserQRepository;
 import com.example.secondlife.domain.user.repository.UserRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,11 +35,12 @@ public class UserSearchService {
                 .orElseThrow(() -> new NotFoundException("해당 사용자가 존재하지 않습니다. userId = " + userId));
     }
 
-    public User findByNickname(String nickname) {
+    public UserResponse searchByNickName(String nickname) {
         log.info("findByNickname()");
 
-        return userRepository.findByNickname(nickname)
-                .orElseThrow(() -> new NotFoundException("해당 사용자가 존재하지 않습니다. nickname = " + nickname));
+        final Optional<User> byNicknameContaining = userRepository.findByNicknameContaining(nickname);
+        
+        return byNicknameContaining.map(UserDtoUtil::userToUserResponse).orElse(null);
     }
 
     public boolean existByEmail(String email) {

@@ -47,3 +47,11 @@ server:
   servlet:
     session:
       timeout: 30m
+
+
+gpt:
+  model: gpt-3.5-turbo
+  api:
+    key: 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
+    url: https://api.openai.com/v1/chat/completions
+    system: " 반말로, 100자내외로 얘기해줘. "

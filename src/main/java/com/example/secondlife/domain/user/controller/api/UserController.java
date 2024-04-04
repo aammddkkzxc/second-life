@@ -55,7 +55,7 @@ public class UserController {
     }
 
     @PatchMapping("/users/{userId}")
-    @PreAuthorize("hasAnyRole('L1', 'L2')")
+    @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
     public ResponseEntity<UserResponse> updateUserProfile(@PathVariable Long userId, UpdateUserRequest request) {
         log.info("updateUserProfile()");
 
