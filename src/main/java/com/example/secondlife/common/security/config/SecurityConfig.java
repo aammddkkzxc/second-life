@@ -48,7 +48,7 @@ public class SecurityConfig {
 
         httpSecurity.
                 authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/login", "/join", "users", "/api/**", "/")
+                        .requestMatchers("/login", "/join", "users", "/api/**", "/", "/gpt/**")
                         .permitAll()
                         .requestMatchers("/board").hasRole(L1.name())
                         .requestMatchers("/my/**").hasAnyRole(L1.name())

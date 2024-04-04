@@ -10,11 +10,12 @@ import com.example.secondlife.domain.post.dto.PostDtoUtil;
 import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.entity.Post;
 import com.example.secondlife.domain.post.enumType.Forum;
-import com.example.secondlife.domain.post.repository.PostQRepository;
 import com.example.secondlife.domain.post.repository.PostRepository;
 import com.example.secondlife.domain.user.enumType.Region;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -29,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostSearchService {
 
     private final PostRepository postRepository;
-    private final PostQRepository postQRepository;
     private final PostLikeRepository postLikeRepository;
     private final CommentSearchService commentSearchService;
 
@@ -60,7 +60,20 @@ public class PostSearchService {
     public List<HotPostDto> getHotPosts() {
         LocalDateTime lastSevenDays = LocalDateTime.now().minusDays(7);
 
-        return postQRepository.findHotPosts(lastSevenDays);
+        return postRepository.findHotPostsNative(lastSevenDays).stream()
+                .map(obj -> {
+                    Long postId = ((Number) obj[0]).longValue();
+                    String title = (String) obj[1];
+                    int hits = ((Number) obj[2]).intValue();
+                    LocalDateTime createdDate = ((Timestamp) obj[3]).toLocalDateTime();
+                    Long likeCount = ((Number) obj[4]).longValue();
+                    Long commentCount = ((Number) obj[5]).longValue();
+                    Region region = Region.valueOf((String) obj[6]);
+
+                    return new HotPostDto(postId, title, hits, createdDate, likeCount, commentCount, region);
+                })
+                .collect(Collectors.toList());
+
     }
 
     public Page<PostResponse> getPostsByUserId(Pageable pageable, Long userId) {
@@ -85,18 +98,6 @@ public class PostSearchService {
         return postResponse;
     }
 
-    public PostDto getPostDtoByPostId(Long postId) {
-        log.info("getPostDtoByPostId");
-
-        Post post = findById(postId);
-
-        return PostDto.builder()
-                .title(post.getTitle())
-                .contents(post.getContents())
-                .forum(post.getForum())
-                .build();
-    }
-
     public Post findById(Long postId) {
         log.info("findById");
 
@@ -110,4 +111,22 @@ public class PostSearchService {
         return postLikeRepository.countLikesByPostId(postId);
     }
 
+    public String findContentsById(Long postId) {
+        log.info("findContentsById");
+
+        return postRepository.findContentsById(postId)
+                .orElseThrow(() -> new NotFoundException("해당 게시글이 존재하지 않습니다. postId = " + postId));
+    }
+
+    public PostDto getPostDtoByPostId(Long postId) {
+        log.info("getPostDtoByPostId");
+
+        Post post = findById(postId);
+
+        return PostDto.builder()
+                .title(post.getTitle())
+                .contents(post.getContents())
+                .forum(post.getForum())
+                .build();
+    }
 }
