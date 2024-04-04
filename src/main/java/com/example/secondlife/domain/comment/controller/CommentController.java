@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -25,6 +26,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/posts/{postId}/comments")
+    @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
     public ResponseEntity<CommentResponse> addComment(@PathVariable Long postId,
                                                       @AuthenticationPrincipal(expression = "userId") Long userId,
                                                       @RequestBody CommentRequest request) {
@@ -38,6 +40,7 @@ public class CommentController {
     }
 
     @PatchMapping("/comments/{commentId}")
+    @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
     public ResponseEntity<CommentResponse> updateComment(@PathVariable Long commentId,
                                                          @AuthenticationPrincipal(expression = "userId") Long userId,
                                                          @RequestBody CommentRequest request) {
@@ -49,6 +52,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/comments/{commentId}")
+    @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
     public ResponseEntity<?> deleteComment(@PathVariable Long commentId,
                                            @AuthenticationPrincipal(expression = "userId") Long userId) {
         log.info("deleteComment()");
