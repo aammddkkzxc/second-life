@@ -1,5 +1,7 @@
 package com.example.secondlife.domain.verification.service;
 
+import com.example.secondlife.common.exception.AuthenticationException;
+import com.example.secondlife.common.exception.ExistException;
 import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.service.UserSearchService;
 import com.example.secondlife.domain.user.service.UserService;
@@ -45,16 +47,16 @@ public class VerificationService {
     public void verifyEmailAndCode(Long userId, VerifyRequest verifyRequest) {
         Verification verification = verificationRepository.findByVerificationCodeAndUserId(verifyRequest.getCode(),
                         userId)
-                .orElseThrow(() -> new IllegalArgumentException("인증코드가 일치하지 않습니다."));
+                .orElseThrow(() -> new AuthenticationException("인증코드가 일치하지 않습니다."));
 
         if (verification.getExpiryDate().before(new Date())) {
-            throw new IllegalArgumentException("인증코드가 만료되었습니다.");
+            throw new AuthenticationException("인증코드가 만료되었습니다.");
         }
 
         String email = verifyRequest.getEmail();
 
         if (userSearchService.existByEmail(email)) {
-            throw new IllegalArgumentException("이미 가입된 이메일입니다.");
+            throw new ExistException("이미 가입된 이메일입니다.");
         }
 
         verificationRepository.delete(verification);

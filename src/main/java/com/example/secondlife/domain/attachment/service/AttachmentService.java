@@ -1,5 +1,6 @@
 package com.example.secondlife.domain.attachment.service;
 
+import com.example.secondlife.common.exception.NotFoundException;
 import com.example.secondlife.domain.attachment.dto.AttachmentDtoUtil;
 import com.example.secondlife.domain.attachment.dto.AttachmentRequest;
 import com.example.secondlife.domain.attachment.dto.AttachmentResponse;
@@ -24,7 +25,7 @@ public class AttachmentService {
     @Transactional
     public List<AttachmentResponse> saveFiles(Long postId, List<AttachmentRequest> requests) {
         if (CollectionUtils.isEmpty(requests)) {
-            throw new IllegalArgumentException("첨부파일이 존재하지 않습니다.");
+            throw new NotFoundException("첨부파일이 존재하지 않습니다.");
         }
 
         for (AttachmentRequest request : requests) {
@@ -45,7 +46,7 @@ public class AttachmentService {
 
     public Attachment findById(Long fileId) {
         return attachmentRepository.findById(fileId)
-                .orElseThrow(() -> new IllegalArgumentException("첨부파일이 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundException("첨부파일이 존재하지 않습니다."));
     }
 
     public List<AttachmentResponse> findAllFileByPostId(final Long postId) {

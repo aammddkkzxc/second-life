@@ -1,5 +1,6 @@
 package com.example.secondlife.domain.user.service;
 
+import com.example.secondlife.common.exception.NotFoundException;
 import com.example.secondlife.domain.user.dto.ProfileResponse;
 import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.repository.UserQRepository;
@@ -28,14 +29,14 @@ public class UserSearchService {
         log.info("findById()");
 
         return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다. userId = " + userId));
+                .orElseThrow(() -> new NotFoundException("해당 사용자가 존재하지 않습니다. userId = " + userId));
     }
 
     public User findByNickname(String nickname) {
         log.info("findByNickname()");
 
         return userRepository.findByNickname(nickname)
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다. nickname = " + nickname));
+                .orElseThrow(() -> new NotFoundException("해당 사용자가 존재하지 않습니다. nickname = " + nickname));
     }
 
     public boolean existByEmail(String email) {

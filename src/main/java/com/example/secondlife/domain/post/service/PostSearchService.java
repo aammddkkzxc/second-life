@@ -1,5 +1,6 @@
 package com.example.secondlife.domain.post.service;
 
+import com.example.secondlife.common.exception.NotFoundException;
 import com.example.secondlife.domain.comment.dto.CommentResponse;
 import com.example.secondlife.domain.comment.service.CommentSearchService;
 import com.example.secondlife.domain.like.post.repository.PostLikeRepository;
@@ -100,7 +101,7 @@ public class PostSearchService {
         log.info("findById");
 
         return postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. postId = " + postId));
+                .orElseThrow(() -> new NotFoundException("해당 게시글이 존재하지 않습니다. postId = " + postId));
     }
 
     public Long getLikeCount(Post post) {
