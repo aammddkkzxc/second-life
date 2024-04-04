@@ -45,6 +45,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ProfileResponse> getUserProfile(@PathVariable Long userId) {
         log.info("getUserInfo()");
 
@@ -54,12 +55,13 @@ public class UserController {
     }
 
     @PatchMapping("/users/{userId}")
-    public ResponseEntity<UserResponse> updateUserInfo(@PathVariable Long userId, UpdateUserRequest request) {
-        log.info("updateUserInfo()");
+    @PreAuthorize("hasAnyRole('L1', 'L2')")
+    public ResponseEntity<UserResponse> updateUserProfile(@PathVariable Long userId, UpdateUserRequest request) {
+        log.info("updateUserProfile()");
 
-        UserResponse userInfo = userService.updateProfile(userId, request);
+        UserResponse userResponse = userService.updateProfile(userId, request);
 
-        return ResponseEntity.ok(userInfo);
+        return ResponseEntity.ok(userResponse);
     }
 
     @PatchMapping("/users/role/{userId}")
@@ -75,6 +77,7 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{userId}")
+    @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
         log.info("deleteUser()");
 
