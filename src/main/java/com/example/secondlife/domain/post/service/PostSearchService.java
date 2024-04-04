@@ -3,10 +3,10 @@ package com.example.secondlife.domain.post.service;
 import com.example.secondlife.domain.comment.dto.CommentResponse;
 import com.example.secondlife.domain.comment.service.CommentSearchService;
 import com.example.secondlife.domain.like.post.repository.PostLikeRepository;
+import com.example.secondlife.domain.post.dto.HotPostDto;
 import com.example.secondlife.domain.post.dto.PostDto;
 import com.example.secondlife.domain.post.dto.PostDtoUtil;
 import com.example.secondlife.domain.post.dto.PostResponse;
-import com.example.secondlife.domain.post.dto.hotPostDto;
 import com.example.secondlife.domain.post.entity.Post;
 import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.repository.PostQRepository;
@@ -56,7 +56,7 @@ public class PostSearchService {
         return posts.map(PostDtoUtil::postToPostResponse);
     }
 
-    public List<hotPostDto> getHotPosts() {
+    public List<HotPostDto> getHotPosts() {
         LocalDateTime lastSevenDays = LocalDateTime.now().minusDays(7);
 
         return postQRepository.findHotPosts(lastSevenDays);

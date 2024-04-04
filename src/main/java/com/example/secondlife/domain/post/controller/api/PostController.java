@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +36,7 @@ public class PostController {
     private final PostSearchService postSearchService;
 
     @PostMapping("/posts")
+    @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
     public ResponseEntity<PostResponse> writePost(@AuthenticationPrincipal CustomUserDetails userDetails,
                                                   @RequestBody PostDto request) {
         log.info("writePost()");
@@ -53,6 +55,7 @@ public class PostController {
     }
 
     @GetMapping("/posts/{postId}")
+    @PreAuthorize("hasAnyRole('L2', 'ADMIN')")
     public ResponseEntity<PostResponse> getPost(@PathVariable Long postId) {
         log.info("getPost()");
 
@@ -62,6 +65,7 @@ public class PostController {
     }
 
     @GetMapping("/posts")
+    @PreAuthorize("hasAnyRole('L2', 'ADMIN')")
     public ResponseEntity<Page<PostResponse>> getPosts(@PageableDefault Pageable pageable) {
         log.info("getPosts()");
 
@@ -71,6 +75,7 @@ public class PostController {
     }
 
     @PatchMapping("/posts/{postId}")
+    @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
     public ResponseEntity<PostResponse> updatePost(@AuthenticationPrincipal(expression = "userId") Long userId,
                                                    @PathVariable Long postId,
                                                    @RequestBody PostDto request) {
@@ -82,6 +87,7 @@ public class PostController {
     }
 
     @DeleteMapping("/posts/{postId}")
+    @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
     public ResponseEntity<?> deletePost(@AuthenticationPrincipal(expression = "userId") Long userId,
                                         @PathVariable Long postId) {
         log.info("deletePost()");
