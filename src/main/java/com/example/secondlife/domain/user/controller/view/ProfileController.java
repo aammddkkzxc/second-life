@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +27,7 @@ public class ProfileController {
     private final PostSearchService postSearchService;
 
     @GetMapping("/profile")
+    @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
     public String profile(@AuthenticationPrincipal(expression = "userId") Long userId, Model model,
                           @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("profile()");

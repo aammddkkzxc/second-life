@@ -1,12 +1,13 @@
 package com.example.secondlife.domain.post.service;
 
+import com.example.secondlife.common.exception.NotFoundException;
 import com.example.secondlife.domain.comment.dto.CommentResponse;
 import com.example.secondlife.domain.comment.service.CommentSearchService;
 import com.example.secondlife.domain.like.post.repository.PostLikeRepository;
+import com.example.secondlife.domain.post.dto.HotPostDto;
 import com.example.secondlife.domain.post.dto.PostDto;
 import com.example.secondlife.domain.post.dto.PostDtoUtil;
 import com.example.secondlife.domain.post.dto.PostResponse;
-import com.example.secondlife.domain.post.dto.hotPostDto;
 import com.example.secondlife.domain.post.entity.Post;
 import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.repository.PostQRepository;
@@ -56,7 +57,7 @@ public class PostSearchService {
         return posts.map(PostDtoUtil::postToPostResponse);
     }
 
-    public List<hotPostDto> getHotPosts() {
+    public List<HotPostDto> getHotPosts() {
         LocalDateTime lastSevenDays = LocalDateTime.now().minusDays(7);
 
         return postQRepository.findHotPosts(lastSevenDays);
@@ -100,7 +101,7 @@ public class PostSearchService {
         log.info("findById");
 
         return postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. postId = " + postId));
+                .orElseThrow(() -> new NotFoundException("해당 게시글이 존재하지 않습니다. postId = " + postId));
     }
 
     public Long getLikeCount(Post post) {

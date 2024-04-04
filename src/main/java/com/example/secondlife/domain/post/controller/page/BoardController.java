@@ -2,9 +2,9 @@ package com.example.secondlife.domain.post.controller.page;
 
 import com.example.secondlife.common.security.CustomUserDetails;
 import com.example.secondlife.domain.comment.dto.CommentResponse;
+import com.example.secondlife.domain.post.dto.HotPostDto;
 import com.example.secondlife.domain.post.dto.PostDto;
 import com.example.secondlife.domain.post.dto.PostResponse;
-import com.example.secondlife.domain.post.dto.hotPostDto;
 import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.service.PostSearchService;
 import com.example.secondlife.domain.post.service.PostService;
@@ -44,7 +44,7 @@ public class BoardController {
     public String mainPage(Model model) {
         log.info("mainPage()");
 
-        final List<hotPostDto> hotPosts = postSearchService.getHotPosts();
+        final List<HotPostDto> hotPosts = postSearchService.getHotPosts();
 
         model.addAttribute("posts", hotPosts);
 
@@ -52,6 +52,7 @@ public class BoardController {
     }
 
     @GetMapping("/board")
+    @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
     public String freeBoard(Model model,
                             @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("freeBoard()");
@@ -95,6 +96,7 @@ public class BoardController {
 
 
     @GetMapping("/my/board")
+    @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
     public String myBoard(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                           @AuthenticationPrincipal CustomUserDetails userDetails) {
         log.info("myBoard()");
@@ -108,6 +110,7 @@ public class BoardController {
     }
 
     @GetMapping("/board/{postId}")
+    @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
     public String viewPost(@PathVariable("postId") Long postId, Model model,
                            HttpServletRequest request, HttpServletResponse response) {
         log.info("viewPost() - postId: " + postId);
@@ -126,6 +129,7 @@ public class BoardController {
     }
 
     @GetMapping("/write")
+    @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
     public String write() {
         log.info("write()");
 
@@ -133,6 +137,7 @@ public class BoardController {
     }
 
     @GetMapping("/board/{postId}/edit")
+    @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
     public String edit(@PathVariable("postId") Long postId, Model model) {
         log.info("edit()");
 

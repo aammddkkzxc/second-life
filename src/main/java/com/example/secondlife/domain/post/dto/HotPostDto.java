@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-public class hotPostDto {
+public class HotPostDto {
 
     private Long postId;
     private String title;
@@ -18,5 +18,16 @@ public class hotPostDto {
     private Region region;
     private LocalDateTime createdDate;
     private Long commentCount;
+
+    public HotPostDto(Long postId, String title, Integer hits, LocalDateTime createdDate, Long likeCount,
+                      Long commentCount, Region region) {
+        this.postId = postId;
+        this.title = title;
+        this.hits = hits;
+        this.createdDate = createdDate;
+        this.likeCount = likeCount;
+        this.commentCount = commentCount;
+        this.region = region;
+    }
 
 }
