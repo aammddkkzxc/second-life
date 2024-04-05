@@ -19,8 +19,9 @@ class UserTest {
     private final LocalDate localDateEx = LocalDate.of(2024, 4, 5);
 
     @BeforeEach
-    void setUp() {
+    void setUser() {
         user = User.builder()
+                .loginId("idExample")
                 .nickname("OldNickname")
                 .password("OldPassword")
                 .introduction(new Introduction(Region.CHUNGNAM, localDateEx, "OldIntroduction"))
