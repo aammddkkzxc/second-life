@@ -48,7 +48,7 @@ class UserRepositoryTest {
 
     @DisplayName("존재하는 유저 로그인 아이디로 찾을 시 해당 유저 반환")
     @Test
-    void findByLoginId_ExistingUser() {
+    void findByLoginIdWithExistingUser() {
         //given
         String loginId = "idExample";
 
@@ -65,7 +65,7 @@ class UserRepositoryTest {
 
     @DisplayName("존재하지 유저 로그인 아이디로 찾을 시 빈 Optional 반환")
     @Test
-    void findByLoginId_NonExistingUser() {
+    void findByLoginIdWithNotExistingUser() {
         //given
         String loginId = "nonExistingUser";
 
@@ -78,7 +78,7 @@ class UserRepositoryTest {
 
     @DisplayName("이메일이 존재하는 경우 true를 반환")
     @Test
-    void existsByEmail_ExistingEmail() {
+    void existsByEmailWithExistingEmail() {
         //given
         String email = "test@example.com";
 
@@ -91,7 +91,7 @@ class UserRepositoryTest {
 
     @DisplayName("이메일이 존재하지 않는 경우 false를 반환")
     @Test
-    void existsByEmail_NonExistingEmail() {
+    void existsByEmailWithNotExistingEmail() {
         //given
         String email = "nonexisting@example.com";
 
@@ -104,7 +104,7 @@ class UserRepositoryTest {
 
     @DisplayName("존재하는 닉네임으로 유저를 찾을 시 해당 유저 반환")
     @Test
-    void findByNicknameContaining_ExistingNickname() {
+    void findByNicknameContainingWithExistingNickname() {
         //given
         String nickname = "test";
 
@@ -121,7 +121,7 @@ class UserRepositoryTest {
 
     @DisplayName("존재하지 않는 닉네임으로 유저를 찾을 시 빈 Optional 반환")
     @Test
-    void findByNicknameContaining_NonExistingNickname() {
+    void findByNicknameContainingWithNotExistingNickname() {
         //given
         String partialNickname = "nonExisting";
 
