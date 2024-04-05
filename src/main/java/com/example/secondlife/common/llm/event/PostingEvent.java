@@ -4,10 +4,10 @@ import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 
 @Getter
-public class PostCreatedEvent extends ApplicationEvent {
+public class PostingEvent extends ApplicationEvent {
     private final Long postId;
 
-    public PostCreatedEvent(Object source, Long postId) {
+    public PostingEvent(Object source, Long postId) {
         super(source);
         this.postId = postId;
     }
