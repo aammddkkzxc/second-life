@@ -50,5 +50,4 @@ public class PerformanceAndSuccessLoggingAspect {
         logger.info("종료 : {}", joinPoint.getSignature().toShortString());
     }
 
-    //asdf
 }
