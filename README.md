@@ -17,7 +17,7 @@
 - **박준석**  
 - **김상형** 
 - **이지현**
-<br/> 역할, 개인 블로그 링크 혹은 프로필 사진 옵셔널 하게 역할을 따로 빼도 
+<br/>
 
 ## ⏲️ 개발 기간, 과정
 - 2024.3.25(월) ~ 2023.04.5(금)
@@ -34,12 +34,11 @@
 - **Language** : Java 17
 - **Framework** : SpringBoot 3.2.3
 - **Server** : AWS EC2
-- **DataBase** : AWS RDS, MySQL, QueryDsl
-- **ORM** : JPA, Spring data JPA
+- **DataBase** : AWS RDS - MySQL
+- **ORM** : JPA, Spring data JPA, QueryDsl
 - **WS/WAS** : Tomcat
 - **회의** : Discord, Zoom, Notion
 <br/>- 기술 스택을 그림을 할 수도 있는데 조금 난잡해 보이기도해서 일단 링크로 https://cocoon1787.tistory.com/689
-<br/>- 스프링 시큐리티, 타임 리프는 어디에 넣을까요
 
 
 ## 📝 프로젝트 아키텍쳐
@@ -49,8 +48,8 @@
 ## 📌 주요 기능
 ### 회원
   - [ ] 회원 가입
-    - [ ] 회원 가입 필요사항
-      - [ ] 아이디
+    - [x] 회원 가입 필요사항
+      - [x] 아이디
       - [ ] 비밀번호
       - [ ] 생일 (Opt1)
       - [ ] 지역 (Opt1)
