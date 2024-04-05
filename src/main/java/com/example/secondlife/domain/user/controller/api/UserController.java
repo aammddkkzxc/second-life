@@ -6,12 +6,13 @@ import com.example.secondlife.domain.user.dto.JoinRequest;
 import com.example.secondlife.domain.user.dto.JoinResponse;
 import com.example.secondlife.domain.user.dto.ProfileResponse;
 import com.example.secondlife.domain.user.dto.UpdateUserRequest;
-import com.example.secondlife.domain.user.dto.UpdateUserRole;
+import com.example.secondlife.domain.user.dto.UpdateUserRoleRequest;
 import com.example.secondlife.domain.user.dto.UserResponse;
 import com.example.secondlife.domain.user.service.UserSearchService;
 import com.example.secondlife.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/api")
 public class UserController {
 
@@ -62,7 +64,8 @@ public class UserController {
     @PatchMapping("/users/role/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "유저 권한 업데이트", description = "유저의 권한을 업데이트합니다.")
-    public ResponseEntity<UserResponse> updateUserRole(@PathVariable Long userId, @RequestBody UpdateUserRole request) {
+    public ResponseEntity<UserResponse> updateUserRole(@PathVariable Long userId,
+                                                       @RequestBody UpdateUserRoleRequest request) {
         final UserResponse userInfo = userService.updateRole(userId, request);
 
         return ResponseEntity.ok(userInfo);
@@ -78,5 +81,4 @@ public class UserController {
                 .noContent()
                 .build();
     }
-
 }

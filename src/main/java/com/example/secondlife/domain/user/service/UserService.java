@@ -3,7 +3,7 @@ package com.example.secondlife.domain.user.service;
 import com.example.secondlife.domain.user.dto.JoinRequest;
 import com.example.secondlife.domain.user.dto.JoinResponse;
 import com.example.secondlife.domain.user.dto.UpdateUserRequest;
-import com.example.secondlife.domain.user.dto.UpdateUserRole;
+import com.example.secondlife.domain.user.dto.UpdateUserRoleRequest;
 import com.example.secondlife.domain.user.dto.UserDtoUtil;
 import com.example.secondlife.domain.user.dto.UserResponse;
 import com.example.secondlife.domain.user.entity.User;
@@ -11,6 +11,7 @@ import com.example.secondlife.domain.user.enumType.Role;
 import com.example.secondlife.domain.user.repository.UserRepository;
 import com.example.secondlife.domain.user.valueType.Introduction;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
@@ -44,7 +46,7 @@ public class UserService {
         return UserDtoUtil.userToUserResponse(findUser);
     }
 
-    public UserResponse updateRole(Long userId, UpdateUserRole request) {
+    public UserResponse updateRole(Long userId, UpdateUserRoleRequest request) {
         User findUser = userSearchService.findById(userId);
 
         findUser.updateUserRole(request);
