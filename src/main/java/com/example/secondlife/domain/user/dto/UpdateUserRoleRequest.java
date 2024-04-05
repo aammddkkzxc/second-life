@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-public class UpdateUserRole {
+public class UpdateUserRoleRequest {
 
     private Role role;
 

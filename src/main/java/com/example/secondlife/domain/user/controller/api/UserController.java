@@ -6,7 +6,7 @@ import com.example.secondlife.domain.user.dto.JoinRequest;
 import com.example.secondlife.domain.user.dto.JoinResponse;
 import com.example.secondlife.domain.user.dto.ProfileResponse;
 import com.example.secondlife.domain.user.dto.UpdateUserRequest;
-import com.example.secondlife.domain.user.dto.UpdateUserRole;
+import com.example.secondlife.domain.user.dto.UpdateUserRoleRequest;
 import com.example.secondlife.domain.user.dto.UserResponse;
 import com.example.secondlife.domain.user.service.UserSearchService;
 import com.example.secondlife.domain.user.service.UserService;
@@ -66,7 +66,7 @@ public class UserController {
 
     @PatchMapping("/users/role/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<UserResponse> updateUserRole(@PathVariable Long userId, @RequestBody UpdateUserRole request) {
+    public ResponseEntity<UserResponse> updateUserRole(@PathVariable Long userId, @RequestBody UpdateUserRoleRequest request) {
         log.info("updateUserRole()");
 
         log.info("updateUserRoleRequest: {}", request.getRole());

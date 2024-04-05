@@ -12,7 +12,7 @@ import com.example.secondlife.domain.user.dto.JoinRequest;
 import com.example.secondlife.domain.user.dto.JoinResponse;
 import com.example.secondlife.domain.user.dto.ProfileResponse;
 import com.example.secondlife.domain.user.dto.UpdateUserRequest;
-import com.example.secondlife.domain.user.dto.UpdateUserRole;
+import com.example.secondlife.domain.user.dto.UpdateUserRoleRequest;
 import com.example.secondlife.domain.user.dto.UserResponse;
 import com.example.secondlife.domain.user.service.UserSearchService;
 import com.example.secondlife.domain.user.service.UserService;
@@ -164,7 +164,7 @@ class UserControllerTest extends BasicCRUDTest {
     void updateUserRole(Long userId) throws Exception {
         //given
         String url = "/api/users/role/{userId}";
-        UpdateUserRole request = new UpdateUserRole();
+        UpdateUserRoleRequest request = new UpdateUserRoleRequest();
         UserResponse response = new UserResponse();
         given(userService.updateRole(userId, request)).willReturn(response);
 

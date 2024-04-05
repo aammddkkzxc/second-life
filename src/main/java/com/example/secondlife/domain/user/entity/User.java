@@ -2,7 +2,7 @@ package com.example.secondlife.domain.user.entity;
 
 import com.example.secondlife.common.base.BaseTimeEntity;
 import com.example.secondlife.domain.user.dto.UpdateUserRequest;
-import com.example.secondlife.domain.user.dto.UpdateUserRole;
+import com.example.secondlife.domain.user.dto.UpdateUserRoleRequest;
 import com.example.secondlife.domain.user.enumType.Role;
 import com.example.secondlife.domain.user.valueType.Introduction;
 import jakarta.persistence.Column;
@@ -70,16 +70,17 @@ public class User extends BaseTimeEntity {
         if (request.getPassword() != null && !request.getPassword().isEmpty()) {
             password = request.getPassword();
         }
-        
+
         introduction = new Introduction(
                 request.getRegion() != null ? request.getRegion() : introduction.getRegion(),
                 request.getBirthDate() != null ? request.getBirthDate() : introduction.getBirthDate(),
-                request.getSelfIntroduction().isEmpty() ? introduction.getSelfIntroduction()
-                        : request.getSelfIntroduction()
+                request.getSelfIntroduction() != null && !request.getSelfIntroduction().isEmpty()
+                        ? request.getSelfIntroduction()
+                        : introduction.getSelfIntroduction()
         );
     }
 
-    public void updateUserRole(UpdateUserRole request) {
+    public void updateUserRole(UpdateUserRoleRequest request) {
         role = request.getRole() != null ? request.getRole() : role;
     }
 

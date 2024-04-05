@@ -1,14 +1,17 @@
 package com.example.secondlife.domain.user.controller.view;
 
-import org.junit.jupiter.api.Test;
+import com.example.secondlife.domain.BasicCRUDTest;
+import com.example.secondlife.domain.post.service.PostSearchService;
+import com.example.secondlife.domain.user.service.UserSearchService;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
-class ProfileControllerTest {
+public class ProfileControllerTest extends BasicCRUDTest {
 
-    @Test
-    void profile() {
-    }
+    @MockBean
+    private UserSearchService userSearchService;
 
-    @Test
-    void updateProfile() {
-    }
+    @MockBean
+    private PostSearchService postSearchService;
+
+
 }
