@@ -3,7 +3,6 @@ package com.example.secondlife.domain.user.controller.view;
 import com.example.secondlife.domain.user.dto.UserResponse;
 import com.example.secondlife.domain.user.service.UserSearchService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class AdminController {
 
     private final UserSearchService userSearchService;

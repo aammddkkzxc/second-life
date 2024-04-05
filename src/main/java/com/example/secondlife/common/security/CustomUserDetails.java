@@ -4,11 +4,9 @@ import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.enumType.Role;
 import java.util.ArrayList;
 import java.util.Collection;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@Slf4j
 public class CustomUserDetails implements UserDetails {
 
     private final User user;
@@ -36,13 +34,11 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        log.info("getPassword()");
         return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        log.info("getUsername() -> nickName = {}", user.getNickname());
         return user.getNickname();
     }
 
