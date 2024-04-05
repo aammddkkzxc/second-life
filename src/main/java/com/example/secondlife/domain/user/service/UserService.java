@@ -25,7 +25,7 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     public JoinResponse save(JoinRequest request) {
-        User savedUser = userRepository.save(joinRequestToUserWithDefaultRole(request));
+        User savedUser = userRepository.save(joinRequestToUser(request));
 
         return UserDtoUtil.userToJoinResponse(savedUser);
     }
@@ -64,7 +64,7 @@ public class UserService {
         findUser.delete();
     }
 
-    private User joinRequestToUserWithDefaultRole(JoinRequest request) {
+    private User joinRequestToUser(JoinRequest request) {
         Introduction introduction = new Introduction(request.getRegion(), request.getBirthDate(),
                 request.getSelfIntroduction());
 
