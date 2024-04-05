@@ -1,7 +1,7 @@
 package com.example.secondlife.common.llm.controller;
 
 import com.example.secondlife.common.llm.dto.GPTResponse;
-import com.example.secondlife.common.llm.event.PostCreatedEvent;
+import com.example.secondlife.common.llm.event.PostingEvent;
 import com.example.secondlife.common.llm.service.GPTService;
 import com.example.secondlife.domain.comment.dto.CommentRequest;
 import com.example.secondlife.domain.comment.dto.CommentResponse;
@@ -24,7 +24,7 @@ public class GPTEventListener {
     private final GPTService gptService;
 
     @EventListener
-    public void handlePostCreatedEvent(PostCreatedEvent event) {
+    public void handlePostCreatedEvent(PostingEvent event) {
         final CommentResponse aiCommentResponse = commentPostWithAI(event.getPostId());
 
         log.info("AI Comment Response: {}", aiCommentResponse);

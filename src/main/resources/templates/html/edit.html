@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -94,6 +94,28 @@
 
         }
 
+        /* 로딩 오버레이 스타일 */
+        #loadingOverlay {
+            position: fixed; /* 고정 위치 */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5); /* 반투명 검정색 배경 */
+            display: flex;
+            justify-content: center; /* 중앙 정렬 */
+            align-items: center; /* 중앙 정렬 */
+            z-index: 1000; /* 다른 요소 위에 표시 */
+        }
+
+        /* 로딩 팝업 스타일 */
+        #loadingPopup {
+            padding: 20px;
+            background-color: #4a7753;
+            border-radius: 10px;
+            text-align: center;
+        }
+
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.indigo.min.css"/>
     <link rel="stylesheet" href="https://unpkg.com/open-props">
@@ -138,6 +160,13 @@
         </article>
     </form>
 </main>
+<div id="loadingOverlay" style="display: none;">
+    <div id="loadingPopup">
+        <div class="loader"></div>
+        <p>글을 수정하는 중입니다...</p>
+    </div>
+</div>
+
 </body>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -147,6 +176,7 @@
         form.addEventListener('submit', function (event) {
             event.preventDefault(); // 기본 제출 동작 방지
 
+            document.getElementById('loadingOverlay').style.display = 'flex';
             // 폼 데이터 수집
             const formData = new FormData(this);
 
@@ -171,13 +201,16 @@
                     return response.json();
                 })
                 .then(data => {
+                    document.getElementById('loadingOverlay').style.display = 'none';
                     // 성공 알림 표시
-                    alert('Post updated successfully');
+                    alert('글이 성공적으로 수정되었습니다.');
                     // 수정 완료 후 게시물 상세 페이지로 리다이렉트
                     window.location.href = `/board/${postId}`;
                 })
                 .catch(error => {
                     console.error('Error:', error);
+
+                    document.getElementById('loadingOverlay').style.display = 'none';
                     alert('Error updating post');
                 });
         });
