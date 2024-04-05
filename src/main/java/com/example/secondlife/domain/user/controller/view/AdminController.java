@@ -20,7 +20,6 @@ public class AdminController {
     public String admin(@RequestParam(value = "category", required = false) String category,
                         @RequestParam(value = "keyword", required = false) String keyword,
                         Model model) {
-        log.info("admin()");
         UserResponse userResponse = new UserResponse();
 
         if (isValidSearchCriteria(category, keyword)) {

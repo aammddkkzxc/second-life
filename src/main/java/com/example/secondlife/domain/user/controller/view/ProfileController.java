@@ -30,8 +30,6 @@ public class ProfileController {
     @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
     public String profile(@AuthenticationPrincipal(expression = "userId") Long userId, Model model,
                           @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        log.info("profile()");
-
         final ProfileResponse profile = userSearchService.getProfile(userId);
         final Page<PostResponse> page = postSearchService.getPostsByUserId(pageable, userId);
         final List<PostResponse> posts = page.getContent();
@@ -44,8 +42,6 @@ public class ProfileController {
 
     @GetMapping("/profile/update")
     public String updateProfile() {
-        log.info("updateProfile()");
-
         return "html/user-update";
     }
 }

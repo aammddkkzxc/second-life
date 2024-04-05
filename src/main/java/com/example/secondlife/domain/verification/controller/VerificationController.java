@@ -31,7 +31,7 @@ public class VerificationController {
                             + "Verification Table 에 해당 유저의 PK, 인증 코드, 만료일을 저장합니다.")
     public ResponseEntity<?> sendEmailWithCode(@RequestParam("email") String email,
                                                @AuthenticationPrincipal(expression = "userId") Long userId) throws Exception {
-        String code = verificationService.sendSimpleMessage(userId, email);
+        final String code = verificationService.sendSimpleMessage(userId, email);
 
         log.info("인증코드 : " + code);
 
