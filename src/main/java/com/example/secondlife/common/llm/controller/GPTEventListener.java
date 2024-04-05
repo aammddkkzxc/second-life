@@ -27,7 +27,7 @@ public class GPTEventListener {
     public void handlePostCreatedEvent(PostCreatedEvent event) {
         final CommentResponse aiCommentResponse = commentPostWithAI(event.getPostId());
 
-        log.info("AI Comment Response: {}", aiCommentResponse);
+        log.info("aiCommentResponse {} ", aiCommentResponse);
     }
 
     public CommentResponse commentPostWithAI(@PathVariable Long postId) {

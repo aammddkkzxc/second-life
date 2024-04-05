@@ -68,7 +68,7 @@ public class AttachmentUtil {
         if (!dir.exists()) {
             boolean created = dir.mkdirs();
             if (!created) {
-                throw new IllegalStateException("디렉토리 생성에 실패했습니다. path = " + path);
+                throw new IllegalStateException("Unable to create directory: " + path);
             }
         }
         return dir.getPath();

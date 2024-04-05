@@ -14,12 +14,14 @@
 //import com.example.secondlife.domain.user.valueType.Introduction;
 //import java.time.LocalDate;
 //import lombok.RequiredArgsConstructor;
+//import lombok.extern.slf4j.Slf4j;
 //import org.springframework.boot.context.event.ApplicationReadyEvent;
 //import org.springframework.context.event.EventListener;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.stereotype.Component;
 //
 //@RequiredArgsConstructor
+//@Slf4j
 //@Component
 //public class InitData {
 //    private final UserService userService;
@@ -30,6 +32,8 @@
 //
 //    @EventListener(ApplicationReadyEvent.class)
 //    public void init() {
+//        log.info("init()");
+//
 //        JoinRequest joinRequestL1 = new JoinRequest(
 //                "test",
 //                "test",
@@ -87,6 +91,8 @@
 //    }
 //
 //    public User joinRequestToL2User(JoinRequest request) {
+//        log.info("joinRequestToL2User()");
+//
 //        Introduction introduction = new Introduction(request.getRegion(), request.getBirthDate(),
 //                request.getSelfIntroduction());
 //
@@ -101,6 +107,8 @@
 //    }
 //
 //    public User joinRequestToAdminUser(JoinRequest request) {
+//        log.info("joinRequestToAdminUser()");
+//
 //        Introduction introduction = new Introduction(request.getRegion(), request.getBirthDate(),
 //                request.getSelfIntroduction());
 //

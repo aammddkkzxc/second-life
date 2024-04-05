@@ -31,16 +31,16 @@ public class User extends BaseTimeEntity {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(length = 20, nullable = false, unique = true)
+    @Column(length = 20, nullable = false)
     private String loginId;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(length = 20, nullable = false, unique = true)
+    @Column(length = 20, nullable = false)
     private String nickname;
 
-    @Column(length = 50, unique = true)
+    @Column(length = 50)
     private String email;
 
     @Embedded
@@ -70,7 +70,7 @@ public class User extends BaseTimeEntity {
         if (request.getPassword() != null && !request.getPassword().isEmpty()) {
             password = request.getPassword();
         }
-
+        
         introduction = new Introduction(
                 request.getRegion() != null ? request.getRegion() : introduction.getRegion(),
                 request.getBirthDate() != null ? request.getBirthDate() : introduction.getBirthDate(),

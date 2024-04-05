@@ -9,12 +9,14 @@ import com.example.secondlife.domain.post.repository.PostRepository;
 import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.service.UserSearchService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 @Transactional
 public class PostService {
@@ -26,6 +28,8 @@ public class PostService {
     private final ApplicationEventPublisher publisher;
 
     public PostResponse save(Long userId, PostDto request) {
+        log.info("save");
+
         Post savedPost = postRepository.save(postRequestToPost(userId, request));
 
         publisher.publishEvent(new PostCreatedEvent(this, savedPost.getId()));
@@ -34,12 +38,16 @@ public class PostService {
     }
 
     public void incrementViewCount(Long postId) {
+        log.info("incrementViewCount");
+
         Post findPost = postSearchService.findById(postId);
 
         findPost.increaseViewCount();
     }
 
     public PostResponse update(Long userId, Long postId, PostDto request) {
+        log.info("update");
+
         Post findPost = postSearchService.findById(postId);
 
         validUser(userId, findPost);
@@ -50,6 +58,8 @@ public class PostService {
     }
 
     public void delete(Long userId, Long postId) {
+        log.info("delete");
+
         Post findPost = postSearchService.findById(postId);
 
         validUser(userId, findPost);
