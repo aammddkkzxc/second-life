@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.indigo.min.css"/>
@@ -114,7 +114,7 @@
     </article>
     <div>
     </div>
-    <div class="grid writeb mt30px">
+    <div class="grid writeb mt30px" th:if="${post.userId} == ${#authentication.principal.userId}">
         <div></div>
         <div></div>
         <button id="editButton">
@@ -124,7 +124,6 @@
                 style="background-color: rgb(199, 61, 61); border-color: rgb(199, 61, 61);">
             삭제
         </button>
-
     </div>
 
 

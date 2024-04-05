@@ -1,6 +1,6 @@
 package com.example.secondlife.domain.post.service;
 
-import com.example.secondlife.common.llm.event.PostCreatedEvent;
+import com.example.secondlife.common.llm.event.PostingEvent;
 import com.example.secondlife.domain.post.dto.PostDto;
 import com.example.secondlife.domain.post.dto.PostDtoUtil;
 import com.example.secondlife.domain.post.dto.PostResponse;
@@ -28,8 +28,8 @@ public class PostService {
     public PostResponse save(Long userId, PostDto request) {
         Post savedPost = postRepository.save(postRequestToPost(userId, request));
 
-        publisher.publishEvent(new PostCreatedEvent(this, savedPost.getId()));
-        
+        publisher.publishEvent(new PostingEvent(this, savedPost.getId()));
+
         return PostDtoUtil.postToPostResponse(savedPost);
     }
 
@@ -45,6 +45,8 @@ public class PostService {
         validUser(userId, findPost);
 
         findPost.update(request);
+
+        publisher.publishEvent(new PostingEvent(this, findPost.getId()));
 
         return PostDtoUtil.postToPostResponse(findPost);
     }
