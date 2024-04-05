@@ -11,6 +11,9 @@ import com.example.secondlife.domain.BasicCRUDTest;
 import com.example.secondlife.domain.user.dto.JoinRequest;
 import com.example.secondlife.domain.user.dto.JoinResponse;
 import com.example.secondlife.domain.user.dto.ProfileResponse;
+import com.example.secondlife.domain.user.dto.UpdateUserRequest;
+import com.example.secondlife.domain.user.dto.UpdateUserRoleRequest;
+import com.example.secondlife.domain.user.dto.UserResponse;
 import com.example.secondlife.domain.user.service.UserSearchService;
 import com.example.secondlife.domain.user.service.UserService;
 import org.junit.jupiter.api.DisplayName;
@@ -124,65 +127,65 @@ class UserControllerTest extends BasicCRUDTest {
         result.andExpect(status().isUnauthorized()).andDo(print());
     }
 
-//    @DisplayName("유저 정보 업데이트(PATCH) 요청 테스트")
-//    @ParameterizedTest
-//    @ValueSource(longs = {1L, 2L, 3L})
-//    @WithMockUser(roles = {"L1", "L2", "ADMIN"})
-//    void updateUserProfile(Long userId) throws Exception {
-//        //given
-//        String url = "/api/users/role/{userId}";
-//        UpdateUserRequest request = new UpdateUserRequest();
-//        UserResponse response = new UserResponse();
-//        given(userService.updateProfile(userId, request)).willReturn(response);
-//
-//        //when
-//        ResultActions result = doPatch(url, userId, request);
-//
-//        //then
-//        assertAll(
-//                () -> result.andExpect(status().isOk()).andDo(print()),
-//                () -> result.andExpect(jsonPath("$.userId").hasJsonPath()),
-//                () -> result.andExpect(jsonPath("$.nickname").hasJsonPath()),
-//                () -> result.andExpect(jsonPath("$.email").hasJsonPath()),
-//                () -> result.andExpect(jsonPath("$.region").hasJsonPath()),
-//                () -> result.andExpect(jsonPath("$.birthDate").hasJsonPath()),
-//                () -> result.andExpect(jsonPath("$.selfIntroduction").hasJsonPath()),
-//                () -> result.andExpect(jsonPath("$.role").hasJsonPath()),
-//                () -> result.andExpect(jsonPath("$.isDeleted").hasJsonPath()),
-//                () -> result.andExpect(jsonPath("$.verified").hasJsonPath()),
-//                () -> verify(userService).updateProfile(userId, request)
-//        );
-//    }
+    @DisplayName("유저 정보 업데이트(PATCH) 요청 테스트")
+    @ParameterizedTest
+    @ValueSource(longs = {1L, 2L, 3L})
+    @WithMockUser(roles = {"L1", "L2", "ADMIN"})
+    void updateUserProfile(Long userId) throws Exception {
+        //given
+        String url = "/api/users/{userId}";
+        UpdateUserRequest request = new UpdateUserRequest();
+        UserResponse response = new UserResponse();
+        given(userService.updateProfile(userId, request)).willReturn(response);
 
-//    @DisplayName("유저 등급 업데이트(PATCH) 요청 테스트")
-//    @ParameterizedTest
-//    @ValueSource(longs = {1L, 2L, 3L})
-//    @WithMockUser(roles = "ADMIN")
-//    void updateUserRole(Long userId) throws Exception {
-//        //given
-//        String url = "/api/users/role/{userId}";
-//        UpdateUserRoleRequest request = new UpdateUserRoleRequest();
-//        UserResponse response = new UserResponse();
-//        given(userService.updateRole(userId, request)).willReturn(response);
-//
-//        //when
-//        ResultActions result = doPatch(url, userId, request);
-//
-//        //then
-//        assertAll(
-//                () -> result.andExpect(status().isOk()).andDo(print()),
-//                () -> result.andExpect(jsonPath("$.userId").hasJsonPath()),
-//                () -> result.andExpect(jsonPath("$.nickname").hasJsonPath()),
-//                () -> result.andExpect(jsonPath("$.email").hasJsonPath()),
-//                () -> result.andExpect(jsonPath("$.region").hasJsonPath()),
-//                () -> result.andExpect(jsonPath("$.birthDate").hasJsonPath()),
-//                () -> result.andExpect(jsonPath("$.selfIntroduction").hasJsonPath()),
-//                () -> result.andExpect(jsonPath("$.role").hasJsonPath()),
-//                () -> result.andExpect(jsonPath("$.isDeleted").hasJsonPath()),
-//                () -> result.andExpect(jsonPath("$.verified").hasJsonPath()),
-//                () -> verify(userService).updateRole(userId, request)
-//        );
-//    }
+        //when
+        ResultActions result = doPatch(url, userId, request);
+
+        //then
+        assertAll(
+                () -> result.andExpect(status().isOk()).andDo(print()),
+                () -> result.andExpect(jsonPath("$.userId").hasJsonPath()),
+                () -> result.andExpect(jsonPath("$.nickname").hasJsonPath()),
+                () -> result.andExpect(jsonPath("$.email").hasJsonPath()),
+                () -> result.andExpect(jsonPath("$.region").hasJsonPath()),
+                () -> result.andExpect(jsonPath("$.birthDate").hasJsonPath()),
+                () -> result.andExpect(jsonPath("$.selfIntroduction").hasJsonPath()),
+                () -> result.andExpect(jsonPath("$.role").hasJsonPath()),
+                () -> result.andExpect(jsonPath("$.deleted").hasJsonPath()),
+                () -> result.andExpect(jsonPath("$.verified").hasJsonPath()),
+                () -> verify(userService).updateProfile(userId, request)
+        );
+    }
+
+    @DisplayName("유저 등급 업데이트(PATCH) 요청 테스트")
+    @ParameterizedTest
+    @ValueSource(longs = {1L, 2L, 3L})
+    @WithMockUser(roles = "ADMIN")
+    void updateUserRole(Long userId) throws Exception {
+        //given
+        String url = "/api/users/role/{userId}";
+        UpdateUserRoleRequest request = new UpdateUserRoleRequest();
+        UserResponse response = new UserResponse();
+        given(userService.updateRole(userId, request)).willReturn(response);
+
+        //when
+        ResultActions result = doPatch(url, userId, request);
+
+        //then
+        assertAll(
+                () -> result.andExpect(status().isOk()).andDo(print()),
+                () -> result.andExpect(jsonPath("$.userId").hasJsonPath()),
+                () -> result.andExpect(jsonPath("$.nickname").hasJsonPath()),
+                () -> result.andExpect(jsonPath("$.email").hasJsonPath()),
+                () -> result.andExpect(jsonPath("$.region").hasJsonPath()),
+                () -> result.andExpect(jsonPath("$.birthDate").hasJsonPath()),
+                () -> result.andExpect(jsonPath("$.selfIntroduction").hasJsonPath()),
+                () -> result.andExpect(jsonPath("$.role").hasJsonPath()),
+                () -> result.andExpect(jsonPath("$.deleted").hasJsonPath()),
+                () -> result.andExpect(jsonPath("$.verified").hasJsonPath()),
+                () -> verify(userService).updateRole(userId, request)
+        );
+    }
 
     @DisplayName("회원 탈퇴(DELETE) 요청 테스트")
     @ParameterizedTest
