@@ -7,7 +7,6 @@ import static com.example.secondlife.domain.user.enumType.Role.L2;
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 import com.example.secondlife.common.security.CustomLogoutSuccessHandler;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
@@ -22,7 +21,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@Slf4j
 @EnableMethodSecurity
 public class SecurityConfig {
 

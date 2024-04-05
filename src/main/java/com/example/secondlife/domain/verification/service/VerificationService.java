@@ -19,9 +19,11 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class VerificationService {
 
     private final UserSearchService userSearchService;
@@ -29,10 +31,14 @@ public class VerificationService {
     private final VerificationRepository verificationRepository;
     private final JavaMailSender emailSender;
 
-    public String sendSimpleMessage(Long userId, String to) throws Exception {
+    public String sendSimpleMessage(Long userId, String email) throws Exception {
+        if (userSearchService.existByEmail(email)) {
+            throw new ExistException("이미 가입된 이메일입니다.");
+        }
+
         String code = createKey();
 
-        MimeMessage message = createMessage(to, code);
+        MimeMessage message = createMessage(email, code);
         emailSender.send(message);
 
         User findUser = userSearchService.findById(userId);
@@ -44,34 +50,32 @@ public class VerificationService {
         return code;
     }
 
-    public void verifyEmailAndCode(Long userId, VerifyRequest verifyRequest) {
-        Verification verification = verificationRepository.findByVerificationCodeAndUserId(verifyRequest.getCode(),
-                        userId)
-                .orElseThrow(() -> new AuthenticationException("인증코드가 일치하지 않습니다."));
+    public void validateAndActivateEmailVerification(Long userId, VerifyRequest verifyRequest) {
+        Verification verification = findVerificationByCodeAndUserId(verifyRequest.getCode(), userId);
 
+        ensureVerificationNotExpired(verification);
+
+        activateUserEmailVerification(userId, verifyRequest.getEmail());
+    }
+
+    private Verification findVerificationByCodeAndUserId(String code, Long userId) {
+        return verificationRepository.findByVerificationCodeAndUserId(code, userId)
+                .orElseThrow(() -> new AuthenticationException("인증코드가 일치하지 않습니다."));
+    }
+
+    private void ensureVerificationNotExpired(Verification verification) {
         if (verification.getExpiryDate().before(new Date())) {
             throw new AuthenticationException("인증코드가 만료되었습니다.");
         }
-
-        String email = verifyRequest.getEmail();
-
-        if (userSearchService.existByEmail(email)) {
-            throw new ExistException("이미 가입된 이메일입니다.");
-        }
-
-        verificationRepository.delete(verification);
-
-        userService.updateVerify(userId, verifyRequest.getEmail());
     }
 
-    private Verification toVerification(String code, User findUser) {
-        Date date = generateExpiryDate();
+    private void activateUserEmailVerification(Long userId, String email) {
+        userService.updateVerify(userId, email);
+    }
 
-        return Verification.builder()
-                .user(findUser)
-                .verificationCode(code)
-                .expiryDate(date)
-                .build();
+    private String createKey() {
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString().replaceAll("-", "").substring(0, 12);
     }
 
     private Date generateExpiryDate() {
@@ -112,8 +116,13 @@ public class VerificationService {
         return message;
     }
 
-    private String createKey() {
-        UUID uuid = UUID.randomUUID();
-        return uuid.toString().replaceAll("-", "").substring(0, 12);
+    private Verification toVerification(String code, User findUser) {
+        Date date = generateExpiryDate();
+
+        return Verification.builder()
+                .user(findUser)
+                .verificationCode(code)
+                .expiryDate(date)
+                .build();
     }
 }

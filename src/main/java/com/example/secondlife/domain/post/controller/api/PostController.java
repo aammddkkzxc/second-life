@@ -2,6 +2,7 @@ package com.example.secondlife.domain.post.controller.api;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
+import com.example.secondlife.common.exception.AuthenticationException;
 import com.example.secondlife.common.security.CustomUserDetails;
 import com.example.secondlife.domain.post.dto.PostDto;
 import com.example.secondlife.domain.post.dto.PostResponse;
@@ -9,8 +10,8 @@ import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.service.PostSearchService;
 import com.example.secondlife.domain.post.service.PostService;
 import com.example.secondlife.domain.user.enumType.Role;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -29,7 +30,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
-@Slf4j
 public class PostController {
 
     private final PostService postService;
@@ -37,10 +37,10 @@ public class PostController {
 
     @PostMapping("/posts")
     @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
+    @Operation(summary = "게시글 작성", description = "L1 이상 권한을 가진 유저가 게시글을 작성합니다. "
+            + "L1 은 자유 게시판에만 작성할 수 있습니다.")
     public ResponseEntity<PostResponse> writePost(@AuthenticationPrincipal CustomUserDetails userDetails,
                                                   @RequestBody PostDto request) {
-        log.info("writePost()");
-
         final Long userId = userDetails.getUserId();
         final Role userRole = userDetails.getUserRole();
         final Forum forum = request.getForum();
@@ -56,9 +56,8 @@ public class PostController {
 
     @GetMapping("/posts/{postId}")
     @PreAuthorize("hasAnyRole('L2', 'ADMIN')")
+    @Operation(summary = "게시글 상세 조회", description = "게시글의 상세 정보를 조회합니다.")
     public ResponseEntity<PostResponse> getPost(@PathVariable Long postId) {
-        log.info("getPost()");
-
         final PostResponse postResponse = postSearchService.readWithCommentsAndCommentLikes(postId);
 
         return ResponseEntity.ok(postResponse);
@@ -66,9 +65,8 @@ public class PostController {
 
     @GetMapping("/posts")
     @PreAuthorize("hasAnyRole('L2', 'ADMIN')")
+    @Operation(summary = "모든 게시글 조회", description = "모든 게시글을 조회합니다.")
     public ResponseEntity<Page<PostResponse>> getPosts(@PageableDefault Pageable pageable) {
-        log.info("getPosts()");
-
         final Page<PostResponse> postResponses = postSearchService.getPosts(pageable);
 
         return ResponseEntity.ok(postResponses);
@@ -76,11 +74,10 @@ public class PostController {
 
     @PatchMapping("/posts/{postId}")
     @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
+    @Operation(summary = "게시글 수정", description = "게시글을 수정합니다.")
     public ResponseEntity<PostResponse> updatePost(@AuthenticationPrincipal(expression = "userId") Long userId,
                                                    @PathVariable Long postId,
                                                    @RequestBody PostDto request) {
-        log.info("updatePost()");
-
         final PostResponse postResponse = postService.update(userId, postId, request);
 
         return ResponseEntity.ok(postResponse);
@@ -88,10 +85,10 @@ public class PostController {
 
     @DeleteMapping("/posts/{postId}")
     @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
+    @Operation(summary = "게시글 삭제", description = "게시글의 isDeleted 값을 true로 변경합니다. + "
+            + "자신이 작성한 게시글만 삭제할 수 있습니다.")
     public ResponseEntity<?> deletePost(@AuthenticationPrincipal(expression = "userId") Long userId,
                                         @PathVariable Long postId) {
-        log.info("deletePost()");
-
         postService.delete(userId, postId);
 
         return ResponseEntity
@@ -100,10 +97,8 @@ public class PostController {
     }
 
     private void validRoleWithForum(Role userRole, Forum forum) {
-        log.info("validRoleWithForum()");
-
         if (forum.equals(Forum.REGION) && userRole.equals(Role.L1)) {
-            throw new IllegalArgumentException("지역 게시판은 인증 유저만 접근할 수 있습니다");
+            throw new AuthenticationException("지역 게시판은 인증 유저만 접근할 수 있습니다");
         }
     }
 

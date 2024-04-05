@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@Slf4j
 public class PostSearchService {
 
     private final PostRepository postRepository;
@@ -34,24 +32,18 @@ public class PostSearchService {
     private final CommentSearchService commentSearchService;
 
     public Page<PostResponse> getPostsByForumAndRegion(Forum forum, Region region, Pageable pageable) {
-        log.info("getPostsByForumAndRegion");
-
         Page<Post> posts = postRepository.findAllByForumAndUserRegionAndIsDeletedFalse(forum, region, pageable);
 
         return posts.map(PostDtoUtil::postToPostResponse);
     }
 
     public Page<PostResponse> getPostsByForum(Forum forum, Pageable pageable) {
-        log.info("getPostsByForum");
-
         Page<Post> posts = postRepository.findAllByForumAndIsDeletedFalse(forum, pageable);
 
         return posts.map(PostDtoUtil::postToPostResponse);
     }
 
     public Page<PostResponse> getPosts(Pageable pageable) {
-        log.info("getPosts");
-
         Page<Post> posts = postRepository.findAll(pageable);
 
         return posts.map(PostDtoUtil::postToPostResponse);
@@ -77,16 +69,12 @@ public class PostSearchService {
     }
 
     public Page<PostResponse> getPostsByUserId(Pageable pageable, Long userId) {
-        log.info("getPostsByUserId");
-
         Page<Post> posts = postRepository.findAllByUserIdAndIsDeletedFalse(userId, pageable);
 
         return posts.map(PostDtoUtil::postToPostResponse);
     }
 
     public PostResponse readWithCommentsAndCommentLikes(Long postId) {
-        log.info("readWithCommentsAndCommentLikes");
-
         Post findPost = findById(postId);
 
         List<CommentResponse> commentResponses = commentSearchService.getCommentsWithCommentLikes(postId);
@@ -99,8 +87,6 @@ public class PostSearchService {
     }
 
     public Post findById(Long postId) {
-        log.info("findById");
-
         return postRepository.findById(postId)
                 .orElseThrow(() -> new NotFoundException("해당 게시글이 존재하지 않습니다. postId = " + postId));
     }
@@ -112,15 +98,11 @@ public class PostSearchService {
     }
 
     public String findContentsById(Long postId) {
-        log.info("findContentsById");
-
         return postRepository.findContentsById(postId)
                 .orElseThrow(() -> new NotFoundException("해당 게시글이 존재하지 않습니다. postId = " + postId));
     }
 
     public PostDto getPostDtoByPostId(Long postId) {
-        log.info("getPostDtoByPostId");
-
         Post post = findById(postId);
 
         return PostDto.builder()

@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -34,7 +33,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class BoardController {
 
     private final PostSearchService postSearchService;
@@ -42,8 +40,6 @@ public class BoardController {
 
     @GetMapping("/")
     public String mainPage(Model model) {
-        log.info("mainPage()");
-
         final List<HotPostDto> hotPosts = postSearchService.getHotPosts();
 
         model.addAttribute("posts", hotPosts);
@@ -55,8 +51,6 @@ public class BoardController {
     @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
     public String freeBoard(Model model,
                             @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        log.info("freeBoard()");
-
         final Page<PostResponse> postResponses = postSearchService.getPostsByForum(Forum.FREE, pageable);
 
         model.addAttribute("posts", postResponses.getContent());
@@ -69,8 +63,6 @@ public class BoardController {
     @PreAuthorize("hasAnyRole('L2', 'ADMIN')")
     public String regionBoard(Model model,
                               @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        log.info("regionBoard()");
-
         final Page<PostResponse> postResponses = postSearchService.getPostsByForum(Forum.REGION, pageable);
 
         model.addAttribute("posts", postResponses.getContent());
@@ -83,8 +75,6 @@ public class BoardController {
     @PreAuthorize("hasAnyRole('L2', 'ADMIN')")
     public String specificRegionBoard(Model model, @PathVariable Region region,
                                       @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        log.info("specificRegionBoard(), region: {}", region);
-
         final Page<PostResponse> postResponses = postSearchService.getPostsByForumAndRegion(Forum.REGION, region,
                 pageable);
 
@@ -99,8 +89,6 @@ public class BoardController {
     @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
     public String myBoard(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                           @AuthenticationPrincipal CustomUserDetails userDetails) {
-        log.info("myBoard()");
-
         final Page<PostResponse> postResponses = postSearchService.getPostsByUserId(pageable, userDetails.getUserId());
 
         model.addAttribute("posts", postResponses.getContent());
@@ -113,8 +101,6 @@ public class BoardController {
     @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
     public String viewPost(@PathVariable("postId") Long postId, Model model,
                            HttpServletRequest request, HttpServletResponse response) {
-        log.info("viewPost() - postId: " + postId);
-
         updateViewCountIfNotViewed(postId, request, response);
 
         final PostResponse postResponse = postSearchService.readWithCommentsAndCommentLikes(postId);
@@ -131,16 +117,12 @@ public class BoardController {
     @GetMapping("/write")
     @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
     public String write() {
-        log.info("write()");
-
         return "html/write";
     }
 
     @GetMapping("/board/{postId}/edit")
     @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
     public String edit(@PathVariable("postId") Long postId, Model model) {
-        log.info("edit()");
-
         final PostDto postDto = postSearchService.getPostDtoByPostId(postId);
         final String forum = postDto.getForum().name();
 
