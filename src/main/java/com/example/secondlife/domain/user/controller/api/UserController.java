@@ -63,18 +63,10 @@ public class UserController {
 
     @PatchMapping("/users/role/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
-<<<<<<< HEAD
-    public ResponseEntity<UserResponse> updateUserRole(@PathVariable Long userId, @RequestBody UpdateUserRoleRequest request) {
-        log.info("updateUserRole()");
-
-        log.info("updateUserRoleRequest: {}", request.getRole());
-
-        UserResponse userInfo = userService.updateRole(userId, request);
-=======
     @Operation(summary = "유저 권한 업데이트", description = "유저의 권한을 업데이트합니다.")
-    public ResponseEntity<UserResponse> updateUserRole(@PathVariable Long userId, @RequestBody UpdateUserRole request) {
+    public ResponseEntity<UserResponse> updateUserRole(@PathVariable Long userId,
+                                                       @RequestBody UpdateUserRoleRequest request) {
         final UserResponse userInfo = userService.updateRole(userId, request);
->>>>>>> 906ff8918eade233b082b329cc74dc7d6099cb56
 
         return ResponseEntity.ok(userInfo);
     }
@@ -89,5 +81,4 @@ public class UserController {
                 .noContent()
                 .build();
     }
-    //
 }

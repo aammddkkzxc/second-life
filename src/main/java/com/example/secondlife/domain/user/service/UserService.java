@@ -46,13 +46,7 @@ public class UserService {
         return UserDtoUtil.userToUserResponse(findUser);
     }
 
-<<<<<<< HEAD
     public UserResponse updateRole(Long userId, UpdateUserRoleRequest request) {
-        log.info("updateUserRole()");
-
-=======
-    public UserResponse updateRole(Long userId, UpdateUserRole request) {
->>>>>>> 906ff8918eade233b082b329cc74dc7d6099cb56
         User findUser = userSearchService.findById(userId);
 
         findUser.updateUserRole(request);
