@@ -1,4 +1,4 @@
-# Oreumi-SideProject
+# 프로젝트 명 - Second - Life
 <br/>이스트소프트에서 주관하는 부트캠프(명 : 오르미)에서 진행된 사이드 프로젝트 입니다.
 <br/>Spring Boot를 활용하여 웹 커뮤니티 사이트를 구현하였습니다.
 <br/>배포 URL 추가 예정
