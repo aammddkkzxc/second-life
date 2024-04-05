@@ -1,8 +1,11 @@
 package com.example.secondlife.common.aop;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +19,10 @@ public class PerformanceAndSuccessLoggingAspect {
 
     @Pointcut("within(com.example.secondlife..*)")
     public void applicationPackagePointcut() {
+    }
+
+    @Pointcut("within(com.example.secondlife..*)")
+    public void withinTargetPackage() {
     }
 
     @Around("applicationPackagePointcut()")
@@ -32,4 +39,15 @@ public class PerformanceAndSuccessLoggingAspect {
         }
         return result;
     }
+
+    @Before("withinTargetPackage()")
+    public void logMethodStart(JoinPoint joinPoint) {
+        logger.info("시작 : {}", joinPoint.getSignature().toShortString());
+    }
+
+    @After("withinTargetPackage()")
+    public void logMethodEnd(JoinPoint joinPoint) {
+        logger.info("종료 : {}", joinPoint.getSignature().toShortString());
+    }
+
 }

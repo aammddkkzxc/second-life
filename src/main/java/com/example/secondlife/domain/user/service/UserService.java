@@ -11,7 +11,6 @@ import com.example.secondlife.domain.user.enumType.Role;
 import com.example.secondlife.domain.user.repository.UserRepository;
 import com.example.secondlife.domain.user.valueType.Introduction;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
@@ -27,20 +25,15 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     public JoinResponse save(JoinRequest request) {
-        log.info("save()");
-
         User savedUser = userRepository.save(joinRequestToUser(request));
 
         return UserDtoUtil.userToJoinResponse(savedUser);
     }
 
     public UserResponse updateProfile(Long userId, UpdateUserRequest request) {
-        log.info("updateUserProfile()");
-
         String password = request.getPassword();
 
         if (password != null && !password.isEmpty()) {
-            log.info("password is not empty");
             request.setPassword(passwordEncoder.encode(password));
         }
 
@@ -51,9 +44,13 @@ public class UserService {
         return UserDtoUtil.userToUserResponse(findUser);
     }
 
+<<<<<<< HEAD
     public UserResponse updateRole(Long userId, UpdateUserRoleRequest request) {
         log.info("updateUserRole()");
 
+=======
+    public UserResponse updateRole(Long userId, UpdateUserRole request) {
+>>>>>>> 906ff8918eade233b082b329cc74dc7d6099cb56
         User findUser = userSearchService.findById(userId);
 
         findUser.updateUserRole(request);
@@ -62,16 +59,12 @@ public class UserService {
     }
 
     public void updateVerify(Long userId, String email) {
-        log.info("updateVerify()");
-
         User findUser = userSearchService.findById(userId);
 
         findUser.updateVerify(email);
     }
 
     public void delete(Long userId) {
-        log.info("delete()");
-
         User findUser = userSearchService.findById(userId);
 
         findUser.delete();

@@ -33,6 +33,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "LEFT JOIN users u ON p.user_id = u.user_id " +
             "WHERE p.created_date >= :startDate AND p.is_deleted = false " +
             "GROUP BY p.post_id, p.hits " +
-            "ORDER BY likeCount DESC, p.hits DESC, commentCount DESC", nativeQuery = true)
+            "ORDER BY likeCount DESC, p.hits DESC, commentCount DESC " +
+            "LIMIT 15", nativeQuery = true)
     List<Object[]> findHotPostsNative(LocalDateTime startDate);
 }
