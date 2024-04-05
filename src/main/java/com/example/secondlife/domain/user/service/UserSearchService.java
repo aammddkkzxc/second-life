@@ -9,21 +9,25 @@ import com.example.secondlife.domain.user.repository.UserQRepository;
 import com.example.secondlife.domain.user.repository.UserRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@Slf4j
 public class UserSearchService {
 
     private final UserRepository userRepository;
     private final UserQRepository userQRepository;
 
     public ProfileResponse getProfile(Long userId) {
-        return userQRepository.findProfile(userId);
+        final ProfileResponse profile = userQRepository.findProfile(userId);
+
+        if (profile == null) {
+            throw new NotFoundException("해당 사용자가 존재하지 않습니다. userId = " + userId);
+        }
+
+        return profile;
     }
 
     public User findById(Long userId) {
@@ -33,7 +37,7 @@ public class UserSearchService {
 
     public UserResponse searchByNickName(String nickname) {
         final Optional<User> byNicknameContaining = userRepository.findByNicknameContaining(nickname);
-        
+
         return byNicknameContaining.map(UserDtoUtil::userToUserResponse).orElse(null);
     }
 
