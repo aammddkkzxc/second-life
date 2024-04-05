@@ -36,9 +36,9 @@ public class UserSearchService {
     }
 
     public UserResponse searchByNickName(String nickname) {
-        final Optional<User> byNicknameContaining = userRepository.findByNicknameContaining(nickname);
+        final Optional<User> optionalUser = userRepository.findByNicknameContaining(nickname);
 
-        return byNicknameContaining.map(UserDtoUtil::userToUserResponse).orElse(new UserResponse());
+        return optionalUser.map(UserDtoUtil::userToUserResponse).orElse(new UserResponse());
     }
 
     public boolean existByEmail(String email) {
