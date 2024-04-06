@@ -2,6 +2,7 @@ package com.example.secondlife.domain.user.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.example.secondlife.common.exception.NotFoundException;
 import com.example.secondlife.domain.user.dto.ProfileResponse;
@@ -99,9 +100,9 @@ class UserSearchServiceTest {
         assertThat(userResponse.getNickname()).isEqualTo(user.getNickname());
     }
 
-    @DisplayName("주어진 nickName에 해당하는 사용자 없을 시 null 반환")
+    @DisplayName("주어진 nickName에 해당하는 사용자 없을 시 빈 response 반환")
     @Test
-    void searchByNickName_UserNotExiste() {
+    void searchByNickName_UserNotExist() {
         // given
         String notExistingNickname = "notExisting";
 
@@ -109,7 +110,10 @@ class UserSearchServiceTest {
         UserResponse userResponse = userSearchService.searchByNickName(notExistingNickname);
 
         // then
-        assertThat(userResponse).isNull();
+        assertAll(
+                () -> assertThat(userResponse).isInstanceOf(UserResponse.class),
+                () -> assertThat(userResponse.getNickname()).isNull()
+        );
     }
 
     @DisplayName("주어진 email로 등록된 사용자 존재 시 true 반환")
