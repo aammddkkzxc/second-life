@@ -32,9 +32,9 @@ public class CommentQueryRepository {
                         comment.contents,
                         comment.createdDate,
                         comment.lastModifiedDate,
-                        commentLike.comment.id.countDistinct()))
+                        commentLike.commentId.countDistinct()))
                 .from(comment)
-                .leftJoin(commentLike).on(commentLike.comment.id.eq(comment.id))
+                .leftJoin(commentLike).on(commentLike.commentId.eq(comment.id))
                 .where(comment.post.id.eq(postId).and(comment.isDeleted.eq(false)))
                 .groupBy(comment.id, comment.post.id, comment.user.id, comment.user.nickname, comment.contents,
                         comment.createdDate, comment.lastModifiedDate)

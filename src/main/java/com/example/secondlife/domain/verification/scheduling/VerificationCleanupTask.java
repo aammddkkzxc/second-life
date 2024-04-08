@@ -13,7 +13,7 @@ public class VerificationCleanupTask {
 
     private final VerificationRepository verificationRepository;
 
-    @Scheduled(fixedRate = 300000) // 매 5분마다 실행
+    @Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행
     @Transactional
     public void deleteExpiredVerifications() {
         Date now = new Date();

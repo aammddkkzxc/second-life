@@ -1,15 +1,10 @@
 package com.example.secondlife.domain.like.post.entity;
 
-import com.example.secondlife.domain.post.entity.Post;
-import com.example.secondlife.domain.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,18 +22,15 @@ public class PostLike {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "user_id")
+    private Long userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    private Post post;
+    @Column(name = "post_id")
+    private Long postId;
 
     @Builder
-    public PostLike(User user, Post post) {
-        this.user = user;
-        this.post = post;
+    public PostLike(Long userId, Long postId) {
+        this.userId = userId;
+        this.postId = postId;
     }
-
 }
