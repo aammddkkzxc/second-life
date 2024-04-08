@@ -27,7 +27,7 @@
 - 발표 준비 
 
 ## ⚙️ 기술 스택 및 개발 환경
-- **Language** : Java 17 <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">
+- **Language** : Java 17
 - **Framework** : SpringBoot 3.2.3
 - **Server** : AWS EC2
 - **DataBase** : AWS RDS - MySQL
