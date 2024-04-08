@@ -1,6 +1,8 @@
 package com.example.secondlife.domain.verification.scheduling;
 
 import com.example.secondlife.domain.verification.repository.VerificationRepository;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,10 +15,12 @@ public class VerificationCleanupTask {
 
     private final VerificationRepository verificationRepository;
 
-    @Scheduled(fixedRate = 300000) // 매 5분마다 실행
+    @Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행
     @Transactional
     public void deleteExpiredVerifications() {
-        Date now = new Date();
-        verificationRepository.deleteAllByExpiryDateBefore(now);
+        LocalDateTime nowMinusOneMinute = LocalDateTime.now().minusMinutes(1);
+        Date date = Date.from(nowMinusOneMinute.atZone(ZoneId.systemDefault()).toInstant());
+
+        verificationRepository.deleteAllByExpiryDateBefore(date);
     }
 }
