@@ -8,10 +8,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface PostLikeRepository extends JpaRepository<PostLike, Long> {
 
-    @Query("select pl from PostLike pl where pl.post.id = :postId and pl.user.id = :userId")
+    @Query("select pl from PostLike pl where pl.postId = :postId and pl.userId = :userId")
     Optional<PostLike> findByPostIdAndUserId(@Param("postId") Long postId, @Param("userId") Long userId);
 
-    @Query("SELECT COUNT(pl) FROM PostLike pl WHERE pl.post.id = :postId")
+    @Query("SELECT COUNT(pl) FROM PostLike pl WHERE pl.postId = :postId")
     Long countLikesByPostId(@Param("postId") Long postId);
 
 }

@@ -7,8 +7,8 @@ public class CommentLikeDtoUtil {
     public static CommentLikeResponse commentLikeToCommentLikeResponse(CommentLike commentLike) {
         return CommentLikeResponse.builder()
                 .commentLikeId(commentLike.getId())
-                .userId(commentLike.getUser().getId())
-                .commentId(commentLike.getComment().getId())
+                .userId(commentLike.getUserId())
+                .commentId(commentLike.getCommentId())
                 .build();
     }
 }
