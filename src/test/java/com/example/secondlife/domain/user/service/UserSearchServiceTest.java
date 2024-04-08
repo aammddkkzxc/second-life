@@ -10,7 +10,6 @@ import com.example.secondlife.domain.user.dto.UserResponse;
 import com.example.secondlife.domain.user.entity.User;
 import com.example.secondlife.domain.user.enumType.Region;
 import com.example.secondlife.domain.user.enumType.Role;
-import com.example.secondlife.domain.user.repository.UserQRepository;
 import com.example.secondlife.domain.user.repository.UserRepository;
 import com.example.secondlife.domain.user.valueType.Introduction;
 import java.time.LocalDate;
@@ -20,10 +19,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
-@Transactional
 class UserSearchServiceTest {
 
     @Autowired
@@ -31,9 +28,6 @@ class UserSearchServiceTest {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private UserQRepository userQRepository;
 
     private User user;
 

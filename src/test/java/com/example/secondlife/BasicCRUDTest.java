@@ -1,4 +1,4 @@
-package com.example.secondlife.domain;
+package com.example.secondlife;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
