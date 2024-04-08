@@ -43,7 +43,7 @@ public class Post extends BaseTimeEntity {
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int hits;
 
-    private LocalDateTime lastContentUpdate;
+    private LocalDateTime lastContentUpdate = LocalDateTime.now();
 
     @Enumerated(EnumType.STRING)
     private Forum forum;
