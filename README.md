@@ -37,7 +37,8 @@
 
 
 ## 📝 프로젝트 아키텍쳐
-- 추가 예정
+- ERD설계화면
+- ![erd](https://github.com/aammddkkzxc/second-life/assets/105401500/76649f40-cac2-40be-937b-d8a9ddaf2efa)
 
 
 ## 📌 주요 기능
