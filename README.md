@@ -40,6 +40,8 @@
 - ERD설계화면
 ![리얼 erd](https://github.com/aammddkkzxc/second-life/assets/105401500/ec1c63c8-e00d-4b90-986c-2095e40832d0)
 
+## 📝 API
+- [링크](http://3.37.13.117:8080/swagger-ui/index.html#/)
 
 ## 📌 주요 기능
 ### 회원
