@@ -17,6 +17,7 @@ public class PostDtoUtil {
                 .createdDate(post.getCreatedDate())
                 .lastModifiedDate(post.getLastModifiedDate())
                 .lastContentUpdate(post.getLastContentUpdate())
+                .forum(post.getForum())
                 .build();
     }
 

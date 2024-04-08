@@ -31,7 +31,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "u.region " +
             "FROM post p " +
             "LEFT JOIN users u ON p.user_id = u.user_id " +
-            "WHERE p.created_date >= :startDate AND p.is_deleted = false " +
+            "WHERE p.created_date >= :startDate AND p.is_deleted = false AND p.forum = 'FREE' " +
             "GROUP BY p.post_id, p.hits " +
             "ORDER BY likeCount DESC, p.hits DESC, commentCount DESC " +
             "LIMIT 15", nativeQuery = true)

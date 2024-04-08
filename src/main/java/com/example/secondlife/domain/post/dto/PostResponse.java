@@ -1,6 +1,7 @@
 package com.example.secondlife.domain.post.dto;
 
 import com.example.secondlife.domain.comment.dto.CommentResponse;
+import com.example.secondlife.domain.post.enumType.Forum;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -25,5 +26,6 @@ public class PostResponse {
     private String postUserNickname;
     private List<CommentResponse> commentResponses;
     private Long likeCount;
+    private Forum forum;
 
 }
