@@ -9,6 +9,7 @@ import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.service.PostSearchService;
 import com.example.secondlife.domain.post.service.PostService;
 import com.example.secondlife.domain.user.enumType.Region;
+import com.example.secondlife.domain.user.enumType.Role;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,7 +26,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -84,7 +87,6 @@ public class BoardController {
         return "html/board";
     }
 
-
     @GetMapping("/my/board")
     @PreAuthorize("hasAnyRole('L1', 'L2', 'ADMIN')")
     public String myBoard(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
@@ -104,6 +106,17 @@ public class BoardController {
         updateViewCountIfNotViewed(postId, request, response);
 
         final PostResponse postResponse = postSearchService.readWithCommentsAndCommentLikes(postId);
+        final Forum forum = postResponse.getForum();
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        Role userRole = userDetails.getUserRole();
+
+        if (userRole == Role.L1 && forum == Forum.REGION) {
+            return "redirect:/access-denied";
+        }
+
         final List<CommentResponse> commentResponses = postResponse.getCommentResponses();
         final int size = commentResponses.size();
 
