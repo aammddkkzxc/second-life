@@ -26,7 +26,3 @@ gpt:
     url: https://api.openai.com/v1/chat/completions
     system: " 반말로, 100자내외로 얘기해줘. "
 
-
-js:
-  username: tltltlsl11
-  pw: wnstjr4231!

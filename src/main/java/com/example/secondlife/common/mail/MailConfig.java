@@ -1,7 +1,6 @@
 package com.example.secondlife.common.mail;
 
 import java.util.Properties;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -10,19 +9,13 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 @Configuration
 public class MailConfig {
 
-    @Value("${js.username}")
-    private String username;
-
-    @Value("${js.pw}")
-    private String pw;
-
     @Bean
     public JavaMailSender javaMailService() {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
 
         javaMailSender.setHost("smtp.naver.com");
-        javaMailSender.setUsername(username);
-        javaMailSender.setPassword(pw);
+        javaMailSender.setUsername("tltltlsl11");
+        javaMailSender.setPassword("wnstjr4231!");
 
         javaMailSender.setPort(465);
 
