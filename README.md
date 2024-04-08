@@ -11,6 +11,15 @@
 - 궁극적으로 사회적 고립, 혐오 문화, 세대 간의 갈등의 문제를 소통을 통하여 해결하도록 독려합니다.
 
 ## 🧑‍🤝‍🧑 팀 구성
+<table>
+  <tbody>
+    <tr>
+      <td align="center"><a href=""><img src="width="100px;" alt=""/><br /><sub><b>FE 팀장 : 박준석</b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b>FE 팀원 : 김상형</b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b>FE 팀원 : 이지현</b></sub></a><br /></td>
+     <tr/>
+  </tbody>
+</table>
 - **박준석**
 - **김상형**
 - **이지현**
