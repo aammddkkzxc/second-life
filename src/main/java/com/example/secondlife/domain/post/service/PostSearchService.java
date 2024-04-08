@@ -11,7 +11,9 @@ import com.example.secondlife.domain.post.dto.PostResponse;
 import com.example.secondlife.domain.post.entity.Post;
 import com.example.secondlife.domain.post.enumType.Forum;
 import com.example.secondlife.domain.post.repository.PostRepository;
+import com.example.secondlife.domain.user.dto.PostUser;
 import com.example.secondlife.domain.user.enumType.Region;
+import com.example.secondlife.domain.user.service.UserSearchService;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,6 +31,7 @@ public class PostSearchService {
 
     private final PostRepository postRepository;
     private final PostLikeRepository postLikeRepository;
+    private final UserSearchService userSearchService;
     private final CommentSearchService commentSearchService;
 
     public Page<PostResponse> getPostsByForumAndRegion(Forum forum, Region region, Pageable pageable) {
@@ -76,10 +79,14 @@ public class PostSearchService {
 
     public PostResponse readWithCommentsAndCommentLikes(Long postId) {
         Post findPost = findById(postId);
+        PostUser postUser = userSearchService.findPostUserByPostId(postId);
 
         List<CommentResponse> commentResponses = commentSearchService.getCommentsWithCommentLikes(postId);
 
         PostResponse postResponse = PostDtoUtil.postWithCommentResponseToPostResponse(findPost, commentResponses);
+
+        postResponse.setPostUserNickname(postUser.getNickname());
+        postResponse.setUserId(postUser.getUserId());
 
         postResponse.setLikeCount(getLikeCount(findPost));
 

@@ -8,12 +8,10 @@ public class PostDtoUtil {
 
     public static PostResponse postToPostResponse(Post post) {
         return PostResponse.builder()
-                .userId(post.getUser().getId())
                 .postId(post.getId())
                 .title(post.getTitle())
                 .contents(post.getContents())
                 .hits(post.getHits())
-                .postUserNickname(post.getUser().getNickname())
                 .createdDate(post.getCreatedDate())
                 .lastModifiedDate(post.getLastModifiedDate())
                 .lastContentUpdate(post.getLastContentUpdate())
