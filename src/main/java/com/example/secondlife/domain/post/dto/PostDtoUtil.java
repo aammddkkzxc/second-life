@@ -7,7 +7,7 @@ import java.util.List;
 public class PostDtoUtil {
 
     public static PostResponse postToPostResponse(Post post) {
-        return PostResponse.builder() //TODO user를 Lazy로 가져오는 것을 해결해야함
+        return PostResponse.builder()
                 .userId(post.getUser().getId())
                 .postId(post.getId())
                 .title(post.getTitle())
@@ -16,6 +16,7 @@ public class PostDtoUtil {
                 .postUserNickname(post.getUser().getNickname())
                 .createdDate(post.getCreatedDate())
                 .lastModifiedDate(post.getLastModifiedDate())
+                .lastContentUpdate(post.getLastContentUpdate())
                 .build();
     }
 

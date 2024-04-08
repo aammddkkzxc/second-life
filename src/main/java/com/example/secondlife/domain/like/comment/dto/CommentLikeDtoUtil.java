@@ -4,7 +4,7 @@ import com.example.secondlife.domain.like.comment.entity.CommentLike;
 
 public class CommentLikeDtoUtil {
 
-    public static CommentLikeResponse commentLiketoCommentLikeResponse(CommentLike commentLike) {
+    public static CommentLikeResponse commentLikeToCommentLikeResponse(CommentLike commentLike) {
         return CommentLikeResponse.builder()
                 .commentLikeId(commentLike.getId())
                 .userId(commentLike.getUser().getId())

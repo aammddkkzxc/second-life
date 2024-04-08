@@ -14,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,6 +43,8 @@ public class Post extends BaseTimeEntity {
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int hits;
 
+    private LocalDateTime lastContentUpdate;
+
     @Enumerated(EnumType.STRING)
     private Forum forum;
 
@@ -52,6 +55,7 @@ public class Post extends BaseTimeEntity {
         this.title = request.getTitle() != null ? request.getTitle() : this.title;
         this.contents = request.getContents() != null ? request.getContents() : this.contents;
         this.forum = request.getForum() != null ? request.getForum() : this.forum;
+        lastContentUpdate = LocalDateTime.now();
 
     }
 

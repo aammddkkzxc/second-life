@@ -47,7 +47,7 @@ public class CommentLikeService {
 
         CommentLike savedCommentLike = commentLikeRepository.save(commentLike);
 
-        return CommentLikeDtoUtil.commentLiketoCommentLikeResponse(savedCommentLike);
+        return CommentLikeDtoUtil.commentLikeToCommentLikeResponse(savedCommentLike);
     }
 
     public void delete(Long commentId, Long userId) {

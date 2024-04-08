@@ -21,6 +21,7 @@ public class PostResponse {
     private int hits;
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
+    private LocalDateTime lastContentUpdate;
     private String postUserNickname;
     private List<CommentResponse> commentResponses;
     private Long likeCount;

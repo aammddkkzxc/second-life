@@ -30,7 +30,7 @@ public class GPTEventListener {
         log.info("AI Comment Response: {}", aiCommentResponse);
     }
 
-    public CommentResponse commentPostWithAI(@PathVariable Long postId) {
+    private CommentResponse commentPostWithAI(@PathVariable Long postId) {
 
         final String prompt = postSearchService.findContentsById(postId);
 
