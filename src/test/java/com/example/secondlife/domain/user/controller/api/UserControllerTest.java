@@ -14,24 +14,15 @@ import com.example.secondlife.domain.user.dto.ProfileResponse;
 import com.example.secondlife.domain.user.dto.UpdateUserRequest;
 import com.example.secondlife.domain.user.dto.UpdateUserRoleRequest;
 import com.example.secondlife.domain.user.dto.UserResponse;
-import com.example.secondlife.domain.user.service.UserSearchService;
-import com.example.secondlife.domain.user.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.ResultActions;
 
 class UserControllerTest extends BasicCRUDTest {
-
-    @MockBean
-    private UserService userService;
-
-    @MockBean
-    private UserSearchService userSearchService;
 
 
     @DisplayName("회원 가입 등록(POST) 요청 테스트, 적합한 URL로 요청 시 성공")

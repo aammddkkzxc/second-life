@@ -5,16 +5,18 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
+import com.example.secondlife.domain.user.controller.api.UserController;
+import com.example.secondlife.domain.user.service.UserSearchService;
+import com.example.secondlife.domain.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(controllers = UserController.class)
 public class BasicCRUDTest {
 
     @Autowired
@@ -22,6 +24,12 @@ public class BasicCRUDTest {
 
     @Autowired
     protected ObjectMapper objectMapper;
+
+    @MockBean
+    protected UserService userService;
+
+    @MockBean
+    protected UserSearchService userSearchService;
 
     protected <T> ResultActions doPost(String url, T request) throws Exception {
         return mockMvc.perform(post(url)
