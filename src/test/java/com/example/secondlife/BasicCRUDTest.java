@@ -1,16 +1,17 @@
 package com.example.secondlife;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
+import com.example.secondlife.common.security.config.SecurityConfig;
 import com.example.secondlife.domain.user.controller.api.UserController;
 import com.example.secondlife.domain.user.service.UserSearchService;
 import com.example.secondlife.domain.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -18,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 @WebMvcTest(controllers = UserController.class)
+@ImportAutoConfiguration(SecurityConfig.class)
 public class BasicCRUDTest {
 
     @Autowired
@@ -35,7 +37,7 @@ public class BasicCRUDTest {
     protected <T> ResultActions doPost(String url, T request) throws Exception {
         return mockMvc.perform(post(url)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)).with(csrf())
+                .content(objectMapper.writeValueAsString(request))
         );
     }
 
@@ -48,13 +50,13 @@ public class BasicCRUDTest {
     protected <T> ResultActions doPatch(String url, Long id, T request) throws Exception {
         return mockMvc.perform(patch(url, id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)).with(csrf())
+                .content(objectMapper.writeValueAsString(request))
         );
     }
 
     protected ResultActions doDelete(String url, Long id) throws Exception {
         return mockMvc.perform(delete(url, id)
-                .contentType(MediaType.APPLICATION_JSON).with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
         );
     }
 }
