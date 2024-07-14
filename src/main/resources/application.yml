@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://second-life.chkgusieka1x.ap-northeast-2.rds.amazonaws.com:3306/second?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: admin
-    password: secondlife
+    url: jdbc:mysql://localhost:3306/test_db
+    username: root
+    password: 1234
 
   profiles:
     active: local
@@ -15,7 +15,7 @@ spring:
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
     #        show-sql: true
