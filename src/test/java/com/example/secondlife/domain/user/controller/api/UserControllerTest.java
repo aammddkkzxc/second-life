@@ -18,7 +18,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -26,7 +25,7 @@ class UserControllerTest extends BasicCRUDTest {
 
 
     @DisplayName("회원 가입 등록(POST) 요청 테스트, 적합한 URL로 요청 시 성공")
-    @WithAnonymousUser
+    @WithMockUser
     @Test
     void joinTestWithValidURL() throws Exception {
         //given
@@ -54,7 +53,7 @@ class UserControllerTest extends BasicCRUDTest {
     }
 
     @DisplayName("회원 가입 등록(POST) 요청 테스트, 부적합한 URL로 요청 시 상태코드 404 반환")
-    @WithAnonymousUser
+    @WithMockUser
     @Test
     void joinTestInvalidURL() throws Exception {
         //given
