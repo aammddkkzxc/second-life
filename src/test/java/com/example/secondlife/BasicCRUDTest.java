@@ -1,5 +1,6 @@
 package com.example.secondlife;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -34,7 +35,7 @@ public class BasicCRUDTest {
     protected <T> ResultActions doPost(String url, T request) throws Exception {
         return mockMvc.perform(post(url)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request))
+                .content(objectMapper.writeValueAsString(request)).with(csrf())
         );
     }
 
@@ -47,13 +48,13 @@ public class BasicCRUDTest {
     protected <T> ResultActions doPatch(String url, Long id, T request) throws Exception {
         return mockMvc.perform(patch(url, id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request))
+                .content(objectMapper.writeValueAsString(request)).with(csrf())
         );
     }
 
     protected ResultActions doDelete(String url, Long id) throws Exception {
         return mockMvc.perform(delete(url, id)
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON).with(csrf())
         );
     }
 }
